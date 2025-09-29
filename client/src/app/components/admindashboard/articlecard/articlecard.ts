@@ -1,14 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ArticleServices } from '../../../services/articleServices/article.services';
 
-interface Article {
-  id: number;
-  title: string;
-  description: string;
-  tag: string;
-  writer: string;
-}
 
 @Component({
   selector: 'app-articlecard',
@@ -17,33 +11,38 @@ interface Article {
   templateUrl: './articlecard.html',
   styleUrls: ['./articlecard.css'],
 })
-export class Articlecard {
-  articles: Article[] = [
-    { id: 1, title: 'Angular Basics', description: 'Intro to Angular framework', tag: 'Angular', writer: 'John Doe' },
-    { id: 2, title: 'ASP.NET Core Guide', description: 'Building APIs with .NET', tag: 'ASP.NET', writer: 'Jane Smith' },
-  ];
-
+export class Articlecard implements OnInit {
+  articles: any[] = [];
   searchTerm: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 5;
 
   isModalOpen: boolean = false;
-  editingArticle: Article | null = null;
-  modalData: { title: string; description: string; tag: string; writer: string } = {
-    title: '',
-    description: '',
-    tag: '',
-    writer: '',
-  };
+  editingArticle: any = null;
+  modalData: any = { title: '', description: '', tag: '', writer: '' };
 
-  // Filtered + Paginated
-  get filteredArticles(): Article[] {
+  constructor(private articleService: ArticleServices) {}
+
+  ngOnInit() {
+    this.loadArticles();
+  }
+
+  // Load all articles from API
+  loadArticles() {
+    this.articleService.getArticles().subscribe({
+      next: (data: any[]) => (this.articles = data),
+      error: (err: any) => console.error('Failed to load articles', err)
+    });
+  }
+
+  // Filtered + Paginated articles
+  get filteredArticles(): any[] {
     return this.articles.filter(
       a =>
-        a.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        a.description.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        a.tag.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        a.writer.toLowerCase().includes(this.searchTerm.toLowerCase())
+        (a.title?.toLowerCase().includes(this.searchTerm.toLowerCase()) ?? false) ||
+        (a.description?.toLowerCase().includes(this.searchTerm.toLowerCase()) ?? false) ||
+        (a.tag?.toLowerCase().includes(this.searchTerm.toLowerCase()) ?? false) ||
+        (a.writer?.toLowerCase().includes(this.searchTerm.toLowerCase()) ?? false)
     );
   }
 
@@ -51,7 +50,7 @@ export class Articlecard {
     return Math.ceil(this.filteredArticles.length / this.itemsPerPage) || 1;
   }
 
-  paginatedArticles(): Article[] {
+  paginatedArticles(): any[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredArticles.slice(start, start + this.itemsPerPage);
   }
@@ -64,13 +63,11 @@ export class Articlecard {
     if (this.currentPage > 1) this.currentPage--;
   }
 
-  // Modal
-  openModal(article: Article | null = null) {
+  // Modal handling
+  openModal(article: any = null) {
     this.isModalOpen = true;
     this.editingArticle = article;
-    this.modalData = article
-      ? { ...article }
-      : { title: '', description: '', tag: '', writer: '' };
+    this.modalData = article ? { ...article } : { title: '', description: '', tag: '', writer: '' };
   }
 
   closeModal() {
@@ -81,22 +78,27 @@ export class Articlecard {
 
   saveArticle() {
     if (this.editingArticle) {
-      Object.assign(this.editingArticle, this.modalData);
+      this.articleService.updateArticle(this.editingArticle.id, this.modalData).subscribe({
+        next: () => this.loadArticles(),
+        error: (err: any) => console.error(err)
+      });
     } else {
-      const newArticle: Article = {
-        id: this.articles.length + 1,
-        ...this.modalData,
-      };
-      this.articles.push(newArticle);
+      this.articleService.createArticle(this.modalData).subscribe({
+        next: () => this.loadArticles(),
+        error: (err: any) => console.error(err)
+      });
     }
     this.closeModal();
   }
 
-  editArticle(article: Article) {
+  editArticle(article: any) {
     this.openModal(article);
   }
 
-  deleteArticle(article: Article) {
-    this.articles = this.articles.filter(a => a.id !== article.id);
+  deleteArticle(article: any) {
+    this.articleService.deleteArticle(article.id).subscribe({
+      next: () => this.loadArticles(),
+      error: (err) => console.error(err)
+    });
   }
 }

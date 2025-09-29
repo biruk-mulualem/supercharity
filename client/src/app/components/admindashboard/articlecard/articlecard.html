@@ -1,0 +1,78 @@
+<div class="upload-section">
+  <h2>Manage Articles</h2>
+
+  <!-- Controls -->
+  <div class="controls">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search articles..."
+      [(ngModel)]="searchTerm"
+    />
+    <button class="upload-btn" (click)="openModal()">+ Add Article</button>
+  </div>
+
+  <!-- Articles Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Tag</th>
+        <th>Writer</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let article of paginatedArticles()">
+        <td>{{ article.title }}</td>
+        <td>{{ article.description }}</td>
+        <td>{{ article.tag }}</td>
+        <td>{{ article.writer }}</td>
+        <td class="actions">
+          <button class="edit-btn" (click)="editArticle(article)">Edit</button>
+          <button class="delete-btn" (click)="deleteArticle(article)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+    <span>Page {{ currentPage }} of {{ totalPages() }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages()">Next</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <h3>{{ editingArticle ? 'Edit Article' : 'Add Article' }}</h3>
+
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" [(ngModel)]="modalData.title" placeholder="Enter title" />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea [(ngModel)]="modalData.description" placeholder="Enter description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Tag</label>
+      <input type="text" [(ngModel)]="modalData.tag" placeholder="Enter tag" />
+    </div>
+
+    <div class="form-group">
+      <label>Writer</label>
+      <input type="text" [(ngModel)]="modalData.writer" placeholder="Enter writer" />
+    </div>
+
+    <div class="modal-actions">
+      <button (click)="saveArticle()">Save</button>
+      <button (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>

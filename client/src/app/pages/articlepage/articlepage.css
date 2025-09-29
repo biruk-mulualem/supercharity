@@ -1,0 +1,351 @@
+
+/* === Section Wrapper === */
+.articles-section {
+  margin: 0 auto;
+  padding: 4rem 1rem;
+  background: #f9f9f9;
+
+}
+
+/* === Section Header === */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  margin-bottom: 3rem; /* gap below header */
+}
+
+/* === Section Title === */
+.section-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-title span {
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #00c8ff, #008ecc);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.section-title h2 {
+  font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #222;
+}
+
+/* === Search Bar === */
+.search-bar {
+  display: flex;
+  justify-content: flex-end; /* Align to right */
+  margin: 3rem 0 2rem;
+  max-width: 420px;
+}
+
+.search-bar input {
+  width: 100%;
+  max-width: 420px;
+  padding: 0.75rem 1.2rem;
+  font-size: 1.1rem;
+  border: 2.5px solid #00c8ff;
+  border-radius: 30px;
+  outline: none;
+  box-shadow: 0 3px 10px rgba(0, 200, 255, 0.2);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.search-bar input::placeholder {
+  color: #a1cfff;
+  font-style: italic;
+}
+
+.search-bar input:focus {
+  border-color: #008ecc;
+  box-shadow: 0 8px 20px rgba(0, 140, 204, 0.45);
+}
+
+/* === Articles Grid === */
+.articles-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* fixed 3 columns */
+  gap: 2rem; /* gap between cards */
+
+  margin: 0 auto;
+}
+
+/* === Article Card === */
+.article-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 2.2rem 2.5rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+  text-align: left;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.article-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.article-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: #222;
+  user-select: none;
+}
+
+.article-description {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  user-select: text;
+}
+
+/* === Read More Button === */
+.article-card > button {
+  align-self: flex-start;
+  padding: 0.45rem 1.1rem;
+  border-radius: 25px;
+  border: none;
+  background: linear-gradient(90deg, #00c8ff, #008ecc);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+  user-select: none;
+  margin-bottom: 1.2rem; /* space between button and tags */
+}
+
+.article-card > button:hover,
+.article-card > button:focus {
+  background: linear-gradient(90deg, #0078b8, #005f8a);
+  box-shadow: 0 0 12px #00aaffcc;
+  outline: none;
+}
+
+/* === Meta Info === */
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.tags span {
+  background: #00c8ff33;
+  color: #008ecc;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.writer {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  user-select: none;
+}
+
+/* === Pagination === */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 3.5rem; /* gap above pagination */
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 0.55rem 1.3rem;
+  border: none;
+  background-color: #e0e0e0;
+  color: #333;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s, color 0.3s;
+  user-select: none;
+}
+
+.pagination button:hover:not(:disabled),
+.pagination button.active {
+  background-color: #00c8ff;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 0 10px #00bfffcc;
+}
+
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* === Modal Styles === */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.55);
+  z-index: 1000;
+  animation: fadeInBackdrop 0.3s ease forwards;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  max-width: 900px;
+  max-height: 80vh; /* Limit modal height to 80% of viewport height */
+  background: #fff;
+  border-radius: 12px;
+  padding: 2.2rem 2.5rem;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.25);
+  text-align: left;
+  animation: fadeInModal 0.35s ease forwards;
+
+  overflow-y: auto; /* Enable vertical scrolling */
+  scroll-behavior: smooth;
+}
+
+.modal h2 {
+  margin-top: 0;
+  font-weight: 900;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #222;
+}
+
+.modal p {
+  line-height: 1.7;
+  font-size: 1.1rem;
+  color: #444;
+  margin: 1rem 0;
+}
+
+.modal .tags {
+  margin: 1.5rem 0;
+}
+
+.modal button {
+  margin-top: 1.5rem;
+  padding: 0.65rem 1.4rem;
+  background: linear-gradient(90deg, #00c8ff, #008ecc);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: background 0.35s ease;
+  user-select: none;
+}
+
+.modal button:hover,
+.modal button:focus {
+  background: linear-gradient(90deg, #0078b8, #005f8a);
+  outline: none;
+}
+
+/* === Animations === */
+@keyframes fadeInBackdrop {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* === Responsive tweaks === */
+@media (max-width: 1024px) {
+  .articles-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .section-title h2 {
+    font-size: 2.2rem;
+  }
+
+  .article-card {
+    padding: 1.8rem 2rem;
+  }
+
+  .article-title {
+    font-size: 1.3rem;
+  }
+
+  .article-description {
+    font-size: 1rem;
+  }
+
+  .pagination button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .articles-list {
+    grid-template-columns: 1fr; /* 1 column on small screens */
+  }
+}
+
+/* Section Headers (Additional) */
+.media-section {
+  padding: 3rem 2rem;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title span {
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: #00c8ff;
+}
+
+.section-title h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111;
+}

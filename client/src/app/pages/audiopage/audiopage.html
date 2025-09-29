@@ -1,0 +1,65 @@
+<app-header></app-header>
+
+<section class="media-section">
+  <div class="section-header">
+    <div class="section-title">
+      <span></span>
+      <h2>Audio</h2>
+      <span></span>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search by title or description"
+        aria-label="Search audio by title or description"
+      />
+    </div>
+  </div>
+
+  <div class="media-row">
+    <div class="audio-card" *ngFor="let audio of paginatedAudios">
+      <img [src]="audio.image" alt="{{ audio.title }}" />
+      <audio controls [src]="audio.src"></audio>
+      <div class="card-overlay">
+        <h3>{{ audio.title }}</h3>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages() > 1">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      aria-label="Previous page"
+      type="button"
+    >
+      Prev
+    </button>
+
+    <button
+      *ngFor="let page of visiblePages()"
+      (click)="changePage(page)"
+      [class.active]="currentPage === page"
+      aria-label="Go to page {{ page }}"
+      type="button"
+    >
+      {{ page }}
+    </button>
+
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages()"
+      aria-label="Next page"
+      type="button"
+    >
+      Next
+    </button>
+  </div>
+</section>
+
+<app-footercard></app-footercard>

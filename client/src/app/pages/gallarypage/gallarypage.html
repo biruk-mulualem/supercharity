@@ -1,0 +1,83 @@
+<app-header></app-header>
+
+
+  <div class="section-header">
+    <div class="section-title">
+      <span></span>
+      <h2>Gallery</h2>
+      <span></span>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search by title or description"
+        aria-label="Search audio by title or description"
+      />
+    </div>
+  </div>
+
+
+
+
+<!-- GALLERY GRID -->
+<div class="gallery-row">
+  <div
+    class="gallery-card"
+    *ngFor="let item of paginatedGalleryItems"
+    [attr.data-label]="item.label"
+  >
+    <!-- Clickable image -->
+    <div class="clickable-img" (click)="openImageModal(item.image)">
+      <img [src]="item.image" [alt]="item.title" />
+    </div>
+
+    <!-- Card overlay -->
+    <div class="card-overlay">
+      <h3>{{ item.title }}</h3>
+      <p>{{ item.description }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FOR IMAGE PREVIEW -->
+<div class="image-modal" *ngIf="selectedImage" (click)="closeImageModal()">
+  <img [src]="selectedImage" alt="Preview" />
+  <span class="close-btn" (click)="closeImageModal()"></span>
+</div>
+
+
+<!-- Pagination -->
+<div class="pagination">
+  <button
+    (click)="changePage(currentPage - 1)"
+    [disabled]="currentPage === 1"
+    type="button"
+    aria-label="Previous page"
+  >
+    Prev
+  </button>
+
+  <button
+    *ngFor="let page of visiblePages()"
+    (click)="changePage(page)"
+    [class.active]="currentPage === page"
+    type="button"
+    aria-label="Go to page {{ page }}"
+  >
+    {{ page }}
+  </button>
+
+  <button
+    (click)="changePage(currentPage + 1)"
+    [disabled]="currentPage === totalPages()"
+    type="button"
+    aria-label="Next page"
+  >
+    Next
+  </button>
+</div>
+
+<app-footercard></app-footercard>

@@ -1,0 +1,43 @@
+<header>
+  <div class="header-container">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="https://picsum.photos/50/50?grayscale&random=1" alt="PixStream Logo">
+      <span>Charity</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+      <ul>
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
+        <li><a routerLink="/videopage" routerLinkActive="active">Videos</a></li>
+        <li><a routerLink="/articlepage" routerLinkActive="active">Articles</a></li>
+        <li><a routerLink="/audiopage" routerLinkActive="active">Audios</a></li>
+        <li><a routerLink="/gallarypage" routerLinkActive="active">Gallery</a></li>
+        <li><a routerLink="/aboutus" routerLinkActive="active">About</a></li>
+        <li><a routerLink="/contactus" routerLinkActive="active">Contact</a></li>
+        
+      </ul>
+    </nav>
+
+    <!-- Hamburger for mobile -->
+    <div class="hamburger" (click)="toggleMenu()" [class.active]="menuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.open]="menuOpen">
+    <ul>
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="toggleMenu()">Home</a></li>
+      <li><a routerLink="/videopage" routerLinkActive="active" (click)="toggleMenu()">Videos</a></li>
+      <li><a routerLink="/articlepage" routerLinkActive="active" (click)="toggleMenu()">Articles</a></li>
+      <li><a routerLink="/audiopage" routerLinkActive="active" (click)="toggleMenu()">Audios</a></li>
+      <li><a routerLink="/gallarypage" routerLinkActive="active" (click)="toggleMenu()">Gallery</a></li>
+      <li><a routerLink="/aboutus" routerLinkActive="active" (click)="toggleMenu()">About</a></li>
+      <li><a routerLink="/contactus" routerLinkActive="active" (click)="toggleMenu()">Contact</a></li>
+    </ul>
+  </div>
+</header>

@@ -1,0 +1,72 @@
+<app-header></app-header>
+
+<section class="articles-section">
+
+
+  <div class="section-header">
+    <div class="section-title">
+      <span></span>
+      <h2>Recent Articles</h2>
+      <span></span>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Search by title or description"
+        aria-label="Search audio by title or description"
+      />
+    </div>
+  </div>
+
+
+  <!-- Articles List -->
+  <div class="articles-list">
+    <div class="article-card" *ngFor="let article of filteredArticles">
+      <h3 class="article-title">{{ article.title }}</h3>
+      <p class="article-description">
+        {{ article.description.length > 100 ? (article.description | slice:0:100) + '...' : article.description }}
+      </p>
+      <button (click)="openModal(article)">Read More</button>
+      <div class="meta">
+        <div class="tags">
+          <span *ngFor="let tag of article.tags">{{ tag }}</span>
+        </div>
+        <div class="writer">By {{ article.writer }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+<div class="pagination" *ngIf="totalPages > 1">
+  <button [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Prev</button>
+
+  <button
+    *ngFor="let page of visiblePages"
+    [class.active]="currentPage === page"
+    (click)="changePage(page)"
+  >
+    {{ page }}
+  </button>
+
+  <button [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">Next</button>
+</div>
+
+
+</section>
+
+<!-- Modal -->
+<div class="modal-backdrop" *ngIf="modalOpen" (click)="closeModal()"></div>
+<div class="modal" *ngIf="modalOpen">
+  <h2>{{ selectedArticle?.title }}</h2>
+  <p>{{ selectedArticle?.description }}</p>
+  <div class="tags">
+    <span *ngFor="let tag of selectedArticle?.tags">{{ tag }}</span>
+  </div>
+  <div class="writer">By {{ selectedArticle?.writer }}</div>
+  <button (click)="closeModal()">Close</button>
+</div>
+
+<app-footercard></app-footercard>

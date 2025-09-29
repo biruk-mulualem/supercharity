@@ -1,0 +1,107 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <h2>
+      {{ mode === 'login' ? 'Login' : mode === 'register' ? 'Register' : 'Reset Password' }}
+    </h2>
+
+    <form (ngSubmit)="onSubmit()" novalidate>
+      
+      <!-- Username input for login and register -->
+      <div class="form-group" *ngIf="mode !== 'forgot'">
+        <input
+          type="text"
+          id="username"
+          [(ngModel)]="username"
+          name="username"
+          required
+          placeholder=" "
+          autocomplete="username"
+          [disabled]="loading"
+        />
+        <label for="username">Username</label>
+      </div>
+      
+      <!-- Email input for forgot/reset password -->
+      <div class="form-group" *ngIf="mode === 'forgot'">
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          required
+          placeholder=" "
+          autocomplete="email"
+          [disabled]="loading"
+        />
+        <label for="email">Email</label>
+      </div>
+
+      <!-- Password input (hidden on forgot mode) -->
+      <div class="form-group" *ngIf="mode !== 'forgot'">
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          required
+          placeholder=" "
+          autocomplete="{{ mode === 'login' ? 'current-password' : 'new-password' }}"
+          [disabled]="loading"
+        />
+        <label for="password">Password</label>
+      </div>
+
+      <!-- Confirm Password input (only in register mode) -->
+      <div class="form-group" *ngIf="mode === 'register'">
+        <input
+          type="password"
+          id="confirmPassword"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          required
+          placeholder=" "
+          autocomplete="new-password"
+          [disabled]="loading"
+        />
+        <label for="confirmPassword">Confirm Password</label>
+      </div>
+
+      <!-- Submit button -->
+      <button
+        type="submit"
+        class="auth-button"
+        [disabled]="
+          loading ||
+          (mode !== 'forgot' && !username.trim()) ||
+          (mode === 'forgot' && !email.trim()) ||
+          (mode !== 'forgot' && !password.trim()) ||
+          (mode === 'register' && !confirmPassword.trim())
+        "
+      >
+        <span *ngIf="!loading">
+          {{ mode === 'login' ? 'Login' : mode === 'register' ? 'Register' : 'Send Reset Link' }}
+        </span>
+        <span *ngIf="loading">Processing...</span>
+      </button>
+    </form>
+
+    <!-- Messages -->
+    <p class="error" *ngIf="errorMessage" aria-live="polite">{{ errorMessage }}</p>
+    <p class="success" *ngIf="successMessage" aria-live="polite">{{ successMessage }}</p>
+
+    <!-- Footer toggles -->
+    <div class="toggle-section login-toggle" *ngIf="mode === 'login'">
+      <a (click)="switchMode('forgot')" tabindex="0" role="button" [attr.aria-disabled]="loading">Forgot password?</a>
+      <span class="separator">|</span>
+      <a (click)="switchMode('register')" tabindex="0" role="button" [attr.aria-disabled]="loading">Register</a>
+    </div>
+
+    <div class="toggle-section" *ngIf="mode === 'register'">
+      <a (click)="switchMode('login')" tabindex="0" role="button" [attr.aria-disabled]="loading">Already have an account? Login</a>
+    </div>
+
+    <div class="toggle-section" *ngIf="mode === 'forgot'">
+      <a (click)="switchMode('login')" tabindex="0" role="button" [attr.aria-disabled]="loading">Back to login</a>
+    </div>
+  </div>
+</div>

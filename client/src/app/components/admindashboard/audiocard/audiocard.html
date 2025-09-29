@@ -1,0 +1,71 @@
+<div class="upload-section">
+  <h2>Manage Audio</h2>
+
+  <!-- Controls -->
+  <div class="controls">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search audio..."
+      [(ngModel)]="searchTerm"
+    />
+    <button class="upload-btn" (click)="openModal()">+ Add Audio</button>
+  </div>
+
+  <!-- Audio Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Audio</th>
+        <th>Title</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let audio of paginatedAudio()">
+        <td>
+          <audio controls [src]="audio.url" preload="none"></audio>
+        </td>
+        <td>{{ audio.title }}</td>
+        <td class="actions">
+          <button class="edit-btn" (click)="editAudio(audio)">Edit</button>
+          <button class="delete-btn" (click)="deleteAudio(audio)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+    <span>Page {{ currentPage }} of {{ totalPages() }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages()">Next</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <h3>{{ editingAudio ? 'Edit Audio' : 'Add Audio' }}</h3>
+
+    <div class="form-group">
+      <label for="audioTitle">Title</label>
+      <input
+        id="audioTitle"
+        type="text"
+        [(ngModel)]="modalData.title"
+        placeholder="Enter title"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="audioFile">Audio File</label>
+      <input id="audioFile" type="file" (change)="onFileSelected($event)" />
+    </div>
+
+    <div class="modal-actions">
+      <button (click)="saveAudio()">Save</button>
+      <button (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>

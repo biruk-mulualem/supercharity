@@ -1,0 +1,51 @@
+/* General */
+.homepage {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f8f8;
+  color: #111;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Responsive Layouts */
+@media (max-width: 1024px) {
+  .media-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+  .hero-text p {
+    font-size: 1rem;
+  }
+  .video-card,
+  .audio-card,
+  .gallery-card,
+  .article-card {
+    flex: 0 0 250px;
+  }
+}
+
+@media (max-width: 600px) {
+  .media-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .media-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+
+
+

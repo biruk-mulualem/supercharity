@@ -1,0 +1,43 @@
+<!-- Articles Section -->
+<section class="media-section">
+  <div class="section-header">
+    <div class="section-title">
+      <span></span><h2>Articles</h2><span></span>
+    </div>
+  
+
+     <a routerLink="/articlepage" routerLinkActive="active" class="Articles-btn">See More</a>
+
+  </div>
+
+  <div class="media-row">
+    <div class="article-card" *ngFor="let article of articles">
+      <div class="article-content">
+        <h3 class="article-title">{{ article.title }}</h3>
+        <p class="article-description">
+          {{ article.description.length > 100 ? (article.description | slice:0:100) + '...' : article.description }}
+        </p>
+        <button class="read-btn" (click)="openModal(article)">Read More</button>
+
+        <div class="meta">
+          <div class="tags">
+            <span *ngFor="let tag of article.tags">{{ tag }}</span>
+          </div>
+          <div class="writer">By {{ article.writer }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal -->
+<div class="modal-backdrop" *ngIf="modalOpen" (click)="closeModal()"></div>
+<div class="modal" *ngIf="modalOpen">
+  <h2>{{ selectedArticle?.title }}</h2>
+  <p>{{ selectedArticle?.description }}</p>
+  <div class="tags">
+    <span *ngFor="let tag of selectedArticle?.tags">{{ tag }}</span>
+  </div>
+  <div class="writer">By {{ selectedArticle?.writer }}</div>
+  <button (click)="closeModal()">Close</button>
+</div>

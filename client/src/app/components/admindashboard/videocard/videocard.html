@@ -1,0 +1,97 @@
+<div class="upload-section">
+  <h2>Video Management</h2>
+
+  <!-- Top controls: search and upload -->
+  <div class="controls">
+    <input type="text" placeholder="Search..." [(ngModel)]="searchText" class="search-input">
+    <button (click)="openUpload()" class="upload-btn">Upload New Video</button>
+  </div>
+
+  <!-- Video Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Video</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let video of paginatedVideos">
+        <td>{{ video.video }}</td>
+        <td>{{ video.description }}</td>
+        <td>{{ video.category }}</td>
+        <td class="actions">
+          <button class="edit-btn" (click)="openEdit(video)">Edit</button>
+          <button class="delete-btn" (click)="openDelete(video)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="page === 1">Prev</button>
+    <span>Page {{ page }}</span>
+    <button (click)="nextPage()" [disabled]="page >= (filteredVideos.length/itemsPerPage)">Next</button>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal" *ngIf="showEditModal">
+    <div class="modal-content">
+      <h3>Edit Video</h3>
+      <div class="form-group">
+        <label>Video</label>
+        <input [(ngModel)]="selectedVideo!.video">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input [(ngModel)]="selectedVideo!.description">
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <input [(ngModel)]="selectedVideo!.category">
+      </div>
+      <div class="modal-actions">
+        <button (click)="saveEdit()">Save</button>
+        <button (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal" *ngIf="showDeleteModal">
+    <div class="modal-content">
+      <h3>Confirm Delete</h3>
+      <p>Are you sure you want to delete "{{ selectedVideo?.video }}"?</p>
+      <div class="modal-actions">
+        <button (click)="deleteVideo()">Yes, Delete</button>
+        <button (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Modal -->
+  <div class="modal" *ngIf="showUploadModal">
+    <div class="modal-content">
+      <h3>Upload Video</h3>
+      <div class="form-group">
+        <label>Video Name</label>
+        <input type="text" [(ngModel)]="newVideo.video">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="newVideo.description">
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" [(ngModel)]="newVideo.category">
+      </div>
+      <div class="modal-actions">
+        <button (click)="uploadVideo()">Save</button>
+        <button (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

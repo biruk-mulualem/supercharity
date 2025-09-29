@@ -1,0 +1,48 @@
+<div class="dashboard">
+  <!-- Header -->
+  <header class="header">
+    <div class="left-header">
+      <!-- Mobile menu toggle -->
+      <button class="menu-toggle" (click)="toggleSidebar()">☰</button>
+
+      <!-- Logo -->
+      <div class="logo">
+        <img src="https://via.placeholder.com/40" alt="Logo">
+        <span>Admin</span>
+      </div>
+    </div>
+
+    <div class="user-control">
+      <button (click)="toggleUserMenu()">Admin ▼</button>
+      <ul *ngIf="userMenuOpen" class="dropdown-menu">
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Settings</a></li>
+        <li><a href="/cpanel">Logout</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="content">
+    <!-- Sidebar -->
+    <nav class="sidebar" [class.open]="sidebarOpen">
+      <ul>
+        <li *ngFor="let item of uploadItems"
+            [class.active]="item === selectedItem"
+            (click)="selectItem(item)">
+          {{ item }}
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Body -->
+<main class="body">
+  <ng-container [ngSwitch]="selectedItem">
+    <app-videocard *ngSwitchCase="'Video'"></app-videocard>
+    <app-gallerycard *ngSwitchCase="'Gallery'"></app-gallerycard>
+    <app-audiocard *ngSwitchCase="'Audio'"></app-audiocard>
+    <app-articlecard *ngSwitchCase="'Article'"></app-articlecard>
+  </ng-container>
+</main>
+
+  </div>
+</div>

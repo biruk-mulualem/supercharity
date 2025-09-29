@@ -1,0 +1,13 @@
+{
+  "routes": {
+    "/": {},
+    "/aboutus": {},
+    "/admindashboard": {},
+    "/articlepage": {},
+    "/audiopage": {},
+    "/contactus": {},
+    "/cpanel": {},
+    "/gallarypage": {},
+    "/videopage": {}
+  }
+}

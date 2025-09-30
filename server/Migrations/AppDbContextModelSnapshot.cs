@@ -32,7 +32,7 @@ namespace server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
-                    b.PrimitiveCollection<string>("Tags")
+                    b.Property<string>("Tag")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Title")

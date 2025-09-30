@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ArticleServices } from '../../../services/articleServices/article.services';
 
+import { ArticleServices } from '../../../services/articleServices/article.services';
 
 @Component({
   selector: 'app-articlecard',
   standalone: true,
   imports: [CommonModule, FormsModule],
+
   templateUrl: './articlecard.html',
   styleUrls: ['./articlecard.css'],
 })
@@ -17,9 +18,14 @@ export class Articlecard implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 5;
 
-  isModalOpen: boolean = false;
-  editingArticle: any = null;
-  modalData: any = { title: '', description: '', tag: '', writer: '' };
+  // Modal flags
+  isAddModalOpen: boolean = false;
+  isEditModalOpen: boolean = false;
+  isDeleteModalOpen: boolean = false;
+
+  // Data holders
+  newArticle: any = { title: '', description: '', tag: '', writer: '' };
+  selectedArticle: any = null;
 
   constructor(private articleService: ArticleServices) {}
 
@@ -27,18 +33,22 @@ export class Articlecard implements OnInit {
     this.loadArticles();
   }
 
-  // Load all articles from API
+  // ----------------------------
+  // Load Articles
+  // ----------------------------
   loadArticles() {
     this.articleService.getArticles().subscribe({
       next: (data: any[]) => (this.articles = data),
-      error: (err: any) => console.error('Failed to load articles', err)
+      error: (err) => console.error('Failed to load articles', err),
     });
   }
 
-  // Filtered + Paginated articles
+  // ----------------------------
+  // Filtered + Paginated Articles
+  // ----------------------------
   get filteredArticles(): any[] {
     return this.articles.filter(
-      a =>
+      (a) =>
         (a.title?.toLowerCase().includes(this.searchTerm.toLowerCase()) ?? false) ||
         (a.description?.toLowerCase().includes(this.searchTerm.toLowerCase()) ?? false) ||
         (a.tag?.toLowerCase().includes(this.searchTerm.toLowerCase()) ?? false) ||
@@ -63,42 +73,78 @@ export class Articlecard implements OnInit {
     if (this.currentPage > 1) this.currentPage--;
   }
 
-  // Modal handling
-  openModal(article: any = null) {
-    this.isModalOpen = true;
-    this.editingArticle = article;
-    this.modalData = article ? { ...article } : { title: '', description: '', tag: '', writer: '' };
+  // ----------------------------
+  // ADD MODAL
+  // ----------------------------
+  openAddModal() {
+    this.isAddModalOpen = true;
+    this.newArticle = { title: '', description: '', tag: '', writer: '' };
   }
 
-  closeModal() {
-    this.isModalOpen = false;
-    this.editingArticle = null;
-    this.modalData = { title: '', description: '', tag: '', writer: '' };
+  closeAddModal() {
+    this.isAddModalOpen = false;
   }
 
-  saveArticle() {
-    if (this.editingArticle) {
-      this.articleService.updateArticle(this.editingArticle.id, this.modalData).subscribe({
-        next: () => this.loadArticles(),
-        error: (err: any) => console.error(err)
-      });
-    } else {
-      this.articleService.createArticle(this.modalData).subscribe({
-        next: () => this.loadArticles(),
-        error: (err: any) => console.error(err)
-      });
-    }
-    this.closeModal();
+addArticle() {
+  console.log('Creating article:', this.newArticle);
+  this.articleService.createArticle(this.newArticle).subscribe({
+    next: () => {
+      this.loadArticles();
+      this.closeAddModal();
+      console.log('✅ Article created');
+    },
+    error: (err) => console.error('❌ Create failed', err),
+  });
+}
+
+
+  // ----------------------------
+  // EDIT MODAL
+  // ----------------------------
+  openEditModal(article: any) {
+    this.isEditModalOpen = true;
+    this.selectedArticle = { ...article };
   }
 
-  editArticle(article: any) {
-    this.openModal(article);
+  closeEditModal() {
+    this.isEditModalOpen = false;
+    this.selectedArticle = null;
   }
 
-  deleteArticle(article: any) {
-    this.articleService.deleteArticle(article.id).subscribe({
-      next: () => this.loadArticles(),
-      error: (err) => console.error(err)
+  updateArticle() {
+    if (!this.selectedArticle) return;
+    this.articleService.updateArticle(this.selectedArticle.id, this.selectedArticle).subscribe({
+      next: () => {
+        this.loadArticles();
+        this.closeEditModal();
+        console.log('✅ Article updated');
+      },
+      error: (err) => console.error('❌ Update failed', err),
+    });
+  }
+
+  // ----------------------------
+  // DELETE MODAL
+  // ----------------------------
+  openDeleteModal(article: any) {
+    this.isDeleteModalOpen = true;
+    this.selectedArticle = article;
+  }
+
+  closeDeleteModal() {
+    this.isDeleteModalOpen = false;
+    this.selectedArticle = null;
+  }
+
+  confirmDelete() {
+    if (!this.selectedArticle?.id) return;
+    this.articleService.deleteArticle(this.selectedArticle.id).subscribe({
+      next: () => {
+        this.loadArticles();
+        this.closeDeleteModal();
+        console.log('✅ Article deleted');
+      },
+      error: (err) => console.error('❌ Delete failed', err),
     });
   }
 }

@@ -17,7 +17,7 @@ export const routes: Routes = [
   { path: 'videopage', component: Videopage },
   { path: 'gallarypage', component: Gallarypage },
   { path: 'audiopage', component: Audiopage },
-  { path: 'articlepage', component: Articlepage },
+
   { path: 'cpanel', component: Cpanel }, //login page
   { path: 'admindashboard', component: Admindashboard },
   { path: '**', redirectTo: '' },

@@ -9,7 +9,7 @@
       placeholder="Search articles..."
       [(ngModel)]="searchTerm"
     />
-    <button class="upload-btn" (click)="openModal()">+ Add Article</button>
+    <button class="upload-btn" (click)="openAddModal()">+ Add Article</button>
   </div>
 
   <!-- Articles Table -->
@@ -24,16 +24,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let article of paginatedArticles()">
-        <td>{{ article.title }}</td>
-        <td>{{ article.description }}</td>
-        <td>{{ article.tag }}</td>
-        <td>{{ article.writer }}</td>
-        <td class="actions">
-          <button class="edit-btn" (click)="editArticle(article)">Edit</button>
-          <button class="delete-btn" (click)="deleteArticle(article)">Delete</button>
-        </td>
-      </tr>
+ <tr *ngFor="let article of paginatedArticles()">
+  <td data-label="Title">{{ article.title }}</td>
+  <td data-label="Description">{{ article.description }}</td>
+  <td data-label="Tag">{{ article.tag }}</td>
+  <td data-label="Writer">{{ article.writer }}</td>
+  <td class="actions" data-label="Actions">
+    <button class="edit-btn" (click)="openEditModal(article)">Edit</button>
+    <button class="delete-btn" (click)="openDeleteModal(article)">Delete</button>
+  </td>
+</tr>
+
     </tbody>
   </table>
 
@@ -44,35 +45,79 @@
     <button (click)="nextPage()" [disabled]="currentPage === totalPages()">Next</button>
   </div>
 </div>
-
-<!-- Modal -->
-<div class="modal" *ngIf="isModalOpen">
+<!-- Add Article Modal -->
+<div class="modal" *ngIf="isAddModalOpen">
   <div class="modal-content">
-    <h3>{{ editingArticle ? 'Edit Article' : 'Add Article' }}</h3>
+    <h3>Add Article</h3>
 
     <div class="form-group">
       <label>Title</label>
-      <input type="text" [(ngModel)]="modalData.title" placeholder="Enter title" />
+      <input type="text" [(ngModel)]="newArticle.title" placeholder="Enter title" />
     </div>
 
     <div class="form-group">
       <label>Description</label>
-      <textarea [(ngModel)]="modalData.description" placeholder="Enter description"></textarea>
+      <textarea [(ngModel)]="newArticle.description" placeholder="Enter description"></textarea>
     </div>
 
     <div class="form-group">
       <label>Tag</label>
-      <input type="text" [(ngModel)]="modalData.tag" placeholder="Enter tag" />
+      <input type="text" [(ngModel)]="newArticle.tag" placeholder="Enter tag" />
     </div>
 
     <div class="form-group">
       <label>Writer</label>
-      <input type="text" [(ngModel)]="modalData.writer" placeholder="Enter writer" />
+      <input type="text" [(ngModel)]="newArticle.writer" placeholder="Enter writer" />
     </div>
 
     <div class="modal-actions">
-      <button (click)="saveArticle()">Save</button>
-      <button (click)="closeModal()">Cancel</button>
+      <button (click)="addArticle()">Save</button>
+      <button (click)="closeAddModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Article Modal -->
+<div class="modal" *ngIf="isEditModalOpen">
+  <div class="modal-content">
+    <h3>Edit Article</h3>
+
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" [(ngModel)]="selectedArticle.title" />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea [(ngModel)]="selectedArticle.description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Tag</label>
+      <input type="text" [(ngModel)]="selectedArticle.tag" />
+    </div>
+
+    <div class="form-group">
+      <label>Writer</label>
+      <input type="text" [(ngModel)]="selectedArticle.writer" />
+    </div>
+
+    <div class="modal-actions">
+      <button (click)="updateArticle()">Update</button>
+      <button (click)="closeEditModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal" *ngIf="isDeleteModalOpen">
+  <div class="modal-content">
+    <h3>Delete Article</h3>
+    <p>Are you sure you want to delete <b>{{ selectedArticle?.title }}</b>?</p>
+
+    <div class="modal-actions">
+      <button class="delete-btn" (click)="confirmDelete()">Yes, Delete</button>
+      <button (click)="closeDeleteModal()">Cancel</button>
     </div>
   </div>
 </div>

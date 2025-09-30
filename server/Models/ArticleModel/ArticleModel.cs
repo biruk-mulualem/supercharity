@@ -12,6 +12,6 @@ namespace server.Models
         public string? Writer { get; set; }       // Nullable
 
         // If you want multiple tags, you can use a list of strings
-        public List<string>? Tags { get; set; }   // Nullable list
+        public string? Tag { get; set; }  
     }
 }

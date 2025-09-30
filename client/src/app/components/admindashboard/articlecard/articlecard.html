@@ -16,6 +16,7 @@
   <table>
     <thead>
       <tr>
+        <th>Id</th>
         <th>Title</th>
         <th>Description</th>
         <th>Tag</th>
@@ -24,16 +25,31 @@
       </tr>
     </thead>
     <tbody>
- <tr *ngFor="let article of paginatedArticles()">
-  <td data-label="Title">{{ article.title }}</td>
-  <td data-label="Description">{{ article.description }}</td>
-  <td data-label="Tag">{{ article.tag }}</td>
-  <td data-label="Writer">{{ article.writer }}</td>
-  <td class="actions" data-label="Actions">
+<tr *ngFor="let article of paginatedArticles()">
+  <td>{{ article.id }}</td>
+  
+  <td [title]="article.title">
+    {{ truncateWords(article.title, 12) }}
+  </td>
+  
+  <td [title]="article.description">
+    {{ truncateWords(article.description, 12) }}
+  </td>
+  
+  <td [title]="article.tag">
+    {{ truncateWords(article.tag, 12) }}
+  </td>
+  
+  <td [title]="article.writer">
+    {{ truncateWords(article.writer, 12) }}
+  </td>
+  
+  <td class="actions">
     <button class="edit-btn" (click)="openEditModal(article)">Edit</button>
     <button class="delete-btn" (click)="openDeleteModal(article)">Delete</button>
   </td>
 </tr>
+
 
     </tbody>
   </table>
@@ -46,8 +62,8 @@
   </div>
 </div>
 <!-- Add Article Modal -->
-<div class="modal" *ngIf="isAddModalOpen">
-  <div class="modal-content">
+<div class="modal" *ngIf="isAddModalOpen" (click)="closeAddModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
     <h3>Add Article</h3>
 
     <div class="form-group">
@@ -78,13 +94,14 @@
 </div>
 
 <!-- Edit Article Modal -->
-<div class="modal" *ngIf="isEditModalOpen">
-  <div class="modal-content">
+<div class="modal" *ngIf="isEditModalOpen" (click)="closeEditModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
     <h3>Edit Article</h3>
 
     <div class="form-group">
       <label>Title</label>
-      <input type="text" [(ngModel)]="selectedArticle.title" />
+       <textarea [(ngModel)]="selectedArticle.title"></textarea>
+     
     </div>
 
     <div class="form-group">
@@ -94,12 +111,14 @@
 
     <div class="form-group">
       <label>Tag</label>
-      <input type="text" [(ngModel)]="selectedArticle.tag" />
+         <textarea [(ngModel)]="selectedArticle.tag"></textarea>
+      
     </div>
 
     <div class="form-group">
       <label>Writer</label>
-      <input type="text" [(ngModel)]="selectedArticle.writer" />
+     
+       <textarea [(ngModel)]="selectedArticle.writer"></textarea>
     </div>
 
     <div class="modal-actions">
@@ -110,8 +129,8 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal" *ngIf="isDeleteModalOpen">
-  <div class="modal-content">
+<div class="modal" *ngIf="isDeleteModalOpen" (click)="closeDeleteModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
     <h3>Delete Article</h3>
     <p>Are you sure you want to delete <b>{{ selectedArticle?.title }}</b>?</p>
 
@@ -121,3 +140,4 @@
     </div>
   </div>
 </div>
+

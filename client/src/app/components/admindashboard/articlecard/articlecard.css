@@ -56,19 +56,25 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(30,144,255,0.4);
 }
+
 /* Table */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1rem;
   font-size: 0.95rem;
-  border: 1px solid #ccc; /* Outer table border */
+  border: 1px solid #ccc;
 }
 
 table th, table td {
   padding: 0.8rem 1rem;
   text-align: left;
-  border: 1px solid #ccc; /* Cell borders */
+  border: 1px solid #ccc;
+  max-width: 200px; /* Prevent stretching */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
 }
 
 table th {
@@ -82,39 +88,18 @@ table td {
   color: #555;
 }
 
+/* Show full content on hover with tooltip */
+.table-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
 /* Row hover */
 table tbody tr:hover {
   background: #f9f9f9;
 }
-
-/* Actions buttons */
-.actions button {
-  margin-right: 0.4rem;
-  padding: 0.4rem 0.8rem;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.edit-btn {
-  background: #ffc107;
-  color: #fff;
-}
-
-.edit-btn:hover {
-  background: #e0a800;
-}
-
-.delete-btn {
-  background: #dc3545;
-  color: #fff;
-}
-
-.delete-btn:hover {
-  background: #b02a37;
-}
-
 
 /* Actions buttons */
 .actions button {
@@ -204,14 +189,16 @@ table tbody tr:hover {
   gap: 0.3rem;
 }
 
-.form-group input {
+.form-group input,
+.form-group textarea {
   padding: 0.5rem 0.8rem;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 0.95rem;
   transition: 0.3s;
 }
-.form-group input:focus {
+.form-group input:focus,
+.form-group textarea:focus {
   border-color: #1e90ff;
   box-shadow: 0 0 6px rgba(30,144,255,0.2);
   outline: none;
@@ -253,8 +240,6 @@ table tbody tr:hover {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-/* Existing styles remain unchanged */
 
 /* --- RESPONSIVE STYLES --- */
 @media (max-width: 768px) {
@@ -314,7 +299,7 @@ table tbody tr:hover {
   }
 
   table thead {
-    display: none; /* Hide headers for very small devices */
+    display: none;
   }
 
   table tbody tr {
@@ -327,11 +312,13 @@ table tbody tr:hover {
 
   table tbody td {
     display: flex;
-
     padding: 0.1rem;
-    width:300px;
+    width: 300px;
     border: none;
     border-bottom: 1px solid #eee;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   table tbody td::before {
@@ -357,4 +344,3 @@ table tbody tr:hover {
     padding: 1rem;
   }
 }
-

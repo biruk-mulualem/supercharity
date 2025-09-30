@@ -7,7 +7,7 @@ import { Videocard } from '../../../components/admindashboard/videocard/videocar
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Cpanel } from '../cpanel/cpanel';
-
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-admindashboard',
   standalone: true,
@@ -32,10 +32,18 @@ export class Admindashboard {
   userMenuOpen = false;
   sidebarOpen = false; // for mobile toggle
 
+
+  
+  constructor(
+  
+    private cdr: ChangeDetectorRef  //disterbute them properly where should i use them
+  ) {}
   selectItem(item: string) {
     console.log('Selected:', item); // Debug
     this.selectedItem = item.trim(); // remove extra spaces
     if (window.innerWidth <= 480) this.sidebarOpen = false;
+
+
   }
 
   toggleUserMenu() {

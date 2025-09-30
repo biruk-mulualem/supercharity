@@ -14,6 +14,6 @@ export default `<!doctype html>
 <style>*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:Roboto,Helvetica Neue,sans-serif}</style><link rel="stylesheet" href="styles-MHYYYQKM.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-MHYYYQKM.css"></noscript></head>
 <body ngcm="">
   <app-root></app-root>
-<script src="main-QYB2ESTX.js" type="module"></script></body>
+<script src="main-PWLP5GNZ.js" type="module"></script></body>
 </html>
 `;

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { ArticleServices } from '../../../services/articleServices/article.services';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-articlecard',
@@ -12,6 +13,8 @@ import { ArticleServices } from '../../../services/articleServices/article.servi
   templateUrl: './articlecard.html',
   styleUrls: ['./articlecard.css'],
 })
+
+
 export class Articlecard implements OnInit {
   articles: any[] = [];
   searchTerm: string = '';
@@ -27,21 +30,37 @@ export class Articlecard implements OnInit {
   newArticle: any = { title: '', description: '', tag: '', writer: '' };
   selectedArticle: any = null;
 
-  constructor(private articleService: ArticleServices) {}
+  constructor(
+    private articleService: ArticleServices,
+    private cdr: ChangeDetectorRef  //disterbute them properly where should i use them
+  ) {}
 
   ngOnInit() {
     this.loadArticles();
+           this.cdr.detectChanges();   // ✅ force Angular to update the view
   }
+  // ----------------------------
+  // truncate words
+  // ----------------------------
+  truncateWords(text: string, wordCount: number): string {
+  if (!text) return '';
+  const words = text.split(' ');
+  return words.length > wordCount ? words.slice(0, wordCount).join(' ') + '...' : text;
+}
 
   // ----------------------------
   // Load Articles
   // ----------------------------
-  loadArticles() {
-    this.articleService.getArticles().subscribe({
-      next: (data: any[]) => (this.articles = data),
-      error: (err) => console.error('Failed to load articles', err),
-    });
-  }
+loadArticles() {
+  this.articleService.getArticles().subscribe({
+    next: (data: any[]) => {
+      this.articles = data;
+      this.cdr.detectChanges(); // ensures the new articles appear immediately
+    },
+    error: (err) => console.error('Failed to load articles', err),
+  });
+}
+
 
   // ----------------------------
   // Filtered + Paginated Articles
@@ -91,6 +110,7 @@ addArticle() {
     next: () => {
       this.loadArticles();
       this.closeAddModal();
+          this.cdr.detectChanges();   // ✅ force Angular to update the view
       console.log('✅ Article created');
     },
     error: (err) => console.error('❌ Create failed', err),
@@ -117,6 +137,7 @@ addArticle() {
       next: () => {
         this.loadArticles();
         this.closeEditModal();
+            this.cdr.detectChanges();   // ✅ force Angular to update the view
         console.log('✅ Article updated');
       },
       error: (err) => console.error('❌ Update failed', err),
@@ -142,9 +163,11 @@ addArticle() {
       next: () => {
         this.loadArticles();
         this.closeDeleteModal();
+            this.cdr.detectChanges();   // ✅ force Angular to update the view
         console.log('✅ Article deleted');
       },
       error: (err) => console.error('❌ Delete failed', err),
     });
   }
+  
 }

@@ -100,6 +100,34 @@ namespace server.Migrations
                     b.ToTable("Galleries");
                 });
 
+            modelBuilder.Entity("server.Models.UserModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly?>("RegistedDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("fullname")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("password")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("username")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("username")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("server.Models.VideoModel", b =>
                 {
                     b.Property<int>("Id")

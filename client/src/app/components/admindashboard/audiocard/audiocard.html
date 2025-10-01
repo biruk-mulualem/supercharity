@@ -21,7 +21,7 @@
     <tbody>
       <tr *ngFor="let audio of paginatedAudio();let i = index">
            <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-        <td><audio controls [src]="audio.audioUrl" preload="none"></audio></td>
+        <td><audio controls [src]="audio.audioUrl" preload="none"></audio></td> 
         <td>{{ audio.title }}</td>
         <td>{{ audio.date }}</td>
         <td class="actions">
@@ -43,14 +43,14 @@
 <!-- Add Modal -->
 <div class="modal" *ngIf="isAddModalOpen" (click)="closeAddModalOnOverlay($event)">
   <div class="modal-content" (click)="$event.stopPropagation()">
-    <h3>Add Audio</h3>
+    <h3>Add Audio (.mp3 only)</h3>
     <div class="form-group">
       <label>Title</label>
-      <input type="text" [(ngModel)]="newAudio.title" placeholder="Enter title" />
+      <input type="text" [(ngModel)]="newAudio.title" placeholder="Enter title"  />
     </div>
     <div class="form-group">
       <label>Audio File</label>
-      <input type="file" (change)="onAddFileSelected($event)" />
+      <input type="file" (change)="onAddFileSelected($event)" accept=".mp3,audio/mpeg" />
     </div>
     <div class="form-group">
       <label>Date</label>
@@ -73,7 +73,7 @@
     </div>
     <div class="form-group">
       <label>Audio File</label>
-      <input type="file" (change)="onEditFileSelected($event)" />
+      <input type="file" (change)="onEditFileSelected($event)"  accept=".mp3,audio/mpeg"/>
     </div>
     <div class="form-group">
       <label>Date</label>

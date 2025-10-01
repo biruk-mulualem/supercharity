@@ -1,29 +1,20 @@
-/* Reset and base */
-* {
-  box-sizing: border-box;
-}
 
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f7fa;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Wrapper to center */
+/* =======================
+   WRAPPER
+======================= */
 .auth-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding: 1rem; /* added padding for small screens */
+  min-height: 100vh;
+  padding: 1rem;
 }
 
-/* Card container */
+/* =======================
+   CARD
+======================= */
 .auth-card {
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 2.5rem 2rem;
   border-radius: 12px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
@@ -32,45 +23,38 @@ body, html {
   text-align: center;
   transition: box-shadow 0.3s ease;
 }
-
 .auth-card:hover {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
 }
-
 .auth-card h2 {
   margin-bottom: 1.5rem;
-  font-size: 1.9rem;
+  font-size: 1.8rem;
   color: #222;
   font-weight: 600;
-  letter-spacing: 0.02em;
 }
 
-/* Form inputs */
+/* =======================
+   FORM GROUPS
+======================= */
 .form-group {
   position: relative;
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.5rem;
 }
-
-
-
-input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  outline: none;
-}
-
-/* Keep inputs normal */
 input {
   width: 100%;
-  padding: 1.5rem 0.75rem 0.5rem; /* more top padding to leave space for label */
+  padding: 1.5rem 0.75rem 0.5rem;
   border: 1.5px solid #ccc;
   border-radius: 8px;
-  background: transparent;
   font-size: 1rem;
+  background: transparent;
   outline-offset: 2px;
+  transition: border 0.3s, box-shadow 0.3s;
 }
-
-/* Label is always floated */
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
 label {
   position: absolute;
   top: -0.6rem;
@@ -81,9 +65,7 @@ label {
   font-weight: 600;
   pointer-events: none;
   padding: 0 0.25rem;
-  user-select: none;
 }
-
 input:focus + label,
 input:not(:placeholder-shown) + label {
   top: -0.6rem;
@@ -94,88 +76,46 @@ input:not(:placeholder-shown) + label {
   font-weight: 600;
 }
 
-/* Button */
-.auth-button {
+/* =======================
+   BUTTONS
+======================= */
+button.auth-button {
   width: 100%;
   padding: 0.85rem;
-  background-color: #007bff;
+  background: linear-gradient(145deg, #007bff, #0056b3);
   border: none;
   color: #fff;
   font-weight: 700;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1.1rem;
-  letter-spacing: 0.02em;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
   box-shadow: 0 3px 8px rgba(0, 123, 255, 0.3);
 }
-
-.auth-button:hover,
-.auth-button:focus {
-  background-color: #0056b3;
+button.auth-button:hover,
+button.auth-button:focus {
+  background: linear-gradient(145deg, #0056b3, #003f7f);
   box-shadow: 0 6px 15px rgba(0, 86, 179, 0.5);
+  transform: translateY(-1px);
   outline: none;
 }
-
-/* Toggle sections */
-.toggle-section {
-  margin-top: 1.6rem;
-  font-size: 0.95rem;
-  color: #444;
-}
-
-.toggle-section a {
-  color: #007bff;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.3s ease, text-decoration 0.3s ease;
-  outline-offset: 2px;
-}
-
-.toggle-section a:hover,
-.toggle-section a:focus {
-  color: #0056b3;
-  text-decoration: underline;
-  outline: none;
-}
-
-/* Login footer toggle - inline with separator */
-.login-toggle {
-  display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-  font-size: 0.95rem;
-  align-items: center;
-}
-
-.login-toggle a {
-  cursor: pointer;
-  color: #007bff;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.login-toggle a:hover,
-.login-toggle a:focus {
-  text-decoration: underline;
-  color: #0056b3;
-  outline: none;
-}
-
-.separator {
+button.auth-button:disabled {
+  background: #cccccc;
   color: #666;
-  user-select: none;
-  font-weight: 500;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
-/* Messages */
+/* =======================
+   MESSAGES
+======================= */
 .error {
   margin-top: 1rem;
-  color: #d9534f; /* slightly softer red */
+  color: #d9534f;
   font-size: 0.9rem;
   font-weight: 600;
 }
-
 .success {
   margin-top: 1rem;
   color: #28a745;
@@ -183,10 +123,36 @@ input:not(:placeholder-shown) + label {
   font-weight: 600;
 }
 
-/* Responsive tweak */
+/* =======================
+   TOGGLE LINKS
+======================= */
+.toggle-section {
+  margin-top: 1.6rem;
+  font-size: 0.95rem;
+  color: #444;
+}
+.toggle-section a {
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.toggle-section a:hover,
+.toggle-section a:focus {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* =======================
+   RESPONSIVE
+======================= */
+@media (max-width: 768px) {
+  .auth-card { padding: 2rem 1.5rem; max-width: 90%; }
+}
+
 @media (max-width: 480px) {
-  .auth-card {
-    padding: 2rem 1.5rem;
-    max-width: 95vw;
-  }
+  .auth-card { padding: 1.5rem 1rem; max-width: 95%; }
+  input { padding: 1.2rem 0.6rem 0.4rem; font-size: 0.95rem; }
+  button.auth-button { padding: 0.75rem; font-size: 1rem; }
+  .toggle-section { font-size: 0.9rem; }
 }

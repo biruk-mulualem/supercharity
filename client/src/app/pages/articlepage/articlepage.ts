@@ -24,86 +24,199 @@ maxPageButtons = 5;
   modalOpen: boolean = false;
 
   articles = [
-    {
-      title: 'The Rise of Remote Work',
-      description: 'Exploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwideExploring how flexible work arrangements are reshaping company cultures worldwide.',
-      tags: ['Work', 'Remote', 'Trends'],
-      writer: 'Jane Doe',
-    },
-    {
-      title: 'Climate Crisis: What Can We Do?',
-      description: 'A look at individual and systemic solutions to tackle the ongoing climate emergency.',
-      tags: ['Environment', 'Sustainability'],
-      writer: 'John Smith',
-    },
-    {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    }, {
-      title: 'AI & Ethics in 2025 biruk',
-      description: 'As AI evolves, so do ethical questions around its impact and implementation.',
-      tags: ['AI', 'Ethics', 'Technology'],
-      writer: 'Alex Chen',
-    },
+  {
+    title: 'Education for Every Child',
+    description:
+      'Exploring how charitable organizations are reshaping futures by providing access to quality education for children in underserved regions. These efforts break cycles of poverty and empower the next generation.',
+    tags: ['Education', 'Children', 'Global Impact'],
+    writer: 'Jane Doe',
+  },
+  {
+    title: 'Combating Hunger Locally & Globally',
+    description:
+      'An in-depth look at how food banks, soup kitchens, and grassroots initiatives are ensuring no one goes to bed hungry.',
+    tags: ['Hunger', 'Food Aid', 'Community'],
+    writer: 'John Smith',
+  },
+  {
+    title: 'Charity & Climate: A Green Revolution',
+    description:
+      'How environmental nonprofits are fighting climate change through tree planting, renewable energy projects, and local advocacy.',
+    tags: ['Environment', 'Sustainability', 'Nonprofits'],
+    writer: 'Leila Hassan',
+  },
+  {
+    title: 'Healthcare Where It’s Needed Most',
+    description:
+      'Mobile clinics and charitable hospitals are bringing medical care to remote communities. Learn how these heroes operate.',
+    tags: ['Healthcare', 'Access', 'Aid'],
+    writer: 'Alex Chen',
+  },
+  {
+    title: 'Disaster Relief: Rapid Response Charities',
+    description:
+      'Natural disasters demand fast action. These organizations provide shelter, food, and support when the world turns upside down.',
+    tags: ['Disaster Relief', 'Emergency Aid'],
+    writer: 'Rachel Lim',
+  },
+  {
+    title: 'Clean Water, Clean Lives',
+    description:
+      'Water is life. See how charities are drilling wells and building sanitation systems to bring clean water to thousands.',
+    tags: ['Water', 'Sanitation', 'Health'],
+    writer: 'Samuel Okoro',
+  },
+  {
+    title: 'Women Empowering Women',
+    description:
+      'Spotlighting organizations that uplift women through education, entrepreneurship, and healthcare access.',
+    tags: ['Women', 'Empowerment', 'Equity'],
+    writer: 'Fatima Basha',
+  },
+  {
+    title: 'Technology for Good',
+    description:
+      'Nonprofits are harnessing technology to drive transparency, efficiency, and global outreach like never before.',
+    tags: ['Tech4Good', 'Innovation', 'Charity'],
+    writer: 'Michael Trent',
+  },
+  {
+    title: 'Fighting Homelessness with Compassion',
+    description:
+      'From shelters to permanent housing solutions, discover how charities are restoring dignity and safety for the homeless.',
+    tags: ['Homelessness', 'Housing', 'Support'],
+    writer: 'Amina Rahman',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },{
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  {
+    title: 'Mental Health Matters',
+    description:
+      'Charitable initiatives offering therapy, crisis lines, and awareness programs to break the stigma and offer help.',
+    tags: ['Mental Health', 'Wellbeing'],
+    writer: 'David Ng',
+  },
+  
+];
+
     // Add more articles here for testing pagination
-  ];
+ 
 
   get filteredArticles() {
     const query = this.searchQuery.toLowerCase().trim();

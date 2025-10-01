@@ -1,124 +1,98 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-type Mode = 'login' | 'register' | 'forgot';
+import { Router } from '@angular/router';
+import { CpanelServiceService } from '../../../services/cpanelService/cpanel-service.service';
 
 @Component({
   selector: 'app-cpanel',
-  imports: [FormsModule, CommonModule],
   standalone: true,
+  imports: [FormsModule, CommonModule],
   templateUrl: './cpanel.html',
   styleUrls: ['./cpanel.css'],
 })
 export class Cpanel {
-  // Current form mode
-  mode: Mode = 'login';
+  showLogin = true;
+  showForgot = false;
 
-  // Form fields
-  username: string = '';
-  email: string = '';
-  password: string = '';
-  confirmPassword: string = '';
+  username = '';
+  password = '';
+  loginError = '';
 
-  // Messages
-  errorMessage: string = '';
-  successMessage: string = '';
+  forgotEmail = '';
+  forgotError = '';
+  forgotSuccess = '';
 
-  // Loading state to simulate async processing
-  loading = false;
+  constructor(
+    private cpanelService: CpanelServiceService,
+    private router: Router,
+    private cdr: ChangeDetectorRef // 👈 add ChangeDetectorRef
+  ) {}
 
-  // Switch between modes and reset form + messages
-  switchMode(to: Mode): void {
-    if (this.loading) return; // prevent switching during loading
-    this.mode = to;
-    this.clearForm();
+  showLoginForm() {
+    this.showLogin = true;
+    this.showForgot = false;
   }
 
-  // Clear all form fields and messages
-  clearForm(): void {
-    this.username = '';
-    this.email = '';
-    this.password = '';
-    this.confirmPassword = '';
-    this.errorMessage = '';
-    this.successMessage = '';
+  showForgotForm() {
+    this.showLogin = false;
+    this.showForgot = true;
   }
 
-  // Form submit handler
-  onSubmit(): void {
-    if (this.loading) return;
+  // LOGIN SUBMIT
+  onLoginSubmit() {
+    this.loginError = '';
 
-    this.errorMessage = '';
-    this.successMessage = '';
-    this.loading = true;
+    if (!this.username || !this.password) {
+      this.loginError = 'Username and Password required';
+      this.cdr.detectChanges(); // 👈 force UI update
+      return;
+    }
 
-    setTimeout(() => {
-      if (this.mode === 'forgot') {
-        // Validate email for password reset
-        if (!this.email.trim()) {
-          this.errorMessage = 'Email is required.';
-          this.loading = false;
-          return;
+    this.cpanelService.getUserByUsername(this.username).subscribe({
+      next: (user: any) => {
+        if (user.password === this.password) {
+          this.router.navigate(['/admindashboard']);
+        } else {
+          this.loginError = 'Invalid username or password';
         }
-        if (!this.isValidEmail(this.email)) {
-          this.errorMessage = 'Please enter a valid email address.';
-          this.loading = false;
-          return;
+        this.cdr.detectChanges(); // 👈 update view after async
+      },
+      error: (err) => {
+        if (err.status === 404) {
+          this.loginError = err.error || 'Invalid username or password';
+        } else if (err.status === 400) {
+          this.loginError = err.error || 'Bad request';
+        } else {
+          this.loginError = 'Server error, try again later';
         }
-        // Simulate sending password reset email
-        this.successMessage = `Password reset link sent to ${this.email}`;
-        this.loading = false;
-        return;
-      } else {
-        // Validate username for login and register
-        if (!this.username.trim()) {
-          this.errorMessage = 'Username is required.';
-          this.loading = false;
-          return;
-        }
-
-        if (this.mode === 'login') {
-          if (!this.password.trim()) {
-            this.errorMessage = 'Password is required.';
-            this.loading = false;
-            return;
-          }
-
-          // Simulate login validation with username
-          if (this.username === 'testuser' && this.password === 'password') {
-            alert('✅ Login successful!');
-            this.clearForm();
-          } else {
-            this.errorMessage = 'Invalid username or password.';
-          }
-        } else if (this.mode === 'register') {
-          if (!this.password.trim() || !this.confirmPassword.trim()) {
-            this.errorMessage = 'All fields are required.';
-            this.loading = false;
-            return;
-          }
-
-          if (this.password !== this.confirmPassword) {
-            this.errorMessage = 'Passwords do not match.';
-            this.loading = false;
-            return;
-          }
-
-          alert(`✅ Registered successfully as: ${this.username}`);
-          this.switchMode('login');
-          this.loading = false;
-          return;
-        }
+        this.cdr.detectChanges(); // 👈 update view after async
       }
-
-      this.loading = false;
-    }, 1000);
+    });
   }
 
-  // Simple email format validation using regex
-  private isValidEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  // FORGOT PASSWORD SUBMIT
+  onForgotSubmit() {
+    this.forgotError = '';
+    this.forgotSuccess = '';
+
+    if (!this.forgotEmail) {
+      this.forgotError = 'Email required';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.forgotEmail)) {
+      this.forgotError = 'Invalid email';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    // Simulate backend email sending
+    setTimeout(() => {
+      this.forgotSuccess = `Reset link sent to ${this.forgotEmail}`;
+      this.forgotEmail = '';
+      this.cdr.detectChanges(); // 👈 ensure UI refresh after async
+    }, 1000);
   }
 }

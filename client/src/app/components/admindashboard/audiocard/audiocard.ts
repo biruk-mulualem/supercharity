@@ -77,13 +77,18 @@ export class Audiocard implements OnInit {
     this.closeAddModal();
   }
 
-  onAddFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      const file = input.files[0];
-      this.newAudio.audioUrl = URL.createObjectURL(file);
+onAddFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files?.length) {
+    const file = input.files[0];
+    if (file.type !== 'audio/mpeg') {
+      alert('Only MP3 files are allowed.');
+      input.value = ''; // Reset the input
+      return;
     }
+    this.newAudio.audioUrl = URL.createObjectURL(file);
   }
+}
 
   saveAddAudioAndClose() {
     if (!this.newAudio.title || !this.newAudio.audioUrl || !this.newAudio.date) {
@@ -118,13 +123,23 @@ export class Audiocard implements OnInit {
     this.closeEditModal();
   }
 
-  onEditFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      const file = input.files[0];
-      this.editingAudio.audioUrl = URL.createObjectURL(file);
+onEditFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files?.length) {
+    const file = input.files[0];
+
+    // Validate MP3 MIME type
+    if (file.type !== 'audio/mpeg') {
+      alert('Only MP3 files are allowed.');
+      input.value = ''; // Clear the file input
+      return;
     }
+
+    // Valid MP3 file
+    this.editingAudio.audioUrl = URL.createObjectURL(file);
   }
+}
+
 
   saveEditAudioAndClose() {
     if (!this.editingAudio.title || !this.editingAudio.audioUrl || !this.editingAudio.date) {

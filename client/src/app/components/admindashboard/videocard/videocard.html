@@ -4,7 +4,7 @@
   <!-- Top controls: search and upload -->
   <div class="controls">
     <input type="text" placeholder="Search..." [(ngModel)]="searchText" class="search-input">
-    <button (click)="openUpload()" class="upload-btn">Upload New Video</button>
+    <button (click)="openUpload()" class="upload-btn">Upload Video</button>
   </div>
 
   <!-- Video Table -->
@@ -12,7 +12,7 @@
     <thead>
       <tr>
         <th>Id</th>
-        <th>Video</th>
+      <th class="video-col">Video</th>
         <th>Description</th>
         <th>Category</th>
         <th>Date</th>
@@ -22,16 +22,15 @@
     <tbody>
       <tr *ngFor="let video of paginatedVideos let i=index ">
          <td>{{ (page - 1) * itemsPerPage + i + 1 }}</td>
-<td>
-  <iframe 
-    *ngIf="video.videoUrl" 
-    [src]="getSafeUrl(video.videoUrl)" 
-    width="100" 
-    height="80" 
-    frameborder="0" 
+<td class="video-cell">
+  <iframe
+    *ngIf="video.videoUrl"
+    [src]="getSafeUrl(video.videoUrl)"
     allowfullscreen>
   </iframe>
 </td>
+
+
 
 
         <td>{{ video.description }}</td>

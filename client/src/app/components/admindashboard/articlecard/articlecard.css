@@ -240,66 +240,94 @@ table tbody tr:hover {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-/* --- RESPONSIVE STYLES --- */
+/* =======================
+   Tablet Styles (≤ 768px)
+======================= */
 @media (max-width: 768px) {
+  /* Controls: stacked or side by side */
   .controls {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   .search-input {
-    max-width: 100%;
-  }
-
-  .upload-btn {
-    width: 100%;
-    text-align: center;
-  }
-
-  table th, table td {
-    padding: 0.6rem 0.8rem;
-  }
-
-  table {
+    width: 60%;
     font-size: 0.9rem;
   }
 
+  .upload-btn {
+    width: 38%;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  /* Table fills width */
+  table {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  table th,
+  table td {
+    padding: 0.6rem 0.8rem;
+    max-width: none;
+    white-space: normal; /* allow text wrap */
+  }
+
+  /* Video column */
+  .video-col {
+    width: 160px;
+  }
+
+  .video-cell {
+    height: 120px;
+  }
+
+  /* Pagination */
   .pagination {
     flex-wrap: wrap;
+    justify-content: center;
     gap: 0.25rem;
   }
 
+  /* Modal */
   .modal-content {
     width: 95%;
     padding: 1.5rem;
   }
 }
 
-@media (max-width: 480px) {
+/* =======================
+   Mobile Styles (≤ 480px)
+======================= */@media (max-width: 480px) {
+  /* Controls side by side */
   .controls {
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     gap: 0.5rem;
   }
 
-  .search-input {
-    width: 100%;
-  }
-
+  .search-input,
   .upload-btn {
-    width: 100%;
-    font-size: 0.95rem;
+    width: 49%; /* each takes roughly half of the width */
+    font-size: 0.9rem;
   }
 
+  /* Table becomes card style and fills width */
   table {
     display: block;
-    overflow-x: auto;
     width: 100%;
+    overflow-x: auto;
+    border: none;
   }
 
   table thead {
-    display: none;
+    display: none; /* Hide headers */
   }
 
   table tbody tr {
@@ -307,38 +335,50 @@ table tbody tr:hover {
     margin-bottom: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 6px;
-    padding: 0.0rem;
+    padding: 0.5rem;
   }
 
   table tbody td {
     display: flex;
-    padding: 0.1rem;
-    width: 300px;
+    flex-wrap: wrap;
+    padding: 0.3rem 0.5rem;
+    width: 100%;
     border: none;
     border-bottom: 1px solid #eee;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal; /* Allow text wrap */
   }
 
   table tbody td::before {
     content: attr(data-label);
     font-weight: 600;
-    flex-basis: 50%;
     color: #333;
+    margin-right: 0.5rem;
+    flex: 0 0 100%; /* Label width */
   }
 
+  /* Action buttons side by side */
   .actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 0.5rem;
+    flex-wrap: nowrap;
   }
 
+  .actions button {
+    flex:50% 50%; /* Two buttons side by side */
+    font-size: 0.85rem;
+    padding: 0.5rem 0.6rem;
+ 
+  }
+
+  /* Pagination stacked */
   .pagination {
-    flex-direction: column;
+   
+
     gap: 0.25rem;
   }
 
+  /* Modal adjustments */
   .modal-content {
     width: 95%;
     padding: 1rem;

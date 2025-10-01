@@ -253,68 +253,100 @@ table tbody tr:hover {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-/* Existing styles remain unchanged */
-
-/* --- RESPONSIVE STYLES --- */
+/* =======================
+   Tablet Styles (≤ 768px)
+======================= */
 @media (max-width: 768px) {
+  /* Controls (search + upload) side by side */
   .controls {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
   .search-input {
-    max-width: 100%;
+    width: 60%;
+    max-width: 60%;
+    font-size: 0.9rem;
   }
 
   .upload-btn {
-    width: 100%;
-    text-align: center;
+    width: 38%;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
   }
 
-  table th, table td {
-    padding: 0.6rem 0.8rem;
-  }
-
+  /* Table adjustments */
   table {
     font-size: 0.9rem;
   }
 
+  table th,
+  table td {
+    padding: 0.6rem 0.8rem;
+  }
+
+  /* Video column */
+  .video-col {
+    width: 160px;
+  }
+
+  .video-cell {
+    height: 120px;
+  }
+
+  /* Pagination */
   .pagination {
     flex-wrap: wrap;
+    justify-content: center;
     gap: 0.25rem;
   }
 
+  /* Modal */
   .modal-content {
     width: 95%;
     padding: 1.5rem;
   }
 }
 
+/* =======================
+   Mobile Styles (≤ 480px)
+======================= */
 @media (max-width: 480px) {
+  /* Controls: stacked or side by side depending on width */
   .controls {
-    flex-direction: column;
-    gap: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.9rem;
+
+    flex-wrap: nowrap;
   }
 
   .search-input {
-    width: 100%;
+    width: 50%;
+    font-size: 0.85rem;
   }
 
   .upload-btn {
-    width: 100%;
-    font-size: 0.95rem;
+    width: 48%;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
   }
 
+  /* Table becomes card style */
   table {
-    display: block;
+    
     overflow-x: auto;
     width: 100%;
+    border: none;
   }
 
   table thead {
-    display: none; /* Hide headers for very small devices */
+    display: none;
   }
 
   table tbody tr {
@@ -322,14 +354,14 @@ table tbody tr:hover {
     margin-bottom: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 6px;
-    padding: 0.0rem;
+    padding: 0.5rem;
   }
 
   table tbody td {
     display: flex;
-
-    padding: 0.1rem;
-    width:300px;
+ 
+    padding: 0.3rem;
+    width: 100%;
     border: none;
     border-bottom: 1px solid #eee;
   }
@@ -337,24 +369,34 @@ table tbody tr:hover {
   table tbody td::before {
     content: attr(data-label);
     font-weight: 600;
-    flex-basis: 50%;
     color: #333;
+    margin-right: 0.5rem;
   }
 
+
+  /* Actions */
   .actions {
     display: flex;
     justify-content: flex-end;
     gap: 0.5rem;
+    margin-top: 0.5rem;
   }
 
+  .actions button {
+    flex: 1;
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+
+  /* Pagination */
   .pagination {
-    flex-direction: column;
+  
     gap: 0.25rem;
   }
 
+  /* Modals */
   .modal-content {
     width: 95%;
     padding: 1rem;
   }
 }
-

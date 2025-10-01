@@ -72,14 +72,24 @@ export class Gallerycard implements OnInit {
     this.cdr.detectChanges();
   }
 
-  onUploadFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      this.newItem.imageUrl = URL.createObjectURL(file);
-      // TODO: upload file to backend and get actual URL
+onUploadFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    const file = input.files[0];
+
+    // ✅ Check WebP format
+    if (file.type !== 'image/webp') {
+      alert('Only .webp format is supported. Please upload a WebP image.');
+      input.value = ''; // Reset input
+      return;
     }
+
+    this.newItem.imageUrl = URL.createObjectURL(file);
+    // TODO: upload file to backend and get actual URL
   }
+}
+
+
 
   uploadItem() {
     if (
@@ -110,14 +120,22 @@ export class Gallerycard implements OnInit {
     this.cdr.detectChanges();
   }
 
-  onEditFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      this.selectedItem.imageUrl = URL.createObjectURL(file);
-      // TODO: upload file to backend and get actual URL
+onEditFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    const file = input.files[0];
+
+    // ✅ Check WebP format
+    if (file.type !== 'image/webp') {
+      alert('Only .webp format is supported. Please upload a WebP image.');
+      input.value = ''; // Reset input
+      return;
     }
+
+    this.selectedItem.imageUrl = URL.createObjectURL(file);
+    // TODO: upload file to backend and get actual URL
   }
+}
 
   saveEdit() {
     if (!this.selectedItem) return;

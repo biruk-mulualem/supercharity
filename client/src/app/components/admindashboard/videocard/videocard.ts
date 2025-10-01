@@ -1,12 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Video {
-  video: string;
-  description: string;
-  category: string;
-}
+import { VideoServices } from '../../../services/videoServices/video.services';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-videocard',
@@ -15,17 +11,8 @@ interface Video {
   templateUrl: './videocard.html',
   styleUrls: ['./videocard.css']
 })
-export class Videocard {
-  videos: Video[] = [
-    { video: 'Intro.mp4vvvvvvvvvvvvvv', description: 'Introduction videoffffffffffffffffffffffffffffffffffff', category: 'Tutorial' },
-    { video: 'Angular.mp4', description: 'Angular tutorial', category: 'Tutorial' },
-    { video: 'Music.mp4', description: 'Background music', category: 'Entertainment' },
-    { video: 'Promo.mp4', description: 'Promotion video', category: 'Marketing' },
-    { video: 'Demo.mp4', description: 'Demo video', category: 'Tutorial' },
-    { video: 'Interview.mp4', description: 'Interview video', category: 'Business' },
-    { video: 'Test.mp4', description: 'Test video', category: 'Test' }
-  ];
-
+export class Videocard implements OnInit {
+  videos: any[] = [];
   searchText: string = '';
   page: number = 1;
   itemsPerPage: number = 5;
@@ -34,74 +21,79 @@ export class Videocard {
   showDeleteModal: boolean = false;
   showUploadModal: boolean = false;
 
-  selectedVideo: Video | null = null;
-  newVideo: Video = { video: '', description: '', category: '' };
+  selectedVideo: any = null;
+  newVideo: any = { videoUrl: '', description: '', category: '', date: '' };
 
-  /* Get filtered videos based on search */
-  get filteredVideos(): Video[] {
+  constructor(
+    private videoService: VideoServices,
+    private cd: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
+  ) {}
+
+  ngOnInit() {
+    this.loadVideos();
+  }
+
+  /* --- Load Videos from API --- */
+  loadVideos() {
+    this.videoService.getVideos().subscribe({
+      next: data => {
+        // Sort by date descending
+        this.videos = data.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+        this.cd.detectChanges();
+      },
+      error: err => console.error('Failed to load videos', err)
+    });
+  }
+
+  /* --- Filtered Videos --- */
+  get filteredVideos(): any[] {
     if (!this.searchText) return this.videos;
-    return this.videos.filter(v =>
-      v.video.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      v.description.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      v.category.toLowerCase().includes(this.searchText.toLowerCase())
+    return this.videos.filter(
+      v =>
+        v.videoUrl.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        v.description.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        v.category.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
 
-  /* Paginate filtered videos */
-  get paginatedVideos(): Video[] {
+  /* --- Paginated Videos --- */
+  get paginatedVideos(): any[] {
     const start = (this.page - 1) * this.itemsPerPage;
     return this.filteredVideos.slice(start, start + this.itemsPerPage);
   }
 
-  /* Pagination controls */
+  get totalPages(): number {
+    return Math.ceil(this.filteredVideos.length / this.itemsPerPage) || 1;
+  }
+
   nextPage() {
-    if ((this.page * this.itemsPerPage) < this.filteredVideos.length) this.page++;
+    if (this.page < this.totalPages) this.page++;
   }
 
   prevPage() {
     if (this.page > 1) this.page--;
   }
 
-  /* Open Edit Modal */
-  openEdit(video: Video) {
+  /* --- Modals Open/Close --- */
+  openEdit(video: any) {
     this.selectedVideo = { ...video };
     this.showEditModal = true;
+    this.cd.detectChanges();
   }
 
-  saveEdit() {
-    if (this.selectedVideo) {
-      const index = this.videos.findIndex(v => v.video === this.selectedVideo!.video);
-      if (index !== -1) this.videos[index] = this.selectedVideo;
-    }
-    this.closeModal();
-  }
-
-  /* Open Delete Modal */
-  openDelete(video: Video) {
-    this.selectedVideo = video;
+  openDelete(video: any) {
+    this.selectedVideo = { ...video };
     this.showDeleteModal = true;
+    this.cd.detectChanges();
   }
 
-  deleteVideo() {
-    if (this.selectedVideo) {
-      this.videos = this.videos.filter(v => v !== this.selectedVideo);
-    }
-    this.closeModal();
-  }
-
-  /* Open Upload Modal */
   openUpload() {
-    this.newVideo = { video: '', description: '', category: '' };
+    this.newVideo = { videoUrl: '', description: '', category: '', date: '' };
     this.showUploadModal = true;
-  }
-
-  uploadVideo() {
-    if (this.newVideo.video && this.newVideo.description && this.newVideo.category) {
-      this.videos.push({ ...this.newVideo });
-      this.closeModal();
-    } else {
-      alert('Please fill all fields!');
-    }
+    this.cd.detectChanges();
   }
 
   closeModal() {
@@ -109,5 +101,76 @@ export class Videocard {
     this.showDeleteModal = false;
     this.showUploadModal = false;
     this.selectedVideo = null;
+    this.cd.detectChanges();
+  }
+
+  closeModalOnOverlay(event: MouseEvent) {
+    if ((event.target as HTMLElement).classList.contains('modal')) {
+      this.closeModal();
+    }
+  }
+
+  /* --- Video Operations with alert --- */
+  saveEdit() {
+    if (!this.selectedVideo.videoUrl || !this.selectedVideo.description || !this.selectedVideo.category || !this.selectedVideo.date) {
+      alert('Please fill all fields!');
+      return;
+    }
+
+    this.videoService.updateVideo(this.selectedVideo.id, this.selectedVideo).subscribe({
+      next: () => {
+        this.loadVideos();
+        this.closeModal();
+        alert('Video updated successfully!');
+        window.location.reload();
+      },
+      error: err => console.error('Failed to update video', err)
+    });
+  }
+
+  deleteVideo() {
+    if (!this.selectedVideo) return;
+
+    this.videoService.deleteVideo(this.selectedVideo.id).subscribe({
+      next: () => {
+        this.loadVideos();
+        this.closeModal();
+        alert('Video deleted successfully!');
+        window.location.reload();
+      },
+      error: err => console.error('Failed to delete video', err)
+    });
+  }
+
+  uploadVideo() {
+    if (!this.newVideo.videoUrl || !this.newVideo.description || !this.newVideo.category || !this.newVideo.date) {
+      alert('Please fill all fields!');
+      return;
+    }
+
+    this.videoService.createVideo(this.newVideo).subscribe({
+      next: () => {
+        this.loadVideos();
+        this.closeModal();
+        alert('Video uploaded successfully!');
+        window.location.reload();
+      },
+      error: err => console.error('Failed to upload video', err)
+    });
+  }
+
+  /* --- YouTube embed helper --- */
+  getSafeUrl(url: string): SafeResourceUrl {
+    if (!url) return '';
+    let videoId = '';
+
+    if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1].split('?')[0];
+    } else if (url.includes('youtube.com/watch?v=')) {
+      videoId = url.split('v=')[1]?.split('&')[0];
+    }
+
+    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
   }
 }

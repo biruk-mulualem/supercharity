@@ -1,118 +1,172 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface GalleryItem {
-  id: number;
-  image: string;
-  title: string;
-  description: string;
-  category: string;
-}
+import { GalleryServices } from '../../../services/galleryServices/gallery.services';
 
 @Component({
   selector: 'app-gallerycard',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './gallerycard.html',
-  styleUrls: ['./gallerycard.css']
+  styleUrls: ['./gallerycard.css'],
 })
-export class Gallerycard {
-  gallery: GalleryItem[] = [
-    { id: 1, image: 'https://via.placeholder.com/80', title: 'Sunset', description: 'Beautiful sunset view', category: 'Nature' },
-    { id: 2, image: 'https://via.placeholder.com/80', title: 'City Lights', description: 'Night skyline', category: 'Urban' },
-    { id: 3, image: 'https://via.placeholder.com/80', title: 'Forest', description: 'Green forest path', category: 'Nature' }
-  ];
-
+export class Gallerycard implements OnInit {
+  gallery: any[] = [];
   searchText = '';
   page = 1;
-  itemsPerPage = 5;
+  itemsPerPage = 10;
 
   showEditModal = false;
   showDeleteModal = false;
   showUploadModal = false;
 
-  selectedItem: GalleryItem | null = null;
-  newItem: GalleryItem = { id: 0, image: '', title: '', description: '', category: '' };
+  selectedItem: any = null;
+  newItem: any = { imageUrl: '', title: '', description: '', category: '', date: '' };
+
+  constructor(private galleryService: GalleryServices, private cdr: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    this.loadGallery();
+  }
+
+  /* Load gallery from API */
+  loadGallery() {
+    this.galleryService.getGalleries().subscribe({
+      next: (data) => {
+        this.gallery = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Failed to load gallery', err),
+    });
+  }
 
   /* Filtered items */
-  get filteredGallery(): GalleryItem[] {
+  get filteredGallery(): any[] {
     if (!this.searchText) return this.gallery;
-    return this.gallery.filter(g =>
-      g.title.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      g.description.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      g.category.toLowerCase().includes(this.searchText.toLowerCase())
+    return this.gallery.filter(
+      (g) =>
+        g.title?.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        g.description?.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        g.category?.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
 
   /* Paginated items */
-  get paginatedGallery(): GalleryItem[] {
+  get paginatedGallery(): any[] {
     const start = (this.page - 1) * this.itemsPerPage;
     return this.filteredGallery.slice(start, start + this.itemsPerPage);
   }
 
-  nextPage() { if ((this.page * this.itemsPerPage) < this.filteredGallery.length) this.page++; }
-  prevPage() { if (this.page > 1) this.page--; }
+  nextPage() {
+    if (this.page * this.itemsPerPage < this.filteredGallery.length) this.page++;
+  }
 
-  /* Upload */
+  prevPage() {
+    if (this.page > 1) this.page--;
+  }
+
+  /* --- Upload modal --- */
   openUpload() {
-    this.newItem = { id: Date.now(), image: '', title: '', description: '', category: '' };
+    this.newItem = { imageUrl: '', title: '', description: '', category: '', date: '' };
     this.showUploadModal = true;
+    this.cdr.detectChanges();
+  }
+
+  onUploadFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.newItem.imageUrl = URL.createObjectURL(file);
+      // TODO: upload file to backend and get actual URL
+    }
   }
 
   uploadItem() {
-    if (this.newItem.image && this.newItem.title && this.newItem.description && this.newItem.category) {
-      this.gallery.push({ ...this.newItem });
-      this.closeModal();
-    } else alert('Please fill all fields!');
+    if (
+      this.newItem.imageUrl &&
+      this.newItem.title &&
+      this.newItem.description &&
+      this.newItem.category &&
+      this.newItem.date
+    ) {
+      this.galleryService.createGallery(this.newItem).subscribe({
+        next: () => {
+          this.loadGallery();
+          this.closeModal();
+          alert('Gallery item uploaded successfully!');
+          window.location.reload();
+        },
+        error: (err) => console.error('Upload failed', err),
+      });
+    } else {
+      alert('Please fill all fields!');
+    }
   }
 
-  /* Edit */
-  openEdit(item: GalleryItem) {
+  /* --- Edit modal --- */
+  openEdit(item: any) {
     this.selectedItem = { ...item };
     this.showEditModal = true;
+    this.cdr.detectChanges();
+  }
+
+  onEditFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.selectedItem.imageUrl = URL.createObjectURL(file);
+      // TODO: upload file to backend and get actual URL
+    }
   }
 
   saveEdit() {
-    if (this.selectedItem) {
-      const idx = this.gallery.findIndex(i => i.id === this.selectedItem!.id);
-      if (idx !== -1) this.gallery[idx] = this.selectedItem;
-    }
-    this.closeModal();
+    if (!this.selectedItem) return;
+
+    this.galleryService.updateGallery(this.selectedItem.id, this.selectedItem).subscribe({
+      next: () => {
+        this.loadGallery();
+        this.closeModal();
+        alert('Gallery item updated successfully!');
+        window.location.reload();
+      },
+      error: (err) => console.error('Update failed', err),
+    });
   }
 
-  /* Delete */
-  openDelete(item: GalleryItem) {
+  /* --- Delete modal --- */
+  openDelete(item: any) {
     this.selectedItem = item;
     this.showDeleteModal = true;
+    this.cdr.detectChanges();
   }
 
   deleteItem() {
-    if (this.selectedItem) this.gallery = this.gallery.filter(i => i.id !== this.selectedItem!.id);
-    this.closeModal();
+    if (!this.selectedItem) return;
+
+    this.galleryService.deleteGallery(this.selectedItem.id).subscribe({
+      next: () => {
+        this.loadGallery();
+        this.closeModal();
+        alert('Gallery item deleted successfully!');
+        window.location.reload();
+      },
+      error: (err) => console.error('Delete failed', err),
+    });
   }
 
-  /* Close */
+  /* Close all modals */
   closeModal() {
     this.showEditModal = false;
     this.showDeleteModal = false;
     this.showUploadModal = false;
     this.selectedItem = null;
+    this.cdr.detectChanges();
+  }
+
+  /* Close modal when clicking overlay */
+  closeModalOnOverlay(event: MouseEvent) {
+    if ((event.target as HTMLElement).classList.contains('modal')) {
+      this.closeModal();
+    }
   }
 }

@@ -1,12 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface AudioItem {
-  id: number;
-  title: string;
-  url: string;
-}
+import { AudioServices } from '../../../services/audioServices/audio.services';
 
 @Component({
   selector: 'app-audiocard',
@@ -15,24 +10,43 @@ interface AudioItem {
   templateUrl: './audiocard.html',
   styleUrls: ['./audiocard.css'],
 })
-export class Audiocard {
-  audioList: AudioItem[] = [
-    { id: 1, title: 'Sample Audio 1', url: 'assets/sample1.mp3' },
-    { id: 2, title: 'Sample Audio 2', url: 'assets/sample2.mp3' },
-  ];
-
+export class Audiocard implements OnInit {
+  audioList: any[] = [];
   searchTerm: string = '';
   currentPage: number = 1;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 10;
 
-  isModalOpen: boolean = false;
-  editingAudio: AudioItem | null = null;
-  modalData: { title: string; file: File | null } = { title: '', file: null };
+  // Modals state
+  isAddModalOpen = false;
+  isEditModalOpen = false;
+  isDeleteModalOpen = false;
 
-  // Pagination helpers
-  get filteredAudio(): AudioItem[] {
+  // Add / Edit / Delete data
+  newAudio: any = { title: '', audioUrl: '', date: '' };
+  editingAudio: any = null;
+  deletingAudio: any = null;
+
+  constructor(private audioService: AudioServices, private cd: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    this.loadAudios();
+  }
+
+  loadAudios() {
+    this.audioService.getAudios().subscribe({
+      next: data => {
+        this.audioList = data;
+        this.cd.detectChanges(); // Force Angular to update the view
+      },
+      error: err => console.error('Failed to load audios', err)
+    });
+  }
+
+  /* Pagination + Filter */
+  get filteredAudio(): any[] {
+    if (!this.searchTerm) return this.audioList;
     return this.audioList.filter(a =>
-      a.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+      a.title?.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
@@ -40,63 +54,123 @@ export class Audiocard {
     return Math.ceil(this.filteredAudio.length / this.itemsPerPage) || 1;
   }
 
-  paginatedAudio(): AudioItem[] {
+  paginatedAudio(): any[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredAudio.slice(start, start + this.itemsPerPage);
   }
 
-  nextPage() {
-    if (this.currentPage < this.totalPages()) this.currentPage++;
+  nextPage() { if (this.currentPage < this.totalPages()) this.currentPage++; }
+  prevPage() { if (this.currentPage > 1) this.currentPage--; }
+
+  /* --- ADD MODAL --- */
+  openAddModal() {
+    this.newAudio = { title: '', audioUrl: '', date: '' };
+    this.isAddModalOpen = true;
   }
 
-  prevPage() {
-    if (this.currentPage > 1) this.currentPage--;
+  closeAddModal() {
+    this.isAddModalOpen = false;
+    this.newAudio = { title: '', audioUrl: '', date: '' };
   }
 
-  // Modal
-  openModal(audio: AudioItem | null = null) {
-    this.isModalOpen = true;
-    this.editingAudio = audio;
-    this.modalData = audio
-      ? { title: audio.title, file: null }
-      : { title: '', file: null };
+  closeAddModalOnOverlay(event: MouseEvent) {
+    this.closeAddModal();
   }
 
-  closeModal() {
-    this.isModalOpen = false;
-    this.editingAudio = null;
-    this.modalData = { title: '', file: null };
-  }
-
-  onFileSelected(event: Event) {
+  onAddFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.modalData.file = input.files[0];
+    if (input.files?.length) {
+      const file = input.files[0];
+      this.newAudio.audioUrl = URL.createObjectURL(file);
     }
   }
 
-  saveAudio() {
-    if (this.editingAudio) {
-      this.editingAudio.title = this.modalData.title;
-      if (this.modalData.file) {
-        this.editingAudio.url = URL.createObjectURL(this.modalData.file);
-      }
-    } else {
-      const newAudio: AudioItem = {
-        id: this.audioList.length + 1,
-        title: this.modalData.title,
-        url: this.modalData.file ? URL.createObjectURL(this.modalData.file) : '',
-      };
-      this.audioList.push(newAudio);
+  saveAddAudioAndClose() {
+    if (!this.newAudio.title || !this.newAudio.audioUrl || !this.newAudio.date) {
+      alert('Please fill all fields!');
+      return;
     }
-    this.closeModal();
+    this.audioService.createAudio(this.newAudio).subscribe({
+      next: () => {
+        this.loadAudios();
+        this.isAddModalOpen = false;
+        this.newAudio = { title: '', audioUrl: '', date: '' };
+        this.cd.detectChanges();
+        alert('Audio added successfully!');
+        window.location.reload();
+      },
+      error: err => console.error('Failed to add audio', err)
+    });
   }
 
-  editAudio(audio: AudioItem) {
-    this.openModal(audio);
+  /* --- EDIT MODAL --- */
+  openEditModal(audio: any) {
+    this.editingAudio = { ...audio };
+    this.isEditModalOpen = true;
   }
 
-  deleteAudio(audio: AudioItem) {
-    this.audioList = this.audioList.filter(a => a.id !== audio.id);
+  closeEditModal() {
+    this.isEditModalOpen = false;
+    this.editingAudio = null;
+  }
+
+  closeEditModalOnOverlay(event: MouseEvent) {
+    this.closeEditModal();
+  }
+
+  onEditFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      const file = input.files[0];
+      this.editingAudio.audioUrl = URL.createObjectURL(file);
+    }
+  }
+
+  saveEditAudioAndClose() {
+    if (!this.editingAudio.title || !this.editingAudio.audioUrl || !this.editingAudio.date) {
+      alert('Please fill all fields!');
+      return;
+    }
+    this.audioService.updateAudio(this.editingAudio.id, this.editingAudio).subscribe({
+      next: () => {
+        this.loadAudios();
+        this.isEditModalOpen = false;
+        this.editingAudio = null;
+        this.cd.detectChanges();
+        alert('Audio updated successfully!');
+        window.location.reload();
+      },
+      error: err => console.error('Failed to update audio', err)
+    });
+  }
+
+  /* --- DELETE MODAL --- */
+  openDeleteModal(audio: any) {
+    this.deletingAudio = audio;
+    this.isDeleteModalOpen = true;
+  }
+
+  closeDeleteModal() {
+    this.isDeleteModalOpen = false;
+    this.deletingAudio = null;
+  }
+
+  closeDeleteModalOnOverlay(event: MouseEvent) {
+    this.closeDeleteModal();
+  }
+
+  confirmDeleteAndClose() {
+    if (!this.deletingAudio) return;
+    this.audioService.deleteAudio(this.deletingAudio.id).subscribe({
+      next: () => {
+        this.loadAudios();
+        this.isDeleteModalOpen = false;
+        this.deletingAudio = null;
+        this.cd.detectChanges();
+        alert('Audio deleted successfully!');
+        window.location.reload();
+      },
+      error: err => console.error('Failed to delete audio', err)
+    });
   }
 }

@@ -9,6 +9,8 @@ namespace server.Models
         public string? Title { get; set; } // Nullable title
 
         // Store audio file path, URL, or base64 string
-        public string? Audio { get; set; } // Nullable audio content
+        public string? AudioUrl { get; set; } // Nullable audio content
+
+          public DateOnly? Date { get; set; }  
     }
 }

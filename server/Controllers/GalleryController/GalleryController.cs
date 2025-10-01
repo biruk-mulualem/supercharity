@@ -20,7 +20,12 @@ namespace server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GalleryModel>>> GetGalleries()
         {
-            return await _context.Galleries.ToListAsync();
+            // Return all galleries, sorted by Date ascending
+            var galleries = await _context.Galleries
+                .OrderByDescending(g => g.Date)
+                .ToListAsync();
+
+            return Ok(galleries);
         }
 
         // GET: api/Galleries/5
@@ -30,15 +35,18 @@ namespace server.Controllers
             var gallery = await _context.Galleries.FindAsync(id);
 
             if (gallery == null)
-                return NotFound();
+                return NotFound(new { message = $"Gallery with Id {id} not found." });
 
-            return gallery;
+            return Ok(gallery);
         }
 
         // POST: api/Galleries
         [HttpPost]
-        public async Task<ActionResult<GalleryModel>> CreateGallery(GalleryModel gallery)
+        public async Task<ActionResult<GalleryModel>> CreateGallery([FromBody] GalleryModel gallery)
         {
+            if (gallery == null)
+                return BadRequest(new { message = "Gallery data is required." });
+
             _context.Galleries.Add(gallery);
             await _context.SaveChangesAsync();
 
@@ -47,12 +55,21 @@ namespace server.Controllers
 
         // PUT: api/Galleries/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateGallery(int id, GalleryModel gallery)
+        public async Task<IActionResult> UpdateGallery(int id, [FromBody] GalleryModel gallery)
         {
-            if (id != gallery.Id)
-                return BadRequest();
+            if (gallery == null || id != gallery.Id)
+                return BadRequest(new { message = "Invalid gallery data or ID mismatch." });
 
-            _context.Entry(gallery).State = EntityState.Modified;
+            var existingGallery = await _context.Galleries.FindAsync(id);
+            if (existingGallery == null)
+                return NotFound(new { message = $"Gallery with Id {id} not found." });
+
+            // Update fields
+            existingGallery.Title = gallery.Title;
+            existingGallery.Description = gallery.Description;
+            existingGallery.Category = gallery.Category;
+            existingGallery.imageUrl = gallery.imageUrl;
+            existingGallery.Date = gallery.Date;
 
             try
             {
@@ -60,10 +77,7 @@ namespace server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Galleries.Any(e => e.Id == id))
-                    return NotFound();
-                else
-                    throw;
+                return StatusCode(500, new { message = "Failed to update the gallery due to a concurrency issue." });
             }
 
             return NoContent();
@@ -75,7 +89,7 @@ namespace server.Controllers
         {
             var gallery = await _context.Galleries.FindAsync(id);
             if (gallery == null)
-                return NotFound();
+                return NotFound(new { message = $"Gallery with Id {id} not found." });
 
             _context.Galleries.Remove(gallery);
             await _context.SaveChangesAsync();

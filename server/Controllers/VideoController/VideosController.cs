@@ -20,7 +20,11 @@ namespace server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VideoModel>>> GetVideos()
         {
-            return await _context.Videos.ToListAsync();
+            // Fetch videos ordered by date descending
+            var videos = await _context.Videos
+                                       .OrderByDescending(v => v.Date) // descending
+                                       .ToListAsync();
+            return videos;
         }
 
         // GET: api/Videos/5

@@ -17,11 +17,13 @@ namespace server.Controllers
         }
 
         // GET: api/Articles
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ArticleModel>>> GetArticles()
-        {
-            return await _context.Articles.ToListAsync();
-        }
+     [HttpGet]
+public async Task<ActionResult<IEnumerable<ArticleModel>>> GetArticles()
+{
+    return await _context.Articles
+        .OrderByDescending(a => a.Date)   // ✅ Sort newest → oldest
+        .ToListAsync();
+}
 
         // GET: api/Articles/5
         [HttpGet("{id}")]

@@ -10,8 +10,8 @@ namespace server.Models
         public string? Title { get; set; }        // Nullable
         public string? Description { get; set; }  // Nullable
         public string? Writer { get; set; }       // Nullable
-
         // If you want multiple tags, you can use a list of strings
         public string? Tag { get; set; }  
+         public DateOnly? Date { get; set; }  
     }
 }

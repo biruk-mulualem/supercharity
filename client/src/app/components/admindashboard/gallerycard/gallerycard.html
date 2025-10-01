@@ -1,5 +1,4 @@
-
-      <div class="upload-section">
+<div class="upload-section">
   <h2>Gallery Management</h2>
 
   <!-- Controls -->
@@ -17,16 +16,18 @@
         <th>Title</th>
         <th>Description</th>
         <th>Category</th>
+        <th>Date</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of paginatedGallery">
-        <td>{{ item.id }}</td>
-        <td><img [src]="item.image" alt="{{ item.title }}" width="60"></td>
+      <tr *ngFor="let item of paginatedGallery; let i=index">
+        <td>{{ (page - 1) * itemsPerPage + i + 1 }}</td>
+        <td><img [src]="item.imageUrl" alt="{{ item.title }}" width="60"></td>
         <td>{{ item.title }}</td>
         <td>{{ item.description }}</td>
         <td>{{ item.category }}</td>
+        <td>{{ item.date }}</td>
         <td class="actions">
           <button class="edit-btn" (click)="openEdit(item)">Edit</button>
           <button class="delete-btn" (click)="openDelete(item)">Delete</button>
@@ -41,46 +42,78 @@
     <span>Page {{ page }}</span>
     <button (click)="nextPage()" [disabled]="page >= (filteredGallery.length/itemsPerPage)">Next</button>
   </div>
+</div>
 
-  <!-- Upload Modal -->
-  <div class="modal" *ngIf="showUploadModal">
-    <div class="modal-content">
-      <h3>Upload Image</h3>
-      <div class="form-group"><label>Image URL</label><input [(ngModel)]="newItem.image"></div>
-      <div class="form-group"><label>Title</label><input [(ngModel)]="newItem.title"></div>
-      <div class="form-group"><label>Description</label><input [(ngModel)]="newItem.description"></div>
-      <div class="form-group"><label>Category</label><input [(ngModel)]="newItem.category"></div>
-      <div class="modal-actions">
-        <button (click)="uploadItem()">Save</button>
-        <button (click)="closeModal()">Cancel</button>
-      </div>
+<!-- Upload Modal -->
+<div class="modal" *ngIf="showUploadModal" (click)="closeModalOnOverlay($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Upload Image</h3>
+    <div class="form-group">
+      <label>Image File</label>
+      <input type="file" (change)="onUploadFileSelected($event)">
     </div>
-  </div>
-
-  <!-- Edit Modal -->
-  <div class="modal" *ngIf="showEditModal">
-    <div class="modal-content">
-      <h3>Edit Image</h3>
-      <div class="form-group"><label>Title</label><input [(ngModel)]="selectedItem!.title"></div>
-      <div class="form-group"><label>Description</label><input [(ngModel)]="selectedItem!.description"></div>
-      <div class="form-group"><label>Category</label><input [(ngModel)]="selectedItem!.category"></div>
-      <div class="modal-actions">
-        <button (click)="saveEdit()">Save</button>
-        <button (click)="closeModal()">Cancel</button>
-      </div>
+    <div class="form-group">
+      <label>Title</label>
+      <input [(ngModel)]="newItem.title" placeholder="Enter title">
     </div>
-  </div>
-
-  <!-- Delete Modal -->
-  <div class="modal" *ngIf="showDeleteModal">
-    <div class="modal-content">
-      <h3>Confirm Delete</h3>
-      <p>Are you sure you want to delete "{{ selectedItem?.title }}"?</p>
-      <div class="modal-actions">
-        <button (click)="deleteItem()">Yes, Delete</button>
-        <button (click)="closeModal()">Cancel</button>
-      </div>
+    <div class="form-group">
+      <label>Description</label>
+      <input [(ngModel)]="newItem.description" placeholder="Enter description">
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <input [(ngModel)]="newItem.category" placeholder="Enter category">
+    </div>
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" [(ngModel)]="newItem.date">
+    </div>
+    <div class="modal-actions">
+      <button (click)="uploadItem()">Save</button>
+      <button (click)="closeModal()">Cancel</button>
     </div>
   </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal" *ngIf="showEditModal" (click)="closeModalOnOverlay($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Edit Image</h3>
+    <div class="form-group">
+      <label>Image File</label>
+      <input type="file" (change)="onEditFileSelected($event)">
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      <input [(ngModel)]="selectedItem!.title" placeholder="Enter title">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <input [(ngModel)]="selectedItem!.description" placeholder="Enter description">
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <input [(ngModel)]="selectedItem!.category" placeholder="Enter category">
+    </div>
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" [(ngModel)]="selectedItem!.date">
+    </div>
+    <div class="modal-actions">
+      <button (click)="saveEdit()">Save</button>
+      <button (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal" *ngIf="showDeleteModal" (click)="closeModalOnOverlay($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Confirm Delete</h3>
+    <p>Are you sure you want to delete "{{ selectedItem?.title }}"?</p>
+    <div class="modal-actions">
+      <button (click)="deleteItem()">Yes, Delete</button>
+      <button (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>

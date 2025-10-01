@@ -3,33 +3,30 @@
 
   <!-- Controls -->
   <div class="controls">
-    <input
-      type="text"
-      class="search-input"
-      placeholder="Search audio..."
-      [(ngModel)]="searchTerm"
-    />
-    <button class="upload-btn" (click)="openModal()">+ Add Audio</button>
+    <input type="text" class="search-input" placeholder="Search audio..." [(ngModel)]="searchTerm" />
+    <button class="upload-btn" (click)="openAddModal()">+ Add Audio</button>
   </div>
 
   <!-- Audio Table -->
   <table>
     <thead>
       <tr>
+        <th>Id</th>
         <th>Audio</th>
         <th>Title</th>
+        <th>Date</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let audio of paginatedAudio()">
-        <td>
-          <audio controls [src]="audio.url" preload="none"></audio>
-        </td>
+      <tr *ngFor="let audio of paginatedAudio();let i = index">
+           <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+        <td><audio controls [src]="audio.audioUrl" preload="none"></audio></td>
         <td>{{ audio.title }}</td>
+        <td>{{ audio.date }}</td>
         <td class="actions">
-          <button class="edit-btn" (click)="editAudio(audio)">Edit</button>
-          <button class="delete-btn" (click)="deleteAudio(audio)">Delete</button>
+          <button class="edit-btn" (click)="openEditModal(audio)">Edit</button>
+          <button class="delete-btn" (click)="openDeleteModal(audio)">Delete</button>
         </td>
       </tr>
     </tbody>
@@ -43,29 +40,60 @@
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal" *ngIf="isModalOpen">
-  <div class="modal-content">
-    <h3>{{ editingAudio ? 'Edit Audio' : 'Add Audio' }}</h3>
-
+<!-- Add Modal -->
+<div class="modal" *ngIf="isAddModalOpen" (click)="closeAddModalOnOverlay($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Add Audio</h3>
     <div class="form-group">
-      <label for="audioTitle">Title</label>
-      <input
-        id="audioTitle"
-        type="text"
-        [(ngModel)]="modalData.title"
-        placeholder="Enter title"
-      />
+      <label>Title</label>
+      <input type="text" [(ngModel)]="newAudio.title" placeholder="Enter title" />
     </div>
-
     <div class="form-group">
-      <label for="audioFile">Audio File</label>
-      <input id="audioFile" type="file" (change)="onFileSelected($event)" />
+      <label>Audio File</label>
+      <input type="file" (change)="onAddFileSelected($event)" />
     </div>
-
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" [(ngModel)]="newAudio.date" />
+    </div>
     <div class="modal-actions">
-      <button (click)="saveAudio()">Save</button>
-      <button (click)="closeModal()">Cancel</button>
+      <button (click)="saveAddAudioAndClose()">Save</button>
+      <button (click)="closeAddModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal" *ngIf="isEditModalOpen" (click)="closeEditModalOnOverlay($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Edit Audio</h3>
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" [(ngModel)]="editingAudio.title" placeholder="Enter title" />
+    </div>
+    <div class="form-group">
+      <label>Audio File</label>
+      <input type="file" (change)="onEditFileSelected($event)" />
+    </div>
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" [(ngModel)]="editingAudio.date" />
+    </div>
+    <div class="modal-actions">
+      <button (click)="saveEditAudioAndClose()">Save</button>
+      <button (click)="closeEditModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal" *ngIf="isDeleteModalOpen" (click)="closeDeleteModalOnOverlay($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Delete Audio</h3>
+    <p>Are you sure you want to delete "{{ deletingAudio?.title }}"?</p>
+    <div class="modal-actions">
+      <button (click)="confirmDeleteAndClose()">Yes, Delete</button>
+      <button (click)="closeDeleteModal()">Cancel</button>
     </div>
   </div>
 </div>

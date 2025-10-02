@@ -77,6 +77,8 @@ export class Videocard implements OnInit {
     if (this.page > 1) this.page--;
   }
 
+
+
   /* --- Modals Open/Close --- */
   openEdit(video: any) {
     this.selectedVideo = { ...video };

@@ -1,11 +1,58 @@
 {
   "Version": 1,
-  "Hash": "wHmTdzQjOI+52yc/ssik8jb3aBon0KdSXd8S7aZ3iSw=",
+  "Hash": "eZbIgMUmkY5SFp9orGMNpxGq0SumjkzPcd7zeUJLH2o=",
   "Source": "server",
   "BasePath": "_content/server",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "server\\wwwroot",
+      "Source": "server",
+      "ContentRoot": "D:\\sharp\\supercharity\\server\\wwwroot\\",
+      "BasePath": "_content/server",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\sharp\\supercharity\\server\\wwwroot\\uploads\\audios\\8b648f1e-8515-419f-b207-8e0882ce76ea.mp3",
+      "SourceId": "server",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\sharp\\supercharity\\server\\wwwroot\\",
+      "BasePath": "_content/server",
+      "RelativePath": "uploads/audios/8b648f1e-8515-419f-b207-8e0882ce76ea.mp3",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\audios\\8b648f1e-8515-419f-b207-8e0882ce76ea.mp3"
+    },
+    {
+      "Identity": "D:\\sharp\\supercharity\\server\\wwwroot\\uploads\\images\\5afd0d39-568f-4a48-9e4c-8e69da6be21e.webp",
+      "SourceId": "server",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\sharp\\supercharity\\server\\wwwroot\\",
+      "BasePath": "_content/server",
+      "RelativePath": "uploads/images/5afd0d39-568f-4a48-9e4c-8e69da6be21e.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\images\\5afd0d39-568f-4a48-9e4c-8e69da6be21e.webp"
+    }
+  ]
 }

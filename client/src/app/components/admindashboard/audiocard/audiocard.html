@@ -3,7 +3,12 @@
 
   <!-- Controls -->
   <div class="controls">
-    <input type="text" class="search-input" placeholder="Search audio..." [(ngModel)]="searchTerm" />
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search audio..."
+      [(ngModel)]="searchTerm"
+    />
     <button class="upload-btn" (click)="openAddModal()">+ Add Audio</button>
   </div>
 
@@ -19,11 +24,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let audio of paginatedAudio();let i = index">
-           <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-        <td><audio controls [src]="audio.audioUrl" preload="none"></audio></td> 
+      <tr *ngFor="let audio of paginatedAudio(); let i = index">
+        <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+        <td>
+         <audio controls [src]="staticUrl + audio.audioUrl" preload="none"></audio>
+
+        </td>
         <td>{{ audio.title }}</td>
-        <td>{{ audio.date }}</td>
+        <td>{{ audio.date | date: 'yyyy-MM-dd' }}</td>
         <td class="actions">
           <button class="edit-btn" (click)="openEditModal(audio)">Edit</button>
           <button class="delete-btn" (click)="openDeleteModal(audio)">Delete</button>
@@ -36,25 +44,45 @@
   <div class="pagination">
     <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
     <span>Page {{ currentPage }} of {{ totalPages() }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages()">Next</button>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages()">
+      Next
+    </button>
   </div>
 </div>
 
 <!-- Add Modal -->
-<div class="modal" *ngIf="isAddModalOpen" (click)="closeAddModalOnOverlay($event)">
+<div
+  class="modal"
+  *ngIf="isAddModalOpen"
+  (click)="closeAddModalOnOverlay($event)"
+>
   <div class="modal-content" (click)="$event.stopPropagation()">
     <h3>Add Audio (.mp3 only)</h3>
     <div class="form-group">
       <label>Title</label>
-      <input type="text" [(ngModel)]="newAudio.title" placeholder="Enter title"  />
+      <input
+        type="text"
+        [(ngModel)]="newAudio.title"
+        placeholder="Enter title"
+        required
+      />
     </div>
     <div class="form-group">
       <label>Audio File</label>
-      <input type="file" (change)="onAddFileSelected($event)" accept=".mp3,audio/mpeg" />
+      <input
+        type="file"
+        (change)="onAddFileSelected($event)"
+        accept=".mp3,audio/mpeg"
+        required
+      />
     </div>
     <div class="form-group">
       <label>Date</label>
-      <input type="date" [(ngModel)]="newAudio.date" />
+      <input
+        type="date"
+        [(ngModel)]="newAudio.date"
+        required
+      />
     </div>
     <div class="modal-actions">
       <button (click)="saveAddAudioAndClose()">Save</button>
@@ -64,20 +92,37 @@
 </div>
 
 <!-- Edit Modal -->
-<div class="modal" *ngIf="isEditModalOpen" (click)="closeEditModalOnOverlay($event)">
+<div
+  class="modal"
+  *ngIf="isEditModalOpen"
+  (click)="closeEditModalOnOverlay($event)"
+>
   <div class="modal-content" (click)="$event.stopPropagation()">
     <h3>Edit Audio</h3>
     <div class="form-group">
       <label>Title</label>
-      <input type="text" [(ngModel)]="editingAudio.title" placeholder="Enter title" />
+      <input
+        type="text"
+        [(ngModel)]="editingAudio.title"
+        placeholder="Enter title"
+        required
+      />
     </div>
     <div class="form-group">
-      <label>Audio File</label>
-      <input type="file" (change)="onEditFileSelected($event)"  accept=".mp3,audio/mpeg"/>
+      <label>Audio File (leave empty to keep existing)</label>
+      <input
+        type="file"
+        (change)="onEditFileSelected($event)"
+        accept=".mp3,audio/mpeg"
+      />
     </div>
     <div class="form-group">
       <label>Date</label>
-      <input type="date" [(ngModel)]="editingAudio.date" />
+      <input
+        type="date"
+        [(ngModel)]="editingAudio.date"
+        required
+      />
     </div>
     <div class="modal-actions">
       <button (click)="saveEditAudioAndClose()">Save</button>
@@ -87,7 +132,11 @@
 </div>
 
 <!-- Delete Modal -->
-<div class="modal" *ngIf="isDeleteModalOpen" (click)="closeDeleteModalOnOverlay($event)">
+<div
+  class="modal"
+  *ngIf="isDeleteModalOpen"
+  (click)="closeDeleteModalOnOverlay($event)"
+>
   <div class="modal-content" (click)="$event.stopPropagation()">
     <h3>Delete Audio</h3>
     <p>Are you sure you want to delete "{{ deletingAudio?.title }}"?</p>

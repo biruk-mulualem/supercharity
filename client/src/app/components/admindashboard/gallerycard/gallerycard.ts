@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GalleryServices } from '../../../services/galleryServices/gallery.services';
+import { environment } from '../../../../environments/environment';
+
 
 @Component({
   selector: 'app-gallerycard',
@@ -11,6 +13,10 @@ import { GalleryServices } from '../../../services/galleryServices/gallery.servi
   styleUrls: ['./gallerycard.css'],
 })
 export class Gallerycard implements OnInit {
+
+  apiUrl = environment.apiUrl;
+staticUrl = environment.staticUrl;
+
   gallery: any[] = [];
   searchText = '';
   page = 1;
@@ -22,7 +28,7 @@ export class Gallerycard implements OnInit {
 
   selectedItem: any = null;
   newItem: any = { imageUrl: '', title: '', description: '', category: '', date: '' };
-
+uploadedFile: File | null = null; // Add this property at top of component
   constructor(private galleryService: GalleryServices, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
@@ -72,46 +78,58 @@ export class Gallerycard implements OnInit {
     this.cdr.detectChanges();
   }
 
+
 onUploadFileSelected(event: Event) {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {
     const file = input.files[0];
 
-    // ✅ Check WebP format
     if (file.type !== 'image/webp') {
-      alert('Only .webp format is supported. Please upload a WebP image.');
-      input.value = ''; // Reset input
+      alert('Only .webp format is supported.');
+      input.value = ''; // Reset
+      this.uploadedFile = null;
       return;
     }
 
-    this.newItem.imageUrl = URL.createObjectURL(file);
-    // TODO: upload file to backend and get actual URL
+    this.uploadedFile = file;
+    this.newItem.imageUrl = URL.createObjectURL(file); // For preview only
   }
 }
-
-
-
-  uploadItem() {
-    if (
-      this.newItem.imageUrl &&
-      this.newItem.title &&
-      this.newItem.description &&
-      this.newItem.category &&
-      this.newItem.date
-    ) {
-      this.galleryService.createGallery(this.newItem).subscribe({
-        next: () => {
-          this.loadGallery();
-          this.closeModal();
-          alert('Gallery item uploaded successfully!');
-          window.location.reload();
-        },
-        error: (err) => console.error('Upload failed', err),
-      });
-    } else {
-      alert('Please fill all fields!');
-    }
+uploadItem() {
+  if (
+    !this.uploadedFile || // New property to track selected file
+    !this.newItem.title ||
+    !this.newItem.description ||
+    !this.newItem.category ||
+    !this.newItem.date
+  ) {
+    alert('Please fill all fields and select a WebP image!');
+    return;
   }
+
+  const formData = new FormData();
+formData.append('ImageFile', this.uploadedFile);
+
+  formData.append('Title', this.newItem.title);
+  formData.append('Description', this.newItem.description);
+  formData.append('Category', this.newItem.category);
+formData.append('Date', this.newItem.date); // likely "2025-10-02"
+
+
+  this.galleryService.createGallery(formData).subscribe({
+    next: () => {
+      this.loadGallery();
+      this.closeModal();
+      alert('Gallery item uploaded successfully!');
+      window.location.reload();
+    },
+    error: (err) => {
+      console.error('Upload failed', err);
+      alert('Upload failed');
+    },
+  });
+}
+
 
   /* --- Edit modal --- */
   openEdit(item: any) {
@@ -124,32 +142,44 @@ onEditFileSelected(event: Event) {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {
     const file = input.files[0];
-
-    // ✅ Check WebP format
     if (file.type !== 'image/webp') {
-      alert('Only .webp format is supported. Please upload a WebP image.');
-      input.value = ''; // Reset input
+      alert('Only .webp format is supported.');
+      input.value = '';
       return;
     }
 
+    this.uploadedFile = file;
     this.selectedItem.imageUrl = URL.createObjectURL(file);
-    // TODO: upload file to backend and get actual URL
   }
 }
 
-  saveEdit() {
-    if (!this.selectedItem) return;
+saveEdit() {
+  if (!this.selectedItem) return;
 
-    this.galleryService.updateGallery(this.selectedItem.id, this.selectedItem).subscribe({
-      next: () => {
-        this.loadGallery();
-        this.closeModal();
-        alert('Gallery item updated successfully!');
-        window.location.reload();
-      },
-      error: (err) => console.error('Update failed', err),
-    });
+  const formData = new FormData();
+  formData.append('Title', this.selectedItem.title);
+  formData.append('Description', this.selectedItem.description);
+  formData.append('Category', this.selectedItem.category);
+  formData.append('Date', this.selectedItem.date);
+
+  // If user selected new image file, append it; else don't append image file
+  if (this.uploadedFile) {
+    formData.append('ImageFile', this.uploadedFile);
   }
+
+  this.galleryService.updateGallery(this.selectedItem.id, formData).subscribe({
+    next: () => {
+      this.loadGallery();
+      this.closeModal();
+      alert('Gallery item updated successfully!');
+    },
+    error: (err) => {
+      console.error('Update failed', err);
+      alert('Update failed');
+    }
+  });
+}
+
 
   /* --- Delete modal --- */
   openDelete(item: any) {
@@ -166,7 +196,9 @@ onEditFileSelected(event: Event) {
         this.loadGallery();
         this.closeModal();
         alert('Gallery item deleted successfully!');
-        window.location.reload();
+       window.location.reload();
+this.loadGallery();
+
       },
       error: (err) => console.error('Delete failed', err),
     });

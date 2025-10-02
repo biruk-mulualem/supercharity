@@ -8,41 +8,55 @@
   </div>
 
   <!-- Video Table -->
-  <table>
-    <thead>
-      <tr>
-        <th>Id</th>
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
       <th class="video-col">Video</th>
-        <th>Description</th>
-        <th>Category</th>
-        <th>Date</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let video of paginatedVideos let i=index ">
-         <td>{{ (page - 1) * itemsPerPage + i + 1 }}</td>
-<td class="video-cell">
-  <iframe
-    *ngIf="video.videoUrl"
-    [src]="getSafeUrl(video.videoUrl)"
-    allowfullscreen>
-  </iframe>
-</td>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let video of paginatedVideos; let i = index">
+      <td >
+        <span>{{ (page - 1) * itemsPerPage + i + 1 }}</span>
+      </td>
 
+      <td class="video-col video-cell" >
+        <a
+          href="{{ video.videoUrl }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="video-icon-link"
+          aria-label="Open video in new tab"
+        >
+          ▶️
+        </a>
+      </td>
 
+      <td >
+        <span>{{ video.description }}</span>
+      </td>
 
+      <td >
+        <span>{{ video.category }}</span>
+      </td>
 
-        <td>{{ video.description }}</td>
-        <td>{{ video.category }}</td>
-        <td>{{ video.date}}</td>
-        <td class="actions">
-          <button class="edit-btn" (click)="openEdit(video)">Edit</button>
-          <button class="delete-btn" (click)="openDelete(video)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+      <td >
+        <span>{{ video.date }}</span>
+      </td>
+
+      <td class="actions" >
+        <button class="edit-btn" (click)="openEdit(video)">Edit</button>
+        <button class="delete-btn" (click)="openDelete(video)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 
   <!-- Pagination -->
   <div class="pagination">

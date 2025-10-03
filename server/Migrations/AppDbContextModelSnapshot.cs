@@ -145,6 +145,9 @@ namespace server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("VideoUrl")
                         .HasColumnType("longtext");
 

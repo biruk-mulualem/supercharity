@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-
+import { RouterLink, RouterLinkActive } from '@angular/router';
+RouterLinkActive
 @Component({
   selector: 'app-footercard',
-  imports: [],
+  imports: [RouterLink,RouterLinkActive],
   templateUrl: './footercard.html',
   styleUrl: './footercard.css'
 })

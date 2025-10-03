@@ -1,47 +1,22 @@
-  <!-- Audio Section -->
-  <section class="media-section">
-    <div class="section-header">
-      <div class="section-title"><span></span><h2>Audio</h2><span></span></div>
-      <!-- <button class="see-more-btn">See More</button> -->
-
-          <a routerLink="/audiopage" routerLinkActive="active" class="Audio-btn">See More</a>
+<!-- Audio Section -->
+<section class="media-section">
+  <div class="section-header">
+    <div class="section-title">
+      <span></span>
+      <h2>Audio</h2>
+      <span></span>
     </div>
-    <div class="media-row">
-      <div class="audio-card">
-        <img src="https://picsum.photos/300/200?grayscale&random=10"
-          alt="Person with headset">
-        <audio controls src="sample.mp3"></audio>
-        <div class="card-overlay">
-          <h3>one </h3>
+    <a routerLink="/audiopage" routerLinkActive="active" class="Audio-btn">Listen More</a>
+  </div>
 
-        </div>
-      </div>
-      <div class="audio-card">
-        <img src="https://picsum.photos/301/200?grayscale&random=11"
-          alt="Person with headset">
-        <audio controls src="sample.mp3"></audio>
-        <div class="card-overlay">
-          <h3> two</h3>
-
-        </div>
-      </div>
-      <div class="audio-card">
-        <img src="https://picsum.photos/302/200?grayscale&random=12"
-          alt="Person with headset">
-        <audio controls src="sample.mp3"></audio>
-        <div class="card-overlay">
-          <h3> three</h3>
-
-        </div>
-      </div>
-      <div class="audio-card">
-        <img src="https://picsum.photos/303/200?grayscale&random=13"
-          alt="Person with headset">
-        <audio controls src="sample.mp3"></audio>
-        <div class="card-overlay">
-          <h3>four </h3>
-
-        </div>
+  <div class="media-row">
+    <div class="audio-card" *ngFor="let audio of audios">
+        <img [src]="audio.imageUrl" alt="Audio Image">
+      <audio controls [src]="staticUrl + audio.audioUrl" preload="none"></audio>
+      <div class="card-overlay">
+        <h3>{{ audio.title }}</h3>
+        <h3>Posted Date: {{ audio.date }}</h3>
       </div>
     </div>
-  </section>
+  </div>
+</section>

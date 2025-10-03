@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { VideoServices } from '../../../services/videoServices/video.services';
+import { VideoServices } from '../../../services/adminService/videoServices/video.services';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({

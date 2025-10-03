@@ -1,12 +1,32 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router'; // <-- import RouterModule
+import { Component, OnInit } from '@angular/core';
+import {  ChangeDetectorRef } from '@angular/core';
+import { environment } from '../../../../environments/environment';
+import { HomepagevideoServices } from '../../../services/userService/homepagevideoService/homepagevideo.services';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-homepagevideocard',
-  imports: [RouterModule],
+  imports: [CommonModule],
   templateUrl: './homepagevideocard.html',
-  styleUrl: './homepagevideocard.css'
+  styleUrls: ['./homepagevideocard.css'], // fixed typo: styleUrl -> styleUrls
+  standalone: true
 })
-export class Homepagevideocard {
+export class Homepagevideocard implements OnInit {
+  apiUrl = environment.apiUrl;
+  staticUrl = environment.staticUrl;
+  videos: any[] = [];
 
+  constructor(private videoService: HomepagevideoServices,private cd: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    this.videoService.getVideos().subscribe({
+      next: (data) => {
+        this.videos = data;
+      this.cd.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load videos', err);
+      }
+    });
+  }
 }

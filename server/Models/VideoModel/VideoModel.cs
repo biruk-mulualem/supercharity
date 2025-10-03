@@ -11,6 +11,7 @@ namespace server.Models
 
         public string? Description { get; set; }  // Nullable description
         public string? Category { get; set; }     // Nullable category
+          public string? Title { get; set; }     // Nullable category
           public DateOnly? Date { get; set; }  
     }
 }

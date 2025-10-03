@@ -1,44 +1,19 @@
-  <!-- Videos Section -->
 <section class="media-section">
   <div class="section-header">
-    <div class="section-title"><span></span><h2>Videos</h2><span></span></div>
-    <!-- <button class="see-more-btn">See More</button> -->
-
-      <a routerLink="/videopage" routerLinkActive="active" class="video-btn">See More</a>
+    <div class="section-title">
+      <span></span><h2>Videos</h2><span></span>
+    </div>
+    <a routerLink="/videopage" class="video-btn">See More</a>
   </div>
 
- <div class="media-row">
-  <div class="video-card">
-    <video src="education-charity.mp4" controls></video>
-    <div class="card-overlay">
-      <h3>Education for All</h3>
-      <p>See how nonprofits are changing lives by bringing education to underserved communities worldwide.</p>
+  <div class="media-row">
+    <div class="video-card" *ngFor="let video of videos">
+      <video [src]="staticUrl + video.videoUrl" controls></video>
+      <div class="card-overlay">
+        <h3>{{ video.title || 'Untitled' }}</h3>
+        <p>{{ video.description }}</p>
+        <p>{{ video.category }}</p>
+      </div>
     </div>
   </div>
-
-  <div class="video-card">
-    <video src="hunger-relief.mp4" controls></video>
-    <div class="card-overlay">
-      <h3>Feeding Hope</h3>
-      <p>Follow the journey of food banks and volunteers as they combat hunger in local neighborhoods.</p>
-    </div>
-  </div>
-
-  <div class="video-card">
-    <video src="environmental-action.mp4" controls></video>
-    <div class="card-overlay">
-      <h3>Green Change</h3>
-      <p>Discover how grassroots organizations are protecting our planet through reforestation and clean energy.</p>
-    </div>
-  </div>
-
-  <div class="video-card">
-    <video src="healthcare-access.mp4" controls></video>
-    <div class="card-overlay">
-      <h3>Health for Humanity</h3>
-      <p>Experience mobile clinics in action, providing critical care to people in remote and underserved areas.</p>
-    </div>
-  </div>
-</div>
-
 </section>

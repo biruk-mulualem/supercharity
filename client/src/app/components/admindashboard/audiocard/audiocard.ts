@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AudioServices } from '../../../services/audioServices/audio.services';
+import { AudioServices } from '../../../services/adminService/audioServices/audio.services';
 import { environment } from '../../../../environments/environment';
 
 @Component({

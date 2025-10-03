@@ -6,7 +6,7 @@
     </div>
   
 
-     <a routerLink="/articlepage" routerLinkActive="active" class="Articles-btn">See More</a>
+     <a routerLink="/articlepage" routerLinkActive="active" class="Articles-btn">Read More</a>
 
   </div>
 
@@ -24,12 +24,12 @@
             <span *ngFor="let tag of article.tags">{{ tag }}</span>
           </div>
           <div class="writer">By {{ article.writer }}</div>
+          <div class="writer">Posted Dated {{ article.date }}</div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
 <!-- Modal -->
 <div class="modal-backdrop" *ngIf="modalOpen" (click)="closeModal()"></div>
 <div class="modal" *ngIf="modalOpen">
@@ -38,6 +38,9 @@
   <div class="tags">
     <span *ngFor="let tag of selectedArticle?.tags">{{ tag }}</span>
   </div>
-  <div class="writer">By {{ selectedArticle?.writer }}</div>
+  <div class="writer">By {{ selectedArticle?.writer }}</div><br>
+  <div class="writer">Posted Dated {{ selectedArticle?.date }}</div>
   <button (click)="closeModal()">Close</button>
 </div>
+
+

@@ -1,42 +1,45 @@
-  <!-- Gallery Section -->
+<!-- Gallery Section -->
 <section class="media-section">
   <div class="section-header">
     <div class="section-title"><span></span><h2>Gallery</h2><span></span></div>
-    <!-- <button class="see-more-btn">See More</button> -->
-
-      <a routerLink="/gallarypage" routerLinkActive="active" class="gallary-btn">See More</a>
+    <a routerLink="/gallarypage" routerLinkActive="active" class="gallary-btn">See More</a>
   </div>
-  <div class="media-row">
-    <div class="gallery-card">
-      <img src="https://picsum.photos/300/200" alt="Gallery Image">
-      <div class="card-overlay">
-        <h3>one </h3>
-        <p>Stunning peaks and beautiful skies.</p>
-      </div>
-    </div>
 
-    <div class="gallery-card">
-      <img src="https://picsum.photos/301/200" alt="Gallery Image">
-      <div class="card-overlay">
-        <h3>two</h3>
-        <p>The city that never sleeps at night.</p>
-      </div>
-    </div>
+  <!-- Loading & Error States -->
+  <div *ngIf="loading" class="loading">Loading gallery items...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
 
-    <div class="gallery-card">
-      <img src="https://picsum.photos/302/200" alt="Gallery Image">
-      <div class="card-overlay">
-        <h3>three </h3>
-        <p>A serene walk among the trees.</p>
+  <!-- Gallery Cards -->
+  <div class="media-row" *ngIf="!loading && !error">
+    <div
+      class="gallery-card"
+      *ngFor="let item of paginatedGalleryItems"
+      [attr.data-label]="item.label"
+    >
+      <!-- Clickable image -->
+      <div class="clickable-img" (click)="openImageModal(item)">
+        <img
+          [src]="staticUrl + item.imageUrl"
+          alt="Gallery item titled '{{ item.title }}'"
+          width="150"
+          (error)="onImageError($event)"
+        />
       </div>
-    </div>
 
-    <div class="gallery-card">
-      <img src="https://picsum.photos/303/200" alt="Gallery Image">
+      <!-- Card overlay -->
       <div class="card-overlay">
-        <h3>four </h3>
-        <p>Relaxing views of the endless sea.</p>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.description }}</p>
       </div>
     </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div class="modal-backdrop" *ngIf="modalOpen" (click)="closeImageModal()"></div>
+  <div class="modal" *ngIf="modalOpen">
+    <img [src]="staticUrl + selectedImage?.imageUrl" [alt]="selectedImage?.title" />
+    <h3>{{ selectedImage?.title }}</h3>
+    <p>{{ selectedImage?.description }}</p>
+    <button (click)="closeImageModal()">Close</button>
   </div>
 </section>

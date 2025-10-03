@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { GalleryServices } from '../../../services/galleryServices/gallery.services';
+import { GalleryServices } from '../../../services/adminService/galleryServices/gallery.services';
 import { environment } from '../../../../environments/environment';
 
 

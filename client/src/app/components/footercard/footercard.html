@@ -12,11 +12,16 @@
       <div class="footer-links">
         <h4>Quick Links</h4>
         <ul>
-          <li><a routerLink="/">Home</a></li>
-          <li><a routerLink="/categories">Categories</a></li>
-          <li><a routerLink="/upload">Upload</a></li>
-          <li><a routerLink="/aboutus">About</a></li>
-          <li><a routerLink="/contactus">Contact</a></li>
+          <li><a  routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
+          <li><a routerLink="/videopage" routerLinkActive="active">Videos</a></li>
+          <li><a routerLink="/audiopage" routerLinkActive="active">Audios</a></li>
+          <li><a routerLink="/gallarypage" routerLinkActive="active">Gallery</a></li>
+          <li><a routerLink="/articlepage" routerLinkActive="active">Article</a></li>
+
+          <li><a routerLink="/articlepage" routerLinkActive="active">Article</a></li>
+          <li><a routerLink="/contactus" routerLinkActive="active">contact us</a></li>
+          <li><a routerLink="/aboutus" routerLinkActive="active">about us</a></li>
+        
         </ul>
       </div>
 

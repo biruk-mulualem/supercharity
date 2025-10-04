@@ -1,18 +1,32 @@
-<section class="media-section">
-  <div class="section-header">
-    <div class="section-title">
-      <span></span><h2>Videos</h2><span></span>
+<section class="px-6 md:px-12 py-12 bg-gray-100">
+  <!-- Section Header -->
+  <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+    <div class="flex items-center gap-3">
+      <span class="block w-10 h-0.5 bg-cyan-500"></span>
+      <h2 class="text-2xl font-bold text-gray-900">Videos</h2>
+      <span class="block w-10 h-0.5 bg-cyan-500"></span>
     </div>
-    <a routerLink="/videopage" class="video-btn">See More</a>
+    <a routerLink="/videopage" 
+       class="px-4 py-2 bg-cyan-500 text-white font-semibold rounded-lg hover:bg-cyan-600 transition">
+      See More
+    </a>
   </div>
 
-  <div class="media-row">
-    <div class="video-card" *ngFor="let video of videos">
-      <video [src]="staticUrl + video.videoUrl" controls></video>
-      <div class="card-overlay">
-        <h3>{{ video.title || 'Untitled' }}</h3>
-        <p>{{ video.description }}</p>
-        <p>{{ video.category }}</p>
+  <!-- Video Grid -->
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+    <div *ngFor="let video of videos" class="bg-white rounded-xl shadow-md overflow-hidden transform transition hover:-translate-y-1 hover:shadow-xl">
+      <!-- Video Embed -->
+      <div class="w-full h-48">
+        <iframe [src]="getEmbedUrl(video.videoUrl)" 
+                class="w-full h-full"
+                frameborder="0" allowfullscreen>
+        </iframe>
+      </div>
+      <!-- Card Overlay -->
+      <div class="p-4 text-center">
+        <h3 class="text-cyan-500 font-semibold text-lg mb-1">{{ video.title || 'Untitled' }}</h3>
+        <p class="text-gray-600 text-sm mb-1">{{ video.description }}</p>
+        <p class="text-gray-500 text-xs">{{ video.category }}</p>
       </div>
     </div>
   </div>

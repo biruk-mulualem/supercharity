@@ -1,41 +1,40 @@
-<header>
-  <div class="header-container">
+<header class="w-full bg-white/95 shadow-md sticky top-0 z-50 transition-colors duration-300">
+  <div class="max-w-[1200px] mx-auto flex justify-between items-center px-6 py-3">
     <!-- Logo -->
-    <div class="logo">
-      <img src="https://picsum.photos/50/50?grayscale&random=1" alt="PixStream Logo">
-      <span> Super Charity</span>
+    <div class="flex items-center gap-2.5 font-bold text-2xl text-[#00c8ff] cursor-pointer">
+      <img src="https://picsum.photos/50/50?grayscale&random=1" alt="PixStream Logo" class="w-10 h-10 rounded-full">
+      <span>Super Charity</span>
     </div>
 
-    <!-- Navigation -->
-    <nav class="nav">
-      <ul>
-        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
-        <li><a routerLink="/videopage" routerLinkActive="active">Videos</a></li>
-        <li><a routerLink="/articlepage" routerLinkActive="active">Articles</a></li>
-        <li><a routerLink="/audiopage" routerLinkActive="active">Audios</a></li>
-        <li><a routerLink="/gallarypage" routerLinkActive="active">Gallery</a></li>
-        <li><a routerLink="/aboutus" routerLinkActive="active">About</a></li>
-        <li><a routerLink="/contactus" routerLinkActive="active">Contact</a></li>
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex">
+      <ul class="flex gap-7 list-none m-0 p-0">
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="text-gray-900 font-medium transition-transform duration-200 hover:text-[#00c8ff] hover:scale-105">Home</a></li>
+        <li><a routerLink="/videopage" routerLinkActive="active" class="text-gray-900 font-medium transition-transform duration-200 hover:text-[#00c8ff] hover:scale-105">Videos</a></li>
+        <li><a routerLink="/articlepage" routerLinkActive="active" class="text-gray-900 font-medium transition-transform duration-200 hover:text-[#00c8ff] hover:scale-105">Articles</a></li>
+        <li><a routerLink="/audiopage" routerLinkActive="active" class="text-gray-900 font-medium transition-transform duration-200 hover:text-[#00c8ff] hover:scale-105">Audios</a></li>
+        <li><a routerLink="/gallarypage" routerLinkActive="active" class="text-gray-900 font-medium transition-transform duration-200 hover:text-[#00c8ff] hover:scale-105">Gallery</a></li>
+        <li><a routerLink="/aboutus" routerLinkActive="active" class="text-gray-900 font-medium transition-transform duration-200 hover:text-[#00c8ff] hover:scale-105">About</a></li>
+        <li><a routerLink="/contactus" routerLinkActive="active" class="text-gray-900 font-medium transition-transform duration-200 hover:text-[#00c8ff] hover:scale-105">Contact</a></li>
       </ul>
     </nav>
-    <!-- Hamburger for mobile -->
-    <div class="hamburger" (click)="toggleMenu()" [class.active]="menuOpen">
-      <span></span>
-      <span></span>
-      <span></span>
+    <!-- Hamburger for Mobile -->
+    <div class="flex flex-col gap-1.5 cursor-pointer lg:hidden" (click)="toggleMenu()" [class.active]="menuOpen">
+      <span class="block w-6 h-0.5 bg-gray-900 rounded transition-transform duration-300" [class.rotate-45]="menuOpen" [class.translate-y-1.5]="menuOpen"></span>
+      <span class="block w-6 h-0.5 bg-gray-900 rounded transition-opacity duration-300" [class.opacity-0]="menuOpen"></span>
+      <span class="block w-6 h-0.5 bg-gray-900 rounded transition-transform duration-300" [class.-rotate-45]="menuOpen" [class.-translate-y-1.5]="menuOpen"></span>
     </div>
   </div>
-
   <!-- Mobile Menu -->
-  <div class="mobile-menu" [class.open]="menuOpen">
-    <ul>
-      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="toggleMenu()">Home</a></li>
-      <li><a routerLink="/videopage" routerLinkActive="active" (click)="toggleMenu()">Videos</a></li>
-      <li><a routerLink="/articlepage" routerLinkActive="active" (click)="toggleMenu()">Articles</a></li>
-      <li><a routerLink="/audiopage" routerLinkActive="active" (click)="toggleMenu()">Audios</a></li>
-      <li><a routerLink="/gallarypage" routerLinkActive="active" (click)="toggleMenu()">Gallery</a></li>
-      <li><a routerLink="/aboutus" routerLinkActive="active" (click)="toggleMenu()">About</a></li>
-      <li><a routerLink="/contactus" routerLinkActive="active" (click)="toggleMenu()">Contact</a></li>
+  <div class="lg:hidden overflow-hidden transition-max-h duration-500 ease-in-out" [class.max-h-96]="menuOpen" [class.max-h-0]="!menuOpen">
+    <ul class="flex flex-col gap-4 bg-white/95 p-4 border-t border-gray-200">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="toggleMenu()" class="text-gray-900 font-medium hover:text-[#00c8ff] transition duration-300">Home</a></li>
+      <li><a routerLink="/videopage" routerLinkActive="active" (click)="toggleMenu()" class="text-gray-900 font-medium hover:text-[#00c8ff] transition duration-300">Videos</a></li>
+      <li><a routerLink="/articlepage" routerLinkActive="active" (click)="toggleMenu()" class="text-gray-900 font-medium hover:text-[#00c8ff] transition duration-300">Articles</a></li>
+      <li><a routerLink="/audiopage" routerLinkActive="active" (click)="toggleMenu()" class="text-gray-900 font-medium hover:text-[#00c8ff] transition duration-300">Audios</a></li>
+      <li><a routerLink="/gallarypage" routerLinkActive="active" (click)="toggleMenu()" class="text-gray-900 font-medium hover:text-[#00c8ff] transition duration-300">Gallery</a></li>
+      <li><a routerLink="/aboutus" routerLinkActive="active" (click)="toggleMenu()" class="text-gray-900 font-medium hover:text-[#00c8ff] transition duration-300">About</a></li>
+      <li><a routerLink="/contactus" routerLinkActive="active" (click)="toggleMenu()" class="text-gray-900 font-medium hover:text-[#00c8ff] transition duration-300">Contact</a></li>
     </ul>
   </div>
 </header>

@@ -1,55 +1,61 @@
- <!-- Footer Section -->
-  <section class="media-section footer-section">
-    <div class="footer-container">
-      <!-- About / Logo -->
-      <div class="footer-about">
-        <img src="https://picsum.photos/50/50?grayscale&random=2" alt="PixStream Logo" />
-        <h3>SuperCharity</h3>
-        <p>Your one-stop platform for videos, audio, articles, and galleries.</p>
-      </div>
+<!-- Footer Section -->
+<section class="bg-gradient-to-br from-[#00c8ff] to-[#0088cc] text-white shadow-inner rounded-t-xl py-12 px-8">
+  <div class="max-w-[1200px] mx-auto grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-8">
 
-      <!-- Quick Links -->
-      <div class="footer-links">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a  routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
-          <li><a routerLink="/videopage" routerLinkActive="active">Videos</a></li>
-          <li><a routerLink="/audiopage" routerLinkActive="active">Audios</a></li>
-          <li><a routerLink="/gallarypage" routerLinkActive="active">Gallery</a></li>
-          <li><a routerLink="/articlepage" routerLinkActive="active">Article</a></li>
+    <!-- About / Logo -->
+    <div class="flex flex-col gap-2.5">
+      <img src="https://picsum.photos/50/50?grayscale&random=2" alt="PixStream Logo" class="w-12 h-12 rounded-full border-2 border-white/60">
+      <h3 class="font-semibold text-lg">SuperCharity</h3>
+      <p class="text-[#e0f7ff] text-sm">Your one-stop platform for videos, audio, articles, and galleries.</p>
+    </div>
 
-          <li><a routerLink="/articlepage" routerLinkActive="active">Article</a></li>
-          <li><a routerLink="/contactus" routerLinkActive="active">contact us</a></li>
-          <li><a routerLink="/aboutus" routerLinkActive="active">about us</a></li>
-        
-        </ul>
-      </div>
+    <!-- Quick Links -->
+    <div class="flex flex-col gap-2.5">
+      <h4 class="font-semibold mb-2">Quick Links</h4>
+      <ul class="flex flex-col gap-1">
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="text-[#e0f7ff] text-sm transition-colors duration-300 hover:text-[#a0e0ff]">Home</a></li>
+        <li><a routerLink="/videopage" routerLinkActive="active" class="text-[#e0f7ff] text-sm transition-colors duration-300 hover:text-[#a0e0ff]">Videos</a></li>
+        <li><a routerLink="/audiopage" routerLinkActive="active" class="text-[#e0f7ff] text-sm transition-colors duration-300 hover:text-[#a0e0ff]">Audios</a></li>
+        <li><a routerLink="/gallarypage" routerLinkActive="active" class="text-[#e0f7ff] text-sm transition-colors duration-300 hover:text-[#a0e0ff]">Gallery</a></li>
+        <li><a routerLink="/articlepage" routerLinkActive="active" class="text-[#e0f7ff] text-sm transition-colors duration-300 hover:text-[#a0e0ff]">Articles</a></li>
+        <li><a routerLink="/contactus" routerLinkActive="active" class="text-[#e0f7ff] text-sm transition-colors duration-300 hover:text-[#a0e0ff]">Contact Us</a></li>
+        <li><a routerLink="/aboutus" routerLinkActive="active" class="text-[#e0f7ff] text-sm transition-colors duration-300 hover:text-[#a0e0ff]">About Us</a></li>
+      </ul>
+    </div>
 
-      <!-- Social Media -->
-      <div class="footer-social">
-        <h4>Follow Us</h4>
-        <div class="social-icons">
-          <a href="#"><img src="https://img.icons8.com/ios-filled/24/00c8ff/facebook-new.png" /></a>
-          <a href="#"><img src="https://img.icons8.com/ios-filled/24/00c8ff/twitter.png" /></a>
-          <a href="#"
-            ><img src="https://img.icons8.com/ios-filled/24/00c8ff/instagram-new.png"
-          /></a>
-          <a href="#"><img src="https://img.icons8.com/ios-filled/24/00c8ff/youtube-play.png" /></a>
-        </div>
-      </div>
-
-      <!-- Newsletter -->
-      <div class="footer-newsletter">
-        <h4>Subscribe</h4>
-        <p>Get the latest updates straight to your inbox.</p>
-        <form>
-          <input type="email" placeholder="Your email" />
-          <button type="submit">Subscribe</button>
-        </form>
+    <!-- Follow Us / Social Media -->
+    <div class="flex flex-col gap-2.5">
+      <h4 class="font-semibold mb-2">Follow Us</h4>
+      <div class="flex flex-wrap gap-3">
+        <a href="#" class="transition-transform duration-300 hover:scale-125">
+          <img src="https://img.icons8.com/ios-filled/24/ffffff/facebook-new.png" alt="Facebook" class="w-6 h-6" />
+        </a>
+        <a href="#" class="transition-transform duration-300 hover:scale-125">
+          <img src="https://img.icons8.com/ios-filled/24/ffffff/twitter.png" alt="Twitter" class="w-6 h-6" />
+        </a>
+        <a href="#" class="transition-transform duration-300 hover:scale-125">
+          <img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram" class="w-6 h-6" />
+        </a>
+        <a href="#" class="transition-transform duration-300 hover:scale-125">
+          <img src="https://img.icons8.com/ios-filled/24/ffffff/youtube-play.png" alt="YouTube" class="w-6 h-6" />
+        </a>
       </div>
     </div>
 
-    <div class="footer-bottom">
-      <p>&copy; 2025 PixStream. All Rights Reserved.</p>
+    <!-- Newsletter -->
+    <div class="flex flex-col gap-2.5">
+      <h4 class="font-semibold mb-2">Subscribe</h4>
+      <p class="text-[#e0f7ff] text-sm">Get the latest updates straight to your inbox.</p>
+      <form class="flex flex-wrap gap-2">
+        <input type="email" placeholder="Your email" class="flex-1 min-w-[150px] px-3 py-2 rounded-md outline-none border-none" />
+        <button type="submit" class="px-4 py-2 bg-white text-[#0088cc] rounded-md font-semibold hover:bg-[#e0f7ff] hover:scale-105 transition duration-200">Subscribe</button>
+      </form>
     </div>
-  </section>
+
+  </div>
+
+  <!-- Footer Bottom -->
+  <div class="text-center text-[#ccefff] text-sm border-t border-white/20 pt-4">
+    &copy; 2025 PixStream. All Rights Reserved.
+  </div>
+</section>

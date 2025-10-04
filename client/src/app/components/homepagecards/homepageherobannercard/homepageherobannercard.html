@@ -1,42 +1,64 @@
 <!-- Hero Section -->
-<div class="hero-banner">
+<div class="relative w-full h-96 md:h-[400px] overflow-hidden">
+
   <!-- Video Slide -->
-  <div class="hero-slide active">
-    <img src="https://picsum.photos/1200/400?random=2" alt="Audio Hero" />
-    <div class="hero-text">
-      <h1>Featured Video</h1>
-      <p>Watch our latest video content now.</p>
-      <button class="hero-btn" [routerLink]="'/videopage'">Watch Now</button>
+  <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100 z-10">
+    <img src="https://picsum.photos/1200/400?random=2" alt="Audio Hero"
+         class="w-full h-full object-cover brightness-50">
+
+    <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 md:px-8">
+      <h1 class="text-white text-3xl md:text-4xl font-bold drop-shadow-lg mb-2">Featured Video</h1>
+      <p class="text-white text-sm md:text-lg drop-shadow-md mb-4">Watch our latest video content now.</p>
+      <button [routerLink]="'/videopage'"
+              class="px-6 py-2 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition transform hover:scale-105 drop-shadow-md">
+        Watch Now
+      </button>
     </div>
   </div>
 
   <!-- Audio Slide -->
-  <div class="hero-slide">
-    <img src="https://picsum.photos/1200/400?random=2" alt="Audio Hero" />
-    <div class="hero-text">
-      <h1>Featured Audio</h1>
-      <p>Listen to trending audio tracks and podcasts.</p>
-      <button class="hero-btn" [routerLink]="'/audiopage'">Listen Now</button>
+  <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 z-0">
+    <img src="https://picsum.photos/1200/400?random=2" alt="Audio Hero"
+         class="w-full h-full object-cover brightness-50">
+
+    <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 md:px-8">
+      <h1 class="text-white text-3xl md:text-4xl font-bold drop-shadow-lg mb-2">Featured Audio</h1>
+      <p class="text-white text-sm md:text-lg drop-shadow-md mb-4">Listen to trending audio tracks and podcasts.</p>
+      <button [routerLink]="'/audiopage'"
+              class="px-6 py-2 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition transform hover:scale-105 drop-shadow-md">
+        Listen Now
+      </button>
     </div>
   </div>
 
   <!-- Gallery Slide -->
-  <div class="hero-slide">
-    <img src="https://picsum.photos/1200/400?random=3" alt="Gallery Hero" />
-    <div class="hero-text">
-      <h1>Photo Gallery</h1>
-      <p>Explore stunning photography collections.</p>
-      <button class="hero-btn" [routerLink]="'/gallarypage'">View Gallery</button>
+  <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 z-0">
+    <img src="https://picsum.photos/1200/400?random=3" alt="Gallery Hero"
+         class="w-full h-full object-cover brightness-50">
+
+    <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 md:px-8">
+      <h1 class="text-white text-3xl md:text-4xl font-bold drop-shadow-lg mb-2">Photo Gallery</h1>
+      <p class="text-white text-sm md:text-lg drop-shadow-md mb-4">Explore stunning photography collections.</p>
+      <button [routerLink]="'/gallarypage'"
+              class="px-6 py-2 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition transform hover:scale-105 drop-shadow-md">
+        View Gallery
+      </button>
     </div>
   </div>
 
   <!-- Article Slide -->
-  <div class="hero-slide">
-    <img src="https://picsum.photos/1200/400?random=4" alt="Article Hero" />
-    <div class="hero-text">
-      <h1>Latest Articles</h1>
-      <p>Read insightful stories and blog posts.</p>
-      <button class="hero-btn" [routerLink]="'/articlepage'">Read Now</button>
+  <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 z-0">
+    <img src="https://picsum.photos/1200/400?random=4" alt="Article Hero"
+         class="w-full h-full object-cover brightness-50">
+
+    <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 md:px-8">
+      <h1 class="text-white text-3xl md:text-4xl font-bold drop-shadow-lg mb-2">Latest Articles</h1>
+      <p class="text-white text-sm md:text-lg drop-shadow-md mb-4">Read insightful stories and blog posts.</p>
+      <button [routerLink]="'/articlepage'"
+              class="px-6 py-2 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition transform hover:scale-105 drop-shadow-md">
+        Read Now
+      </button>
     </div>
   </div>
+
 </div>

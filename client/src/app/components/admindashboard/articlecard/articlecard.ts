@@ -41,7 +41,7 @@ export class Articlecard implements OnInit {
   truncateWords(text: string, wordCount: number): string {
     if (!text) return '';
     const words = text.split(' ');
-    return words.length > wordCount ? words.slice(0, wordCount).join(' ') + '...' : text;
+    return words.length > wordCount ? words.slice(0, 3).join(' ') + '...' : text; 
   }
 
   // ----------------------------

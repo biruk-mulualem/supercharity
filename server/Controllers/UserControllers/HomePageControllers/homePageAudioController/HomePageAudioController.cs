@@ -25,7 +25,7 @@ namespace server.Controllers
         {
             return await _context.Audios
                 .OrderByDescending(a => a.Date)
-                .Take(4)
+                .Take(5)
                 .ToListAsync();
         }
     }

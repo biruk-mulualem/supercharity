@@ -1,46 +1,55 @@
 <!-- Articles Section -->
-<section class="media-section">
-  <div class="section-header">
-    <div class="section-title">
-      <span></span><h2>Articles</h2><span></span>
+<section class="w-full px-4 md:px-8 lg:px-16 py-12 bg-gray-100">
+  <!-- Section Header -->
+  <div class="flex flex-wrap justify-between items-center mb-6 gap-2">
+    <div class="flex items-center gap-2">
+      <span class="block w-10 h-[2px] bg-cyan-500"></span>
+      <h2 class="text-2xl font-bold text-gray-900">Articles</h2>
+      <span class="block w-10 h-[2px] bg-cyan-500"></span>
     </div>
-  
-
-     <a routerLink="/articlepage" routerLinkActive="active" class="Articles-btn">Read More</a>
-
+    <a routerLink="/articlepage" routerLinkActive="active" class="px-4 py-2 bg-cyan-500 text-white font-semibold rounded hover:bg-cyan-600 transition">
+      Read More
+    </a>
   </div>
 
-  <div class="media-row">
-    <div class="article-card" *ngFor="let article of articles">
-      <div class="article-content">
-        <h3 class="article-title">{{ article.title }}</h3>
-        <p class="article-description">
+  <!-- Cards Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div *ngFor="let article of articles" class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col hover:shadow-xl transition">
+      <div class="p-4 text-center flex-1 flex flex-col justify-between">
+        <h3 class="text-cyan-500 text-lg font-bold mb-2">{{ article.title }}</h3>
+        <p class="text-gray-600 mb-4 line-clamp-4">
           {{ article.description.length > 100 ? (article.description | slice:0:100) + '...' : article.description }}
         </p>
-        <button class="read-btn" (click)="openModal(article)">Read More</button>
+       <button (click)="openModal(article)" class="mt-auto w-28 px-3 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-full hover:scale-105 hover:from-cyan-600 hover:to-blue-600 transition transform">
+  Read More
+</button>
 
-        <div class="meta">
-          <div class="tags">
-            <span *ngFor="let tag of article.tags">{{ tag }}</span>
+        <!-- Meta -->
+        <div class="flex flex-wrap justify-between items-center mt-3 gap-2 text-sm text-gray-500">
+          <div class="flex flex-wrap gap-1">
+            <span *ngFor="let tag of article.tags" class="bg-cyan-100 text-cyan-700 px-2 py-1 rounded-full uppercase font-bold text-xs">{{ tag }}</span>
           </div>
-          <div class="writer">By {{ article.writer }}</div>
-          <div class="writer">Posted Dated {{ article.date }}</div>
+          <div>By {{ article.writer }}</div>
+          <div>Posted Dated {{ article.date }}</div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
 <!-- Modal -->
-<div class="modal-backdrop" *ngIf="modalOpen" (click)="closeModal()"></div>
-<div class="modal" *ngIf="modalOpen">
-  <h2>{{ selectedArticle?.title }}</h2>
-  <p>{{ selectedArticle?.description }}</p>
-  <div class="tags">
-    <span *ngFor="let tag of selectedArticle?.tags">{{ tag }}</span>
+<div *ngIf="modalOpen" class="fixed inset-0 bg-black/60 z-50" (click)="closeModal()"></div>
+<div *ngIf="modalOpen" class="fixed inset-0 flex items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-xl max-w-3xl w-full max-h-[80vh] overflow-y-auto p-6 shadow-lg">
+    <h2 class="text-2xl font-extrabold text-gray-900 mb-4">{{ selectedArticle?.title }}</h2>
+    <p class="text-gray-700 mb-4">{{ selectedArticle?.description }}</p>
+    <div class="flex flex-wrap gap-2 mb-4">
+      <span *ngFor="let tag of selectedArticle?.tags" class="bg-cyan-100 text-cyan-700 px-2 py-1 rounded-full text-xs font-bold">{{ tag }}</span>
+    </div>
+    <div class="text-gray-600 mb-2">By {{ selectedArticle?.writer }}</div>
+    <div class="text-gray-600 mb-4">Posted Dated {{ selectedArticle?.date }}</div>
+    <button (click)="closeModal()" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-full hover:from-cyan-600 hover:to-blue-600 transition">
+      Close
+    </button>
   </div>
-  <div class="writer">By {{ selectedArticle?.writer }}</div><br>
-  <div class="writer">Posted Dated {{ selectedArticle?.date }}</div>
-  <button (click)="closeModal()">Close</button>
 </div>
-
-

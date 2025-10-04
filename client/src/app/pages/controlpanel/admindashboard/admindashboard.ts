@@ -1,7 +1,7 @@
-import { Aboutuscard } from '../../../components/admindashboard/aboutuscard/aboutuscard';
+
 import { Articlecard } from '../../../components/admindashboard/articlecard/articlecard';
 import { Audiocard } from '../../../components/admindashboard/audiocard/audiocard';
-import { Contactuscard } from '../../../components/admindashboard/contactuscard/contactuscard';
+
 import { Gallerycard } from '../../../components/admindashboard/gallerycard/gallerycard';
 import { Videocard } from '../../../components/admindashboard/videocard/videocard';
 import { CommonModule } from '@angular/common';
@@ -14,10 +14,10 @@ import { ChangeDetectorRef } from '@angular/core';
   imports: [
     CommonModule,
  
-    Aboutuscard,
+   
     Articlecard,
     Audiocard,
-    Contactuscard,
+  
     Gallerycard,
     Videocard,
     Cpanel

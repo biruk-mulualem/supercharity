@@ -1,45 +1,52 @@
 <!-- Gallery Section -->
-<section class="media-section">
-  <div class="section-header">
-    <div class="section-title"><span></span><h2>Gallery</h2><span></span></div>
-    <a routerLink="/gallarypage" routerLinkActive="active" class="gallary-btn">See More</a>
+<section class="px-6 md:px-12 py-10 bg-gray-100">
+  <!-- Section Header -->
+  <div class="flex justify-between items-center mb-8">
+    <div class="flex items-center gap-2">
+      <span class="block w-10 h-1 bg-cyan-500"></span>
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Gallery</h2>
+      <span class="block w-10 h-1 bg-cyan-500"></span>
+    </div>
+    <a routerLink="/gallarypage" routerLinkActive="active"
+       class="px-4 py-2 bg-cyan-500 text-white font-semibold rounded-lg hover:bg-cyan-600 transition">
+      See More
+    </a>
   </div>
 
-  <!-- Loading & Error States -->
-  <div *ngIf="loading" class="loading">Loading gallery items...</div>
-  <div *ngIf="error" class="error">{{ error }}</div>
+  <!-- Gallery Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div *ngFor="let item of paginatedGalleryItems"
+         class="relative group rounded-xl overflow-hidden shadow-lg cursor-pointer transform transition-all hover:scale-105 hover:shadow-2xl">
 
-  <!-- Gallery Cards -->
-  <div class="media-row" *ngIf="!loading && !error">
-    <div
-      class="gallery-card"
-      *ngFor="let item of paginatedGalleryItems"
-      [attr.data-label]="item.label"
-    >
-      <!-- Clickable image -->
-      <div class="clickable-img" (click)="openImageModal(item)">
-        <img
-          [src]="staticUrl + item.imageUrl"
-          alt="Gallery item titled '{{ item.title }}'"
-          width="150"
-          (error)="onImageError($event)"
-        />
-      </div>
+      <!-- Image -->
+      <img [src]="staticUrl + item.imageUrl"
+           alt="{{ item.title }}"
+           class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+           (error)="onImageError($event)">
 
-      <!-- Card overlay -->
-      <div class="card-overlay">
-        <h3>{{ item.title }}</h3>
-        <p>{{ item.description }}</p>
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center text-center px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
+        <h3 class="text-cyan-400 text-lg md:text-xl font-bold mb-2">{{ item.title }}</h3>
+        <p class="text-white text-sm md:text-base">{{ item.description }}</p>
       </div>
     </div>
   </div>
 
-  <!-- Image Modal -->
-  <div class="modal-backdrop" *ngIf="modalOpen" (click)="closeImageModal()"></div>
-  <div class="modal" *ngIf="modalOpen">
-    <img [src]="staticUrl + selectedImage?.imageUrl" [alt]="selectedImage?.title" />
-    <h3>{{ selectedImage?.title }}</h3>
-    <p>{{ selectedImage?.description }}</p>
-    <button (click)="closeImageModal()">Close</button>
+  <!-- Loading & Error States -->
+  <div *ngIf="loading" class="text-center text-gray-500 mt-6">Loading gallery items...</div>
+  <div *ngIf="error" class="text-center text-red-500 mt-6">{{ error }}</div>
+
+  <!-- Modal -->
+  <div *ngIf="modalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+    <div class="bg-white rounded-xl overflow-hidden shadow-2xl max-w-lg w-full relative">
+      <button (click)="closeImageModal()" class="absolute top-3 right-3 text-gray-700 hover:text-gray-900 text-2xl font-bold">&times;</button>
+      <img [src]="staticUrl + selectedImage?.imageUrl"
+           [alt]="selectedImage?.title"
+           class="w-full h-96 object-cover">
+      <div class="p-4">
+        <h3 class="text-lg font-bold text-gray-900 mb-2">{{ selectedImage?.title }}</h3>
+        <p class="text-gray-600">{{ selectedImage?.description }}</p>
+      </div>
+    </div>
   </div>
 </section>

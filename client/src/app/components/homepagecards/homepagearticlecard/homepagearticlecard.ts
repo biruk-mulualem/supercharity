@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HomepagearticleServices } from '../../../services/userService/homepagearticeService/homepagearticle.services';
-
 import {  ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-homepagearticlecard',
@@ -18,9 +17,7 @@ export class Homepagearticlecard implements OnInit {
   modalOpen: boolean = false;
   loading: boolean = true;
   error: string = '';
-
   constructor(private articleService: HomepagearticleServices,private cd: ChangeDetectorRef) {}
-
 ngOnInit() {
   this.articleService.getArticles().subscribe({
     next: (data) => {
@@ -36,13 +33,10 @@ ngOnInit() {
     }
   });
 }
-
-
   openModal(article: any) {
     this.selectedArticle = article;
     this.modalOpen = true;
   }
-
   closeModal() {
     this.selectedArticle = null;
     this.modalOpen = false;

@@ -25,7 +25,7 @@ namespace server.Controllers
         {
             return await _context.Galleries
                 .OrderByDescending(g => g.Date)
-                .Take(4)
+                .Take(7)
                 .ToListAsync();
         }
     }

@@ -1,163 +1,156 @@
-<div class="upload-section">
-  <h2>Manage Articles</h2>
+<div class="upload-section p-6 bg-white rounded-xl shadow-lg font-sans">
 
-  <!-- Controls -->
-  <div class="controls">
+  <!-- Heading -->
+  <h2 class="mb-6 text-xl font-semibold text-gray-800 border-l-4 border-blue-500 pl-2">
+    Manage Articles
+  </h2>
+
+  <!-- Controls: Search + Add -->
+  <div class="controls flex flex-wrap justify-between items-center gap-2 mb-6">
     <input
       type="text"
-      class="search-input"
       placeholder="Search articles..."
       [(ngModel)]="searchTerm"
+      class="flex-grow max-w-xs px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
     />
-    <button class="upload-btn" (click)="openAddModal()">+ Add Article</button>
+    <button
+      (click)="openAddModal()"
+      class="px-4 py-2 bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-lg font-semibold shadow hover:shadow-lg hover:-translate-y-1 transition"
+    >
+      + Add Article
+    </button>
   </div>
 
-  <!-- Articles Table -->
-  <table>
-    <thead>
+  <!-- Desktop Table -->
+  <table class="hidden sm:table w-full border border-gray-200">
+    <thead class="bg-gray-100">
       <tr>
-        <th>Id</th>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Tag</th>
-        <th>Writer</th>
-        <th>Date</th>
-        <th>Actions</th>
+        <th class="px-4 py-2 text-left">Id</th>
+        <th class="px-4 py-2 text-left">Title</th>
+        <th class="px-4 py-2 text-left">Description</th>
+        <th class="px-4 py-2 text-left">Tag</th>
+        <th class="px-4 py-2 text-left">Writer</th>
+        <th class="px-4 py-2 text-left">Date</th>
+        <th class="px-4 py-2 text-left">Actions</th>
       </tr>
     </thead>
     <tbody>
-<tr *ngFor="let article of paginatedArticles(); let i = index">
-       <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-  
-  <td [title]="article.title">
-    {{ truncateWords(article.title, 12) }}
-  </td>
-  
-  <td [title]="article.description">
-    {{ truncateWords(article.description, 12) }}
-  </td>
-  
-  <td [title]="article.tag">
-    {{ truncateWords(article.tag, 12) }}
-  </td>
-  
-  <td [title]="article.writer">
-    {{ truncateWords(article.writer, 12) }}
-  </td>
-    <td [title]="article.date">
-   {{article.date}}
-  </td>
-  
-  <td class="actions">
-    <button class="edit-btn" (click)="openEditModal(article)">Edit</button>
-    <button class="delete-btn" (click)="openDeleteModal(article)">Delete</button>
-  </td>
-</tr>
-
-
+      <tr
+        *ngFor="let article of paginatedArticles(); let i = index"
+        class="hover:bg-gray-50 border-b border-gray-200"
+      >
+        <td class="px-4 py-2">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+        <td class="px-4 py-2" [title]="article.title">{{ truncateWords(article.title, 3) }}</td>
+        <td class="px-4 py-2" [title]="article.description">{{ truncateWords(article.description, 3) }}</td>
+        <td class="px-4 py-2" [title]="article.tag">{{ truncateWords(article.tag, 3) }}</td>
+        <td class="px-4 py-2" [title]="article.writer">{{ truncateWords(article.writer, 3) }}</td>
+        <td class="px-4 py-2">{{ article.date }}</td>
+        <td class="px-4 py-2 flex gap-2">
+          <button
+            (click)="openEditModal(article)"
+            class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition"
+          >Edit</button>
+          <button
+            (click)="openDeleteModal(article)"
+            class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition"
+          >Delete</button>
+        </td>
+      </tr>
     </tbody>
   </table>
 
+  <!-- Mobile Card Table -->
+  <div class="sm:hidden">
+    <div
+      *ngFor="let article of paginatedArticles(); let i = index"
+      class="mb-3 border border-gray-200 rounded-lg p-3 bg-white shadow-sm"
+    >
+      <div class="flex justify-between"><span class="font-semibold">Id:</span> <span>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span></div>
+      <div class="flex justify-between"><span class="font-semibold">Title:</span> <span>{{ truncateWords(article.title,3) }}</span></div>
+      <div class="flex justify-between"><span class="font-semibold">Description:</span> <span>{{ truncateWords(article.description,3) }}</span></div>
+      <div class="flex justify-between"><span class="font-semibold">Tag:</span> <span>{{ truncateWords(article.tag, 3) }}</span></div>
+      <div class="flex justify-between"><span class="font-semibold">Writer:</span> <span>{{ truncateWords(article.writer, 3) }}</span></div>
+      <div class="flex justify-between"><span class="font-semibold">Date:</span> <span>{{ article.date }}</span></div>
+      <div class="flex gap-2 mt-2">
+        <button
+          (click)="openEditModal(article)"
+          class="flex-1 bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition"
+        >Edit</button>
+        <button
+          (click)="openDeleteModal(article)"
+          class="flex-1 bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition"
+        >Delete</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Pagination -->
-  <div class="pagination">
-    <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+  <div class="flex flex-wrap justify-center gap-2 mt-4 text-sm items-center">
+    <button
+      (click)="prevPage()"
+      [disabled]="currentPage === 1"
+      class="px-3 py-1 rounded border border-blue-500 text-blue-500 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 hover:text-white transition"
+    >Prev</button>
     <span>Page {{ currentPage }} of {{ totalPages() }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages()">Next</button>
+    <button
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages()"
+      class="px-3 py-1 rounded border border-blue-500 text-blue-500 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 hover:text-white transition"
+    >Next</button>
   </div>
-</div>
-<!-- Add Article Modal -->
-<div class="modal" *ngIf="isAddModalOpen" (click)="closeAddModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <h3>Add Article</h3>
 
-    <div class="form-group">
-      <label>Title</label>
-    
-           <textarea [(ngModel)]="newArticle.title" placeholder="Enter title"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Description</label>
-      <textarea [(ngModel)]="newArticle.description" placeholder="Enter description"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Tag</label>
-     
-
-       <textarea [(ngModel)]="newArticle.tag" placeholder="Enter tag"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Writer</label>
-
-       <textarea [(ngModel)]="newArticle.writer" placeholder="Enter writer"></textarea>
-
-    </div>
-
-     <div class="form-group">
-      <label>Published Date</label>
-      <input type="date" [(ngModel)]="newArticle.date" placeholder="Enter date" />
-    </div>
-
-    <div class="modal-actions">
-      <button (click)="addArticle()">Save</button>
-      <button (click)="closeAddModal()">Cancel</button>
-    </div>
-  </div>
 </div>
 
-<!-- Edit Article Modal -->
-<div class="modal" *ngIf="isEditModalOpen" (click)="closeEditModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <h3>Edit Article</h3>
+<!-- Add / Edit / Delete Modals -->
+<div *ngIf="isAddModalOpen || isEditModalOpen || isDeleteModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white rounded-xl w-11/12 max-w-md p-6 flex flex-col gap-4 animate-fadeIn" (click)="$event.stopPropagation()">
 
-    <div class="form-group">
-      <label>Title</label>
-       <textarea [(ngModel)]="selectedArticle.title"></textarea>
-     
+    <!-- Add Modal -->
+    <div *ngIf="isAddModalOpen">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">Add Article</h3>
+      <div class="flex flex-col gap-3">
+        <input type="text" [(ngModel)]="newArticle.title" placeholder="Title" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+        <textarea [(ngModel)]="newArticle.description" placeholder="Description" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+        <input [(ngModel)]="newArticle.tag" placeholder="Tag" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+        <input [(ngModel)]="newArticle.writer" placeholder="Writer" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+        <input type="date" [(ngModel)]="newArticle.date" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      </div>
+      <div class="flex justify-end gap-2 mt-3">
+        <button (click)="addArticle()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Save</button>
+        <button (click)="closeAddModal()" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">Cancel</button>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label>Description</label>
-      <textarea [(ngModel)]="selectedArticle.description"></textarea>
+    <!-- Edit Modal -->
+    <div *ngIf="isEditModalOpen">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">Edit Article</h3>
+      <div class="flex flex-col gap-3">
+
+          <textarea [(ngModel)]="selectedArticle.title" placeholder="Title" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+
+        <textarea [(ngModel)]="selectedArticle.description" placeholder="Description" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+        <input [(ngModel)]="selectedArticle.tag" placeholder="Tag" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+        <input [(ngModel)]="selectedArticle.writer" placeholder="Writer" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+        <input type="date" [(ngModel)]="selectedArticle.date" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+      </div>
+      <div class="flex justify-end gap-2 mt-3">
+        <button (click)="updateArticle()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Update</button>
+        <button (click)="closeEditModal()" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">Cancel</button>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label>Tag</label>
-         <textarea [(ngModel)]="selectedArticle.tag"></textarea>
-      
+    <!-- Delete Modal -->
+    <div *ngIf="isDeleteModalOpen">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">Delete Article</h3>
+      <p>Are you sure you want to delete <b>{{ selectedArticle?.title }}</b>?</p>
+      <div class="flex justify-end gap-2 mt-3">
+        <button (click)="confirmDelete()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">Yes, Delete</button>
+        <button (click)="closeDeleteModal()" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">Cancel</button>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label>Writer</label>
-     
-       <textarea [(ngModel)]="selectedArticle.writer"></textarea>
-    </div>
-
-    
-     <div class="form-group">
-      <label>Published Date</label>
-      <input type="date" [(ngModel)]="selectedArticle.date" placeholder="Enter date" />
-    </div>
-
-    <div class="modal-actions">
-      <button (click)="updateArticle()">Update</button>
-      <button (click)="closeEditModal()">Cancel</button>
-    </div>
   </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal" *ngIf="isDeleteModalOpen" (click)="closeDeleteModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <h3>Delete Article</h3>
-    <p>Are you sure you want to delete <b>{{ selectedArticle?.title }}</b>?</p>
-
-    <div class="modal-actions">
-      <button class="delete-btn" (click)="confirmDelete()">Yes, Delete</button>
-      <button (click)="closeDeleteModal()">Cancel</button>
-    </div>
-  </div>
-</div>
+<!-- Tailwind Fade Animation -->
 

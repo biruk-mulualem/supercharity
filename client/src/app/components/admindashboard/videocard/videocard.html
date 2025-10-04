@@ -1,133 +1,121 @@
-<div class="upload-section">
-  <h2>Video Management</h2>
+<div class="bg-white p-6 rounded-xl shadow-lg font-sans">
 
-  <!-- Top controls: search and upload -->
-  <div class="controls">
-    <input type="text" placeholder="Search..." [(ngModel)]="searchText" class="search-input">
-    <button (click)="openUpload()" class="upload-btn">Upload Video</button>
+  <!-- Heading -->
+  <h2 class="mb-6 text-2xl font-semibold text-gray-800 border-l-4 border-blue-500 pl-2">
+    Video Management
+  </h2>
+
+  <!-- Controls -->
+  <div class="flex flex-wrap justify-between items-center gap-3 mb-6">
+    <input type="text" placeholder="Search..." [(ngModel)]="searchText"
+      class="flex-grow max-w-xs px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+    <button (click)="openUpload()"
+      class="px-4 py-2 bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-lg font-semibold shadow hover:shadow-lg hover:-translate-y-1 transition">
+      Upload Video
+    </button>
   </div>
 
-  <!-- Video Table -->
-<table>
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th class="video-col">Video</th>
-      <th>Description</th>
-      <th>Category</th>
-      <th>Date</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let video of paginatedVideos; let i = index">
-      <td >
-        <span>{{ (page - 1) * itemsPerPage + i + 1 }}</span>
-      </td>
+  <!-- Desktop Table -->
+  <div class="hidden sm:block">
+    <table class="w-full border border-gray-200 text-sm rounded-lg">
+      <thead class="bg-gray-100 text-gray-700 font-semibold">
+        <tr>
+          <th class="px-4 py-2 border">ID</th>
+          <th class="px-4 py-2 border">Video</th>
+          <th class="px-4 py-2 border">Description</th>
+          <th class="px-4 py-2 border">Category</th>
+          <th class="px-4 py-2 border">Date</th>
+          <th class="px-4 py-2 border">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let video of paginatedVideos; let i = index" class="hover:bg-gray-50 border-b border-gray-200">
+          <td class="px-4 py-2">{{ (page - 1) * itemsPerPage + i + 1 }}</td>
+          <td class="px-4 py-2 text-center">
+            <a href="{{ video.videoUrl }}" target="_blank" class="text-blue-500 text-xl hover:text-blue-700 transition" aria-label="Open video">▶️</a>
+          </td>
+          <td class="px-4 py-2">{{ video.description }}</td>
+          <td class="px-4 py-2">{{ video.category }}</td>
+          <td class="px-4 py-2">{{ video.date }}</td>
+          <td class="px-4 py-2 flex gap-2">
+            <button (click)="openEdit(video)" class="flex-1 bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition">Edit</button>
+            <button (click)="openDelete(video)" class="flex-1 bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-      <td class="video-col video-cell" >
-        <a
-          href="{{ video.videoUrl }}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="video-icon-link"
-          aria-label="Open video in new tab"
-        >
-          ▶️
-        </a>
-      </td>
-
-      <td >
-        <span>{{ video.description }}</span>
-      </td>
-
-      <td >
-        <span>{{ video.category }}</span>
-      </td>
-
-      <td >
-        <span>{{ video.date }}</span>
-      </td>
-
-      <td class="actions" >
-        <button class="edit-btn" (click)="openEdit(video)">Edit</button>
-        <button class="delete-btn" (click)="openDelete(video)">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+  <!-- Mobile Cards -->
+  <div class="sm:hidden flex flex-col gap-4">
+    <div *ngFor="let video of paginatedVideos; let i = index" class="border border-gray-200 rounded-lg p-4 bg-white shadow hover:shadow-md flex flex-col gap-2">
+      <div class="flex justify-between"><span class="font-semibold">ID:</span> <span>{{ (page - 1) * itemsPerPage + i + 1 }}</span></div>
+      <div class="flex justify-between mt-1"><span class="font-semibold">Video:</span>
+        <a href="{{ video.videoUrl }}" target="_blank" class="text-blue-500 text-xl hover:text-blue-700 transition">▶️</a>
+      </div>
+      <div class="flex justify-between mt-1"><span class="font-semibold">Description:</span> <span>{{ video.description }}</span></div>
+      <div class="flex justify-between mt-1"><span class="font-semibold">Category:</span> <span>{{ video.category }}</span></div>
+      <div class="flex justify-between mt-1"><span class="font-semibold">Date:</span> <span>{{ video.date }}</span></div>
+      <div class="flex gap-2 mt-2">
+        <button (click)="openEdit(video)" class="flex-1 bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition">Edit</button>
+        <button (click)="openDelete(video)" class="flex-1 bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition">Delete</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Pagination -->
-  <div class="pagination">
-    <button (click)="prevPage()" [disabled]="page === 1">Prev</button>
+  <div class="flex flex-wrap justify-center gap-2 mt-4 text-sm items-center">
+    <button (click)="prevPage()" [disabled]="page === 1"
+      class="px-3 py-1 rounded border border-blue-500 text-blue-500 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 hover:text-white transition">Prev</button>
     <span>Page {{ page }}</span>
-    <button (click)="nextPage()" [disabled]="page >= (filteredVideos.length/itemsPerPage)">Next</button>
+    <button (click)="nextPage()" [disabled]="page >= (filteredVideos.length/itemsPerPage)"
+      class="px-3 py-1 rounded border border-blue-500 text-blue-500 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 hover:text-white transition">Next</button>
   </div>
 
-  <!-- Edit Modal -->
-  <div class="modal" *ngIf="showEditModal">
-    <div class="modal-content">
-      <h3>Edit Video</h3>
-      <div class="form-group">
-        <label>Video URL</label>
-        <input [(ngModel)]="selectedVideo!.videoUrl">
-      </div>
-      <div class="form-group">
-        <label>Description</label>
-        <input [(ngModel)]="selectedVideo!.description">
-      </div>
-      <div class="form-group">
-        <label>Category</label>
-        <input [(ngModel)]="selectedVideo!.category">
-      </div>
-      <div class="form-group">
-        <label>Date</label>
-        <input type="date" [(ngModel)]="selectedVideo!.date">
-      </div>
-      <div class="modal-actions">
-        <button (click)="saveEdit()">Save</button>
-        <button (click)="closeModal()">Cancel</button>
-      </div>
-    </div>
-  </div>
+  <!-- Modals (Upload, Edit, Delete) -->
+  <div *ngIf="showUploadModal || showEditModal || showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white rounded-xl w-11/12 max-w-md p-6 flex flex-col gap-4 animate-fadeIn" (click)="$event.stopPropagation()">
 
-  <!-- Delete Modal -->
-  <div class="modal" *ngIf="showDeleteModal">
-    <div class="modal-content">
-      <h3>Confirm Delete</h3>
-      <p>Are you sure you want to delete "{{ selectedVideo?.videoUrl }}"?</p>
-      <div class="modal-actions">
-        <button (click)="deleteVideo()">Yes, Delete</button>
-        <button (click)="closeModal()">Cancel</button>
+      <!-- Upload -->
+      <div *ngIf="showUploadModal">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Upload Video</h3>
+        <div class="flex flex-col gap-3">
+          <input type="text" [(ngModel)]="newVideo.videoUrl" placeholder="Video URL" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+          <input type="text" [(ngModel)]="newVideo.description" placeholder="Description" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+          <input type="text" [(ngModel)]="newVideo.category" placeholder="Category" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+          <input type="date" [(ngModel)]="newVideo.date" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+        </div>
+        <div class="flex justify-end gap-2 mt-3">
+          <button (click)="uploadVideo()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Save</button>
+          <button (click)="closeModal()" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">Cancel</button>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Upload Modal -->
-  <div class="modal" *ngIf="showUploadModal">
-    <div class="modal-content">
-      <h3>Upload Video</h3>
-      <div class="form-group">
-        <label>Video URL</label>
-        <input type="text" [(ngModel)]="newVideo.videoUrl">
+      <!-- Edit -->
+      <div *ngIf="showEditModal">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Edit Video</h3>
+        <div class="flex flex-col gap-3">
+          <input type="text" [(ngModel)]="selectedVideo!.videoUrl" placeholder="Video URL" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+          <input type="text" [(ngModel)]="selectedVideo!.description" placeholder="Description" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+          <input type="text" [(ngModel)]="selectedVideo!.category" placeholder="Category" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+          <input type="date" [(ngModel)]="selectedVideo!.date" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+        </div>
+        <div class="flex justify-end gap-2 mt-3">
+          <button (click)="saveEdit()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Save</button>
+          <button (click)="closeModal()" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">Cancel</button>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Description</label>
-        <input type="text" [(ngModel)]="newVideo.description">
+
+      <!-- Delete -->
+      <div *ngIf="showDeleteModal">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Confirm Delete</h3>
+        <p>Are you sure you want to delete "{{ selectedVideo?.videoUrl }}"?</p>
+        <div class="flex justify-end gap-2 mt-3">
+          <button (click)="deleteVideo()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">Yes, Delete</button>
+          <button (click)="closeModal()" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">Cancel</button>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Category</label>
-        <input type="text" [(ngModel)]="newVideo.category">
-      </div>
-      <div class="form-group">
-        <label>Date</label>
-        <input type="date" [(ngModel)]="newVideo.date">
-      </div>
-      <div class="modal-actions">
-        <button (click)="uploadVideo()">Save</button>
-        <button (click)="closeModal()">Cancel</button>
-      </div>
+
     </div>
   </div>
 </div>

@@ -11,12 +11,6 @@
       aria-label="Search videos by title or category" />
   </div>
 
-
-
-
-
-
-
   <div *ngIf="currentPage === 1">
     <div class="section-header">
       <div class="section-title">
@@ -37,6 +31,8 @@
           <h3>{{ video.title }}</h3>
           <p class="category">{{ video.category }}</p>
           <p>{{ video.description }}</p>
+          <p class="posted-date">📅 Posted on {{ video.date | date:'longDate' }}</p>
+
         </div>
       </div>
     </div>
@@ -66,6 +62,7 @@
         <h3>{{ video.title }}</h3>
         <p class="category">{{ video.category }}</p>
         <p>{{ video.description }}</p>
+           <p class="posted-date">📅 Posted on {{ video.date | date:'longDate' }}</p>
       </div>
     </div>
   </div>

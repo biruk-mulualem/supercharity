@@ -8,6 +8,9 @@ import { Gallarypage } from './pages/gallarypage/gallarypage';
 import { Audiopage } from './pages/audiopage/audiopage';
 import { Cpanel } from './pages/controlpanel/cpanel/cpanel';
 import { Admindashboard } from './pages/controlpanel/admindashboard/admindashboard';
+import { AuthGuard } from './auth-guard';
+import { Donation } from './pages/donation/donation';
+
 
 export const routes: Routes = [
   { path: '', component: Homepage },
@@ -17,8 +20,9 @@ export const routes: Routes = [
   { path: 'videopage', component: Videopage },
   { path: 'gallarypage', component: Gallarypage },
   { path: 'audiopage', component: Audiopage },
+    { path: 'donation', component: Donation },
 
   { path: 'cpanel', component: Cpanel }, //login page
-  { path: 'admindashboard', component: Admindashboard },
+  { path: 'admindashboard', component: Admindashboard, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' },
 ];

@@ -29,8 +29,6 @@ namespace server.Controllers
             if (user == null)
                 return NotFound("User not found.");
 
-            // For security, do NOT send password in production!
-            // Here we send it just for your demo.
             return Ok(new 
             {
                 user.Id,

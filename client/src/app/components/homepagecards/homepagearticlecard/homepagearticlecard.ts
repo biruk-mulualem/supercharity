@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HomepagearticleServices } from '../../../services/userService/homepagearticeService/homepagearticle.services';
+import { HomepagearticleServices } from '../../../services/userService/homepage/homepagearticeService/homepagearticle.services';
 import {  ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-homepagearticlecard',

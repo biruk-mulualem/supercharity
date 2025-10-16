@@ -27,12 +27,18 @@
   <div
     class="gallery-card"
     *ngFor="let item of paginatedGalleryItems"
-    [attr.data-label]="item.label"
+    [attr.data-label]="item.category"
   >
     <!-- Clickable image -->
-    <div class="clickable-img" (click)="openImageModal(item.image)">
-      <img [src]="item.image" [alt]="item.title" />
-    </div>
+   <div class="clickable-img" (click)="openImageModal(item.imageUrl)">
+  <img [src]="staticUrl + item.imageUrl" [alt]="item.title" />
+</div>
+
+
+
+
+
+
 
     <!-- Card overlay -->
     <div class="card-overlay">

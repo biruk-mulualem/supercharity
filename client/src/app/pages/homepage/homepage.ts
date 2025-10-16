@@ -8,13 +8,6 @@ import { Homepageherobannercard } from '../../components/homepagecards/homepageh
 import { Homepagevideocard } from '../../components/homepagecards/homepagevideocard/homepagevideocard';
 import { Footercard } from '../../components/footercard/footercard';
 import { Homepagearticlecard } from "../../components/homepagecards/homepagearticlecard/homepagearticlecard";
-
-
-
-
-
-
-
 @Component({
   selector: 'app-homepage',
   imports: [Header, Homepageaboutuscard, Homepageaudiocard, Homepagegalarycard, Homepageherobannercard, Homepagevideocard, Footercard, Homepagearticlecard,Homepagearticlecard],

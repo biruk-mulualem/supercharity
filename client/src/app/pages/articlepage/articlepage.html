@@ -3,13 +3,17 @@
 <section class="px-8 py-16 mx-auto bg-gray-100 max-w-screen-xxl">
 
   <!-- Section Header -->
-  <div class="flex flex-col items-center justify-between gap-6 mb-12 md:flex-row md:gap-0">
-    
+  <div
+    class="flex flex-col items-center justify-between gap-6 mb-12 md:flex-row md:gap-0">
+
     <!-- Title -->
     <div class="flex items-center gap-4">
-      <span class="block w-12 h-1 rounded bg-gradient-to-r from-cyan-400 to-cyan-700"></span>
-      <h2 class="text-2xl font-extrabold tracking-wide text-gray-800">Recent Articles</h2>
-      <span class="block w-12 h-1 rounded bg-gradient-to-r from-cyan-400 to-cyan-700"></span>
+      <span
+        class="block w-12 h-1 rounded bg-gradient-to-r from-cyan-400 to-cyan-700"></span>
+      <h2 class="text-2xl font-extrabold tracking-wide text-gray-800">Recent
+        Articles</h2>
+      <span
+        class="block w-12 h-1 rounded bg-gradient-to-r from-cyan-400 to-cyan-700"></span>
     </div>
 
     <!-- Search -->
@@ -19,31 +23,34 @@
         [(ngModel)]="searchQuery"
         placeholder="Search by title or description"
         aria-label="Search audio by title or description"
-        class="w-full px-5 py-3 text-lg transition duration-300 border-2 rounded-full shadow border-cyan-400 focus:outline-none focus:border-cyan-700 focus:shadow-lg placeholder:text-cyan-300"
-      />
+        class="w-full px-5 py-3 text-lg transition duration-300 border-2 rounded-full shadow border-cyan-400 focus:outline-none focus:border-cyan-700 focus:shadow-lg placeholder:text-cyan-300" />
     </div>
   </div>
 
   <!-- Articles Grid -->
   <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-    <div class="flex flex-col justify-between p-8 transition duration-300 bg-white shadow-md cursor-default rounded-xl hover:shadow-xl hover:-translate-y-2"
-         *ngFor="let article of filteredArticles">
-      <h3 class="mb-2 text-xl font-bold text-gray-800 select-none">{{ article.title }}</h3>
+    <div
+      class="flex flex-col justify-between p-8 transition duration-300 bg-white shadow-md cursor-default rounded-xl hover:shadow-xl hover:-translate-y-2"
+      *ngFor="let article of filteredArticles">
+      <h3 class="mb-2 text-xl font-bold text-gray-800 select-none">{{
+        article.title }}</h3>
       <p class="mb-4 leading-relaxed text-gray-600 select-text">
-        {{ article.description.length > 100 ? (article.description | slice:0:100) + '...' : article.description }}
+        {{ article.description.length > 100 ? (article.description |
+        slice:0:100) + '...' : article.description }}
       </p>
       <button (click)="openModal(article)"
-              class="self-start px-4 py-2 mb-4 text-sm font-semibold text-white transition rounded-full shadow-md bg-gradient-to-r from-cyan-400 to-cyan-700 hover:from-cyan-600 hover:to-cyan-900">
+        class="self-start px-4 py-2 mb-4 text-sm font-semibold text-white transition rounded-full shadow-md bg-gradient-to-r from-cyan-400 to-cyan-700 hover:from-cyan-600 hover:to-cyan-900">
         Read More
       </button>
       <div class="flex flex-wrap items-center justify-between gap-2 text-sm">
         <div class="flex flex-wrap gap-2">
           <span *ngFor="let tag of article.tags"
-                class="px-3 py-1 text-xs font-semibold uppercase rounded-full select-none bg-cyan-100 text-cyan-700">
+            class="px-3 py-1 text-xs font-semibold uppercase rounded-full select-none bg-cyan-100 text-cyan-700">
             {{ tag }}
           </span>
         </div>
-        <div class="font-medium text-gray-500 select-none">By {{ article.writer }}</div>
+        <div class="font-medium text-gray-500 select-none">By {{ article.writer
+          }}</div>
       </div>
     </div>
   </div>
@@ -80,25 +87,29 @@
 
 <!-- Modal Backdrop -->
 <div *ngIf="modalOpen"
-     class="fixed inset-0 z-40 bg-black bg-opacity-60"
-     (click)="closeModal()">
+  class="fixed inset-0 z-40 bg-black bg-opacity-60"
+  (click)="closeModal()">
 </div>
 
 <!-- Modal -->
 <div *ngIf="modalOpen"
-     class="fixed inset-0 z-50 flex items-center justify-center px-4">
-  <div class="bg-white rounded-xl p-8 max-w-3xl w-full max-h-[80vh] overflow-y-auto shadow-xl animate-fadeIn">
-    <h2 class="mb-4 text-2xl font-extrabold text-gray-800">{{ selectedArticle?.title }}</h2>
-    <p class="mb-4 text-lg leading-relaxed text-gray-700">{{ selectedArticle?.description }}</p>
+  class="fixed inset-0 z-50 flex items-center justify-center px-4">
+  <div
+    class="bg-white rounded-xl p-8 max-w-3xl w-full max-h-[80vh] overflow-y-auto shadow-xl animate-fadeIn">
+    <h2 class="mb-4 text-2xl font-extrabold text-gray-800">{{
+      selectedArticle?.title }}</h2>
+    <p class="mb-4 text-lg leading-relaxed text-gray-700">{{
+      selectedArticle?.description }}</p>
     <div class="flex flex-wrap gap-2 mb-4">
       <span *ngFor="let tag of selectedArticle?.tags"
-            class="px-3 py-1 text-xs font-semibold uppercase rounded-full select-none bg-cyan-100 text-cyan-700">
+        class="px-3 py-1 text-xs font-semibold uppercase rounded-full select-none bg-cyan-100 text-cyan-700">
         {{ tag }}
       </span>
     </div>
-    <div class="mb-4 font-medium text-gray-500">By {{ selectedArticle?.writer }}</div>
+    <div class="mb-4 font-medium text-gray-500">By {{ selectedArticle?.writer
+      }}</div>
     <button (click)="closeModal()"
-            class="px-6 py-2 text-sm font-semibold text-white transition rounded-full shadow-md bg-gradient-to-r from-cyan-400 to-cyan-700 hover:from-cyan-600 hover:to-cyan-900">
+      class="px-6 py-2 text-sm font-semibold text-white transition rounded-full shadow-md bg-gradient-to-r from-cyan-400 to-cyan-700 hover:from-cyan-600 hover:to-cyan-900">
       Close
     </button>
   </div>

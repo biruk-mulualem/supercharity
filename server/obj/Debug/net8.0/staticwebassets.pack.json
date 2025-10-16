@@ -25,10 +25,6 @@
       "PackagePath": "staticwebassets\\uploads\\audios\\9423b56e-6ef9-439f-a6d0-93d5eb091089.mp3"
     },
     {
-      "Id": "D:\\sharp\\supercharity\\server\\wwwroot\\uploads\\images\\00c60d5b-081b-49f4-94bc-56e80562ad89.webp",
-      "PackagePath": "staticwebassets\\uploads\\images\\00c60d5b-081b-49f4-94bc-56e80562ad89.webp"
-    },
-    {
       "Id": "D:\\sharp\\supercharity\\server\\wwwroot\\uploads\\images\\21e44584-5fe0-403c-b562-3149ef3a9e88.webp",
       "PackagePath": "staticwebassets\\uploads\\images\\21e44584-5fe0-403c-b562-3149ef3a9e88.webp"
     },
@@ -55,6 +51,10 @@
     {
       "Id": "D:\\sharp\\supercharity\\server\\wwwroot\\uploads\\images\\d81ff7f8-fdbd-4c7d-aaa2-94a4de270629.webp",
       "PackagePath": "staticwebassets\\uploads\\images\\d81ff7f8-fdbd-4c7d-aaa2-94a4de270629.webp"
+    },
+    {
+      "Id": "D:\\sharp\\supercharity\\server\\wwwroot\\uploads\\images\\e3bc968d-989c-4e22-93cb-8f7ff2de4ae1.webp",
+      "PackagePath": "staticwebassets\\uploads\\images\\e3bc968d-989c-4e22-93cb-8f7ff2de4ae1.webp"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.server.props",

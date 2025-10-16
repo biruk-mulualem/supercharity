@@ -1,0 +1,31 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using server.Data;
+using server.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace server.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AudioPageController : ControllerBase
+    {
+        private readonly AppDbContext _context;
+
+        public AudioPageController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: api/HomePageAudio
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AudioModel>>> GetLatestAudios()
+        {
+            return await _context.Audios
+                .OrderByDescending(a => a.Date)
+                .ToListAsync();
+        }
+    }
+}

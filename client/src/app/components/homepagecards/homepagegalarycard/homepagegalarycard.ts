@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HomepagegalleryServices } from '../../../services/userService/homepagegalleryService/homepagegallery.services';
+import { HomepagegalleryServices } from '../../../services/userService/homepage/homepagegalleryService/homepagegallery.services';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import {  ChangeDetectorRef } from '@angular/core';

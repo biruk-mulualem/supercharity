@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HomepageaudioServices } from '../../../services/userService/homepageaudioService/homepageaudio.services';
+import { HomepageaudioServices } from '../../../services/userService/homepage/homepageaudioService/homepageaudio.services';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import {  ChangeDetectorRef } from '@angular/core';

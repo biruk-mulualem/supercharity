@@ -19,16 +19,32 @@
     </div>
   </div>
 
-  <div class="media-row">
-    <div class="audio-card" *ngFor="let audio of paginatedAudios">
-      <img [src]="audio.image" alt="{{ audio.title }}" />
-      <audio controls [src]="audio.src"></audio>
-      <div class="card-overlay">
-        <h3>{{ audio.title }}</h3>
+<div class="media-row grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  <div
+    class="audio-card bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow"
+    *ngFor="let audio of paginatedAudios"
+  >
+    <!-- Image -->
+      <img
+        src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80"
+        alt="Audio cover"
+        class="w-full h-48 object-cover"
+      />
 
-      </div>
+    <!-- Audio Player -->
+ <audio controls [src]="staticUrl + audio.audioUrl" preload="none" class="mt-1 w-full rounded"></audio>
+
+    <!-- Title and Date -->
+    <div class="p-4 bg-gray-50">
+      <h3 class="text-lg font-bold text-gray-800">{{ audio.title }}</h3>
+      <p class="text-sm text-gray-600 mt-1">
+        Uploaded on: {{ audio.date | date: 'longDate' }}
+      </p>
     </div>
   </div>
+</div>
+
+
 
   <!-- Pagination -->
   <div class="pagination" *ngIf="totalPages() > 1">

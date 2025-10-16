@@ -1,12 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '../../../../environments/environment';
-import { HomepagevideoServices } from '../../../services/userService/homepagevideoService/homepagevideo.services';
+import { HomepagevideoServices } from '../../../services/userService/homepage/homepagevideoService/homepagevideo.services';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-homepagevideocard',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './homepagevideocard.html',
   styleUrls: ['./homepagevideocard.css'],
   standalone: true

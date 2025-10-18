@@ -1,122 +1,75 @@
 <app-header></app-header>
+<div class="min-h-screen bg-gray-100 py-12 px-4">
+  <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-10">
+    
+    <!-- Left Side: Image + Raised Bar -->
+    <div class="lg:w-1/2 w-full bg-white rounded-xl shadow-xl overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e" alt="Donation"
+        class="w-full h-96 object-cover" />
 
-<section class="max-w-lg mx-auto mt-12 bg-white p-8 rounded-lg shadow-lg">
-  <h1 class="text-3xl font-bold text-center mb-6 text-gray-900">Support Our Cause</h1>
-
-  <form (ngSubmit)="submitDonation()" class="space-y-6" novalidate>
-
-    <!-- Name input -->
-    <div class="relative">
-      <input
-        type="text"
-        id="name"
-        [(ngModel)]="donation.name"
-        name="name"
-        required
-        autocomplete="name"
-        class="peer placeholder-transparent w-full border border-gray-300 rounded-md px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        placeholder="Your full name"
-      />
-      <label
-        for="name"
-        class="absolute left-3 top-2 text-gray-600 text-sm transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base"
-      >
-        Full Name
-      </label>
+      <div class="p-6">
+        <p class="text-3xl font-bold text-blue-800">
+          $455,900.00
+          <span class="text-gray-500 text-xl font-normal">RAISED</span>
+        </p>
+        <div class="w-full bg-gray-300 h-2 rounded-full mt-4">
+          <div class="bg-blue-600 h-2 rounded-full" style="width: 70%;"></div>
+        </div>
+      </div>
     </div>
 
-    <!-- Email input -->
-    <div class="relative">
-      <input
-        type="email"
-        id="email"
-        [(ngModel)]="donation.email"
-        name="email"
-        required
-        autocomplete="email"
-        class="peer placeholder-transparent w-full border border-gray-300 rounded-md px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        placeholder="Your email address"
-      />
-      <label
-        for="email"
-        class="absolute left-3 top-2 text-gray-600 text-sm transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base"
-      >
-        Email Address
-      </label>
-    </div>
+    <!-- Right Side: Donation Form -->
+    <div class="lg:w-1/2 w-full bg-white rounded-xl shadow-xl p-8 space-y-6">
+      <h2 class="text-xl font-bold text-gray-700">Payment</h2>
 
-    <!-- Donation Amount -->
-    <label class="block text-gray-700 font-semibold mb-1">Choose Donation Amount (ETB)</label>
-
-    <div class="flex flex-wrap gap-3 mb-3">
+      <!-- PayPal Button -->
       <button
-        type="button"
-        *ngFor="let amt of presetAmounts"
-        (click)="selectAmount(amt)"
-        [class.bg-blue-600]="donation.amount === amt"
-        [class.text-white]="donation.amount === amt"
-        class="px-4 py-2 rounded-md border border-gray-300 hover:bg-blue-600 hover:text-white transition"
-      >
-        ETB {{ amt }}
+        class="w-full bg-yellow-400 hover:bg-yellow-300 transition text-gray-900 font-bold py-3 rounded-lg shadow-md flex justify-center items-center gap-2 text-lg">
+        <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal" class="h-6" />
+        Donate with PayPal
       </button>
+
+      <!-- Card Icons -->
+      <div class="flex justify-center gap-2 mt-2">
+        <img src="https://img.icons8.com/color/48/000000/visa.png" class="h-6" />
+        <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" class="h-6" />
+        <img src="https://img.icons8.com/color/48/000000/amex.png" class="h-6" />
+        <img src="https://img.icons8.com/color/48/000000/discover.png" class="h-6" />
+      </div>
+
+      <!-- Card Fields -->
+      <form (ngSubmit)="submitDonation()" class="space-y-4">
+        <input type="text" [(ngModel)]="card.name" name="name"
+          placeholder="Cardholder Name (optional)"
+          class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <input type="text" [(ngModel)]="card.number" name="number"
+          placeholder="Card number"
+          class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        
+        <div class="flex gap-4">
+          <input type="text" [(ngModel)]="card.expiry" name="expiry" placeholder="MM/YY"
+            class="w-1/2 border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <input type="text" [(ngModel)]="card.cvv" name="cvv" placeholder="CVV"
+            class="w-1/2 border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <!-- Recurring checkbox -->
+        <div class="flex items-start gap-2">
+          <input type="checkbox" [(ngModel)]="isRecurring" name="recurring"
+            class="mt-1 accent-blue-600" />
+          <label class="text-sm text-gray-600">
+            Create a donor account to manage my donations and donate again faster.
+          </label>
+        </div>
+
+        <!-- Donate Button -->
+        <button type="submit"
+          class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-lg text-lg transition">
+          💙 Donate ${{ donationAmount }} Monthly
+        </button>
+      </form>
+
     </div>
-
-    <div class="relative">
-      <input
-        type="number"
-        id="amount"
-        [(ngModel)]="donation.amount"
-        name="amount"
-        min="1"
-        placeholder="Or enter custom amount"
-        class="peer placeholder-transparent w-full border border-gray-300 rounded-md px-3 pt-5 pb-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-      />
-      <label
-        for="amount"
-        class="absolute left-3 top-2 text-gray-600 text-sm transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:text-base"
-      >
-        Custom Amount (optional)
-      </label>
-    </div>
-
-    <!-- Error message -->
-    <p *ngIf="error" class="text-red-600 font-semibold">{{ error }}</p>
-
-    <!-- Success message -->
-    <p *ngIf="message" class="text-green-600 font-semibold">{{ message }}</p>
-
-    <!-- Submit button -->
-    <button
-      type="submit"
-      [disabled]="loading"
-      class="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-md font-bold shadow-md hover:from-blue-700 hover:to-blue-800 transition flex justify-center items-center"
-    >
-      <span *ngIf="!loading">Donate Now</span>
-      <svg
-        *ngIf="loading"
-        class="animate-spin h-5 w-5 text-white"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          class="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          stroke-width="4"
-        ></circle>
-        <path
-          class="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-        ></path>
-      </svg>
-    </button>
-
-  </form>
-</section>
-
-
+  </div>
+</div>
 <app-footercard></app-footercard>

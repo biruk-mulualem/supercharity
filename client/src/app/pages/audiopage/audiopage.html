@@ -1,58 +1,155 @@
 <app-header></app-header>
 
-<section class="media-section">
-  <div class="section-header">
-    <div class="section-title">
-      <span></span>
-      <h2>Audio</h2>
-      <span></span>
-    </div>
+<section class="media-section px-2 py-12 bg-gray-50 text-gray-900 font-sans">
 
-    <!-- Search Bar -->
-    <div class="search-bar">
-      <input
-        type="text"
-        [(ngModel)]="searchTerm"
-        placeholder="Search by title or description"
-        aria-label="Search audio by title or description"
-      />
+  <div class="w-full flex">
+    <div class="relative w-full h-[350px] overflow-visible">
+
+      <!-- Carousel Track -->
+      <div class="flex items-center justify-center">
+
+        <!-- Left Card (slide before current) -->
+        <div
+          class="relative w-[700px] h-[350px] scale-90 -mr-12 z-0 transition-all duration-300 cursor-pointer"
+          [style.opacity]="sliderIndex === 0 ? '1' : '0.5'"
+          (click)="setSlide((sliderIndex + slides.length - 1) % slides.length)"
+        >
+          <img
+            [src]="slides[(sliderIndex + slides.length - 1) % slides.length].image"
+            alt="Side artist 1"
+            class="w-full h-full object-cover rounded-xl shadow-md transition-[clip-path] duration-500 ease-in-out"
+            [ngStyle]="{
+              'clip-path': sliderIndex === 1 ? 'polygon(0% 0%, 90% 0%, 100% 100%, 0% 100%)' : 'none'
+            }"
+          />
+        </div>
+
+        <!-- Center (Active) Card -->
+        <div class="relative w-[2000px] h-[450px] overflow-visible z-10 rounded-xl shadow-2xl">
+          <img
+            [src]="currentSlideImage"
+            alt="Main artist"
+            class="w-full h-full object-cover rounded-xl"
+          />
+          <div
+            class="absolute inset-0 bg-black/50 flex flex-col justify-end p-6 text-white rounded-xl"
+          >
+            <h2 class="text-3xl font-bold mb-1">{{ currentSlideTitle }}</h2>
+            <p class="text-base">{{ currentSlideSubtitle }}</p>
+          </div>
+        </div>
+
+        <!-- Right Card (slide after current) -->
+        <div
+          class="relative w-[700px] h-[350px] scale-90 -ml-12 z-0 transition-all duration-300 cursor-pointer"
+          [style.opacity]="sliderIndex === 2 ? '1' : '0.5'"
+          (click)="setSlide((sliderIndex + 1) % slides.length)"
+        >
+          <img
+            [src]="slides[(sliderIndex + 1) % slides.length].image"
+            alt="Side artist 2"
+            class="w-full h-full object-cover rounded-xl shadow-md"
+          />
+        </div>
+
+      </div>
+
+      <!-- Pagination Dots -->
+      <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-48 flex space-x-2">
+        <span
+          *ngFor="let slide of slides; let i = index"
+          (click)="setSlide(i)"
+          [class.w-3]="sliderIndex === i"
+          [class.h-3]="sliderIndex === i"
+          [class.w-2.5]="sliderIndex !== i"
+          [class.h-2.5]="sliderIndex !== i"
+          [class.bg-gray-800]="sliderIndex === i"
+          [class.bg-gray-400]="sliderIndex !== i"
+          class="rounded-full cursor-pointer block transition-all"
+          aria-label="Go to slide {{ i + 1 }}"
+          role="button"
+          tabindex="0"
+        ></span>
+      </div>
+
     </div>
   </div>
 
-<div class="media-row grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-  <div
-    class="audio-card bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow"
-    *ngFor="let audio of paginatedAudios"
-  >
-    <!-- Image -->
+  <!-- Section Header & Search -->
+  <div class="section-header mt-60 flex flex-col md:flex-row md:justify-between md:items-center space-y-6 md:space-y-0">
+
+    <div class="flex space-x-4">
+      <button
+        class="px-4 py-2 font-semibold rounded-lg border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        aria-pressed="true"
+        id="filter-popular"
+        type="button"
+      >
+        Popular
+      </button>
+      <button
+        class="px-4 py-2 font-semibold rounded-lg border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        aria-pressed="false"
+        id="filter-recent"
+        type="button"
+      >
+        Recent
+      </button>
+    </div>
+
+    <!-- Search Bar -->
+<div class="search-bar w-full md:w-1/3 max-w-xs">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    placeholder="Search by title or description"
+    aria-label="Search audio by title or description"
+    class="w-full px-4 py-2 border border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50 bg-no-repeat bg-left-0 bg-center bg-[length:18px_18px] placeholder-blue-300 italic shadow-md"
+  />
+</div>
+
+  </div>
+
+  <!-- Audio Cards -->
+  <div class="media-row grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mt-10 px-4">
+
+    <div
+      class="audio-card bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group flex flex-col"
+      *ngFor="let audio of paginatedAudios"
+    >
+      <!-- Image -->
       <img
         src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80"
         alt="Audio cover"
         class="w-full h-48 object-cover"
       />
 
-    <!-- Audio Player -->
- <audio controls [src]="staticUrl + audio.audioUrl" preload="none" class="mt-1 w-full rounded"></audio>
+      <!-- Audio Player -->
+      <audio
+        controls
+        [src]="staticUrl + audio.audioUrl"
+        preload="none"
+        class="mt-1 w-[90%] mx-auto rounded"
+      ></audio>
 
-    <!-- Title and Date -->
-    <div class="p-4 bg-gray-50">
-      <h3 class="text-lg font-bold text-gray-800">{{ audio.title }}</h3>
-      <p class="text-sm text-gray-600 mt-1">
-        Uploaded on: {{ audio.date | date: 'longDate' }}
-      </p>
+      <!-- Title and Date -->
+      <div class="p-4 bg-gray-50 text-center">
+        <h3 class="text-lg font-bold text-blue-500">{{ audio.title }}</h3>
+        <p class="text-sm text-gray-600 mt-1">
+          Uploaded on: {{ audio.date | date: 'longDate' }}
+        </p>
+      </div>
     </div>
   </div>
-</div>
-
-
 
   <!-- Pagination -->
-  <div class="pagination" *ngIf="totalPages() > 1">
+  <div class="pagination flex justify-center mt-8 flex-wrap gap-2" *ngIf="totalPages() > 1">
     <button
       (click)="changePage(currentPage - 1)"
       [disabled]="currentPage === 1"
       aria-label="Previous page"
       type="button"
+      class="mx-1 px-3 py-1 bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed"
     >
       Prev
     </button>
@@ -60,7 +157,9 @@
     <button
       *ngFor="let page of visiblePages()"
       (click)="changePage(page)"
-      [class.active]="currentPage === page"
+      [class.bg-blue-500]="currentPage === page"
+      [class.text-white]="currentPage === page"
+      class="mx-1 px-3 py-1 rounded hover:bg-blue-100"
       aria-label="Go to page {{ page }}"
       type="button"
     >
@@ -72,10 +171,12 @@
       [disabled]="currentPage === totalPages()"
       aria-label="Next page"
       type="button"
+      class="mx-1 px-3 py-1 bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed"
     >
       Next
     </button>
   </div>
+
 </section>
 
 <app-footercard></app-footercard>

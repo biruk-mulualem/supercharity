@@ -35,6 +35,10 @@ export default {
   },
   {
     "renderMode": 2,
+    "route": "/donation"
+  },
+  {
+    "renderMode": 2,
     "route": "/cpanel"
   },
   {
@@ -49,17 +53,17 @@ export default {
 ],
   entryPointToBrowserMapping: undefined,
   assets: {
-    'index.csr.html': {size: 34680, hash: '8d46c3e633c05f84188a5fdd14e921c36a9aeb3c9aea2bc5e17943748a3e4622', text: () => import('./assets-chunks/index_csr_html.mjs').then(m => m.default)},
-    'index.server.html': {size: 34040, hash: '134df511b1628d33c1b36ba7425971131acfab4fefc7569d9f1c729c26d68466', text: () => import('./assets-chunks/index_server_html.mjs').then(m => m.default)},
-    'gallarypage/index.html': {size: 64104, hash: 'd64686ec659d3bac6aca7b5db1aea3e873d9cb981e25092ed76be7d1f23e6d19', text: () => import('./assets-chunks/gallarypage_index_html.mjs').then(m => m.default)},
-    'aboutus/index.html': {size: 58640, hash: 'b820b7853af8cd1acc12fd065c52656cfd6bc9e48e4a8db6b98c9c8ba4d39858', text: () => import('./assets-chunks/aboutus_index_html.mjs').then(m => m.default)},
-    'articlepage/index.html': {size: 70798, hash: 'f08c82a7756e21305e3b8f17239b1366158fec21c5b9f5f5e8e94a92c822c5f5', text: () => import('./assets-chunks/articlepage_index_html.mjs').then(m => m.default)},
-    'cpanel/index.html': {size: 41042, hash: '0a6e8bb16e6d62e6c19ad6bfdef358bed0fd8c05214414ba4dcda6d21a328256', text: () => import('./assets-chunks/cpanel_index_html.mjs').then(m => m.default)},
-    'contactus/index.html': {size: 55794, hash: '83935ed1475540321bb4bd968de5b01d803043399793584e5d5d67b75205ad7c', text: () => import('./assets-chunks/contactus_index_html.mjs').then(m => m.default)},
-    'videopage/index.html': {size: 66776, hash: 'a91e621f9682b21ff640ef7d432060f28259dbeff73a6e61ce07fb57c01ce649', text: () => import('./assets-chunks/videopage_index_html.mjs').then(m => m.default)},
-    'admindashboard/index.html': {size: 47646, hash: '0babc5bce1b4ee617863c7de9c754a85ff8694f17baafc4da0db3c86ac22e59e', text: () => import('./assets-chunks/admindashboard_index_html.mjs').then(m => m.default)},
-    'audiopage/index.html': {size: 62040, hash: 'd2a9fff9a5e5b27df607a5b9fb13f31fa81985f55322d1a3a837e7b2adbc7c89', text: () => import('./assets-chunks/audiopage_index_html.mjs').then(m => m.default)},
-    'index.html': {size: 63228, hash: '07472f7cfb9fbb13dfa319f9fbc4507ed43e7fbe241f6fa09d10b5c11b2033a5', text: () => import('./assets-chunks/index_html.mjs').then(m => m.default)},
-    'styles-JJLPFCEA.css': {size: 28517, hash: 'XYsSVnkMktA', text: () => import('./assets-chunks/styles-JJLPFCEA_css.mjs').then(m => m.default)}
+    'index.csr.html': {size: 34680, hash: 'a4cfd9454d4fe23ec4ebe80426df8de32f9333dbb7e7ee8f2680ca911a4fdeec', text: () => import('./assets-chunks/index_csr_html.mjs').then(m => m.default)},
+    'index.server.html': {size: 34040, hash: '4a627876ecf5138e076871849431b169d7847c07a3061eb745696b5a1a9dc823', text: () => import('./assets-chunks/index_server_html.mjs').then(m => m.default)},
+    'aboutus/index.html': {size: 58801, hash: '154a069241a9b03455fafcc8909c379fe7bf2e3bdb10f1ef979da9a3849604bd', text: () => import('./assets-chunks/aboutus_index_html.mjs').then(m => m.default)},
+    'contactus/index.html': {size: 55892, hash: '664290cc82891de7d2212f3e7efa3ddda93f37b94a897ca0177c0998f84e7d28', text: () => import('./assets-chunks/contactus_index_html.mjs').then(m => m.default)},
+    'videopage/index.html': {size: 56548, hash: 'f04cd8f852317c94d3991ae84bb89e9bb92c674850a97fc570f3cb652361e642', text: () => import('./assets-chunks/videopage_index_html.mjs').then(m => m.default)},
+    'audiopage/index.html': {size: 58063, hash: '3d22348aa4cd7f98b674e098e4c797a40526d78a6480068c9e1ae70638a6ec16', text: () => import('./assets-chunks/audiopage_index_html.mjs').then(m => m.default)},
+    'cpanel/index.html': {size: 40995, hash: '03d96ed6eff80276fe05564531d4db85cc4abcef459384980f355251393b4eb5', text: () => import('./assets-chunks/cpanel_index_html.mjs').then(m => m.default)},
+    'gallarypage/index.html': {size: 56628, hash: 'c4546547e2b37ed269e1f6602355e7d292632f3faef3daeca9d8e7e9817a1ce7', text: () => import('./assets-chunks/gallarypage_index_html.mjs').then(m => m.default)},
+    'index.html': {size: 63363, hash: '1e5d4f93caada8bd944fa348d31638e1699135bd9c6eca3cbe345a5fb2a0c121', text: () => import('./assets-chunks/index_html.mjs').then(m => m.default)},
+    'articlepage/index.html': {size: 52944, hash: 'df0ac7fa302031f226521f3e7a75062b5a1eea0d90325f5e673c76d10550694d', text: () => import('./assets-chunks/articlepage_index_html.mjs').then(m => m.default)},
+    'donation/index.html': {size: 55807, hash: '8dc84e3b2e02dd3e98939949c38ae9c4fe61f9602600e66748970b854066b8c6', text: () => import('./assets-chunks/donation_index_html.mjs').then(m => m.default)},
+    'styles-UNFGXSFI.css': {size: 32185, hash: 'BD9aQRpjaAo', text: () => import('./assets-chunks/styles-UNFGXSFI_css.mjs').then(m => m.default)}
   },
 };
